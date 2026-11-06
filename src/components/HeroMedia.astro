@@ -26,6 +26,7 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
     <button class="media-toggle" id="hero-toggle" type="button" aria-label="Pause video" data-paused>
       <Pause class="i-pause" aria-hidden="true" />
       <Play class="i-play" aria-hidden="true" />
+      <span class="media-label" aria-hidden="true">Watch it build</span>
     </button>
   </div>
   <script is:inline>
@@ -33,7 +34,9 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
       const v = document.getElementById('hero-video');
       const b = document.getElementById('hero-toggle');
       const root = document.documentElement;
-      const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Autoplay unless the visitor asked for reduced motion or data saving; then the still image
+      // stays with a play button.
+      const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches && !navigator.connection?.saveData;
       const light = { src: v.getAttribute('src'), poster: v.poster };
       const darkPair = v.dataset.darkSrc && { src: v.dataset.darkSrc, poster: v.dataset.darkPoster || '' };
       const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
@@ -53,7 +56,6 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
       b.addEventListener('click', () => (v.paused ? v.play() : v.pause()));
       new MutationObserver(theme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
       theme();
-      // Reduced motion: keep the still image until the visitor presses play.
       if (motion) addEventListener('load', () => setTimeout(() => v.play().catch(sync), 300), { once: true });
       sync();
     })();
