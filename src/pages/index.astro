@@ -2,28 +2,28 @@
 import Base from '../layouts/Base.astro';
 import Shot from '../components/Shot.astro';
 import HeroMedia from '../components/HeroMedia.astro';
-import { ArrowUpRight, Download, Plus, MessageCircleQuestionMark, SlidersHorizontal, PenTool, CreditCard } from '@lucide/astro';
+import { ArrowUpRight, Download, Plus, Check, FolderLock, Cpu, EyeOff } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
-import { channels, KOFI_URL, steps, highlights, more, models, roadmap } from '../data/site';
+import { channels, KOFI_URL, proof, worksWith, tour, bento, privacy, models, status } from '../data/site';
 import { getReleases } from '../lib/releases';
 
 const releases = await getReleases();
 const latest = releases[0];
-const icons = { messageCircleQuestion: MessageCircleQuestionMark, slidersHorizontal: SlidersHorizontal, penTool: PenTool, creditCard: CreditCard };
+const privacyIcons = [FolderLock, Cpu, EyeOff];
 
-const title = 'PartBuddy · Design printable parts by talking to an assistant';
+const title = 'PartBuddy · Describe the part. Get a printable CAD model.';
 const description =
-  'PartBuddy is a free CAD app for Windows. Describe a 3D-print part, watch it being built step by step, and send it to your slicer. Runs on your Claude or ChatGPT subscription or a local model.';
+  'PartBuddy is a free CAD app for Windows with an assistant that asks before it guesses, builds editable geometry while you watch and checks the part before your slicer. Runs on your Claude or ChatGPT plan or a local model.';
 
 const faq = [
   { q: 'What does it cost?', a: [RELEASED ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.' : 'Nothing. PartBuddy is free.', 'The assistant runs on a subscription you already have or on a local model. PartBuddy adds no fees of its own.'] },
   { q: 'Which subscription do I need?', a: ['Claude Pro or Max (through Claude Code), or ChatGPT Plus or Pro. With a local model you need none of them.'] },
   { q: 'Can it run locally?', a: [`Yes, with ${models.local.slice(0, -1).join(', ')} or ${models.local.at(-1)}. ${models.localNote}`] },
+  { q: 'Is the result real CAD or a mesh?', a: ['Real CAD. SolidCraft builds editable solid geometry with a full history, so you can change any size later and export STEP for other CAD programs as well as 3MF and STL for printing.'] },
   { q: 'Does it do supports and print orientation?', a: ['No, on purpose. That is slicer work, and your slicer knows your printer profile. PartBuddy designs the part, checks what can only be decided while designing, and opens it in Bambu Studio or OrcaSlicer.'] },
   { q: 'Does it run only on Windows?', a: ['Yes. PartBuddy is a Windows desktop app.'] },
   { q: 'What is SolidCraft?', a: ['The CAD engine behind PartBuddy. It builds the geometry; PartBuddy runs it in the background and shows every step in its own 3D view. You install SolidCraft yourself, and the setup on first start helps you find it.'] },
   ...(RELEASED ? [{ q: 'Why does Windows warn about the installer?', a: ['PartBuddy is a hobby project and its installer is not code-signed, so Windows SmartScreen may show a warning. Choose More info, then Run anyway. The source code is public.'] }] : []),
-  { q: 'Is my design private?', a: ['Your projects are files in a folder on your computer. With a subscription, what a chat sends goes to that provider under their terms; with a local model it stays on your machine.'] },
 ];
 
 const jsonLd = {
@@ -46,36 +46,56 @@ const jsonLd = {
   <section class="hero">
     <div class="wrap">
       <div class="hero-copy">
-        <h1>Design printable parts by talking to an assistant.</h1>
-        <p class="lede">PartBuddy is a free CAD app for Windows. Describe the part, watch it being built step by step, and send it to your slicer.</p>
+        <p class="pill">{RELEASED ? 'Free for Windows' : 'In development · Built in public'}</p>
+        <h1>Describe the part.<br /> Get a printable CAD model.</h1>
+        <p class="lede">PartBuddy is a free CAD app for Windows with an assistant at your side. It asks what matters, builds editable geometry while you watch, and checks the part before your slicer.</p>
         <div class="actions">
           {RELEASED
             ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
-            : <a class="btn btn-primary btn-lg" href="#follow">Coming soon – follow along</a>}
+            : <a class="btn btn-primary btn-lg" href="#follow">Follow the build</a>}
+          <a class="btn btn-lg btn-ghost" href="#tour">See how it works</a>
         </div>
-        <p class="hero-note">{RELEASED && latest ? `Version ${latest.version} · ` : ''}Works with your Claude or ChatGPT subscription, or a local model.</p>
+        <ul class="proof">
+          {proof.map((p) => <li><Check aria-hidden="true" />{p}</li>)}
+        </ul>
       </div>
+    </div>
+    <div class="wrap wrap-wide">
       <div class="hero-media"><HeroMedia /></div>
+    </div>
+    <div class="wrap">
+      <div class="works-with">
+        <p>Works with</p>
+        <ul>{worksWith.map((w) => <li>{w}</li>)}</ul>
+      </div>
     </div>
   </section>
 
-  <section id="how" class="band">
+  <section id="tour" class="tour-section">
     <div class="wrap">
-      <h2 class="section-title">How it works</h2>
-      <div class="steps" data-steps>
-        <div class="step-tabs" role="tablist" aria-label="Steps">
-          {steps.map((s, i) => (
-              <button class="step-tab" role="tab" type="button" id={`step-tab-${i}`} aria-controls={`step-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
-                <span class="step-no">{i + 1}</span>
-                <span><strong>{s.title}</strong><span class="step-text">{s.text}</span></span>
-              </button>
+      <header class="section-head">
+        <h2>From an idea to the print bed</h2>
+        <p>Six steps, one workspace. Everything you see is the app as it is today.</p>
+      </header>
+      <div class="tour" data-tour>
+        <div class="tour-tabs" role="tablist" aria-label="Tour">
+          {tour.map((t, i) => (
+            <button class="tour-tab" role="tab" type="button" id={`tour-tab-${i}`} aria-controls={`tour-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <span class="tour-no">{String(i + 1).padStart(2, '0')}</span>
+              <span class="tour-name">{t.tab}</span>
+              <span class="tour-bar" aria-hidden="true"></span>
+            </button>
           ))}
         </div>
-        <div class="step-panels">
-          {steps.map((s, i) => (
-            <div class:list={['step-panel', { 'is-active': i === 0 }]} id={`step-${i}`} role="tabpanel" aria-labelledby={`step-tab-${i}`}>
-              <div class="step-caption"><span class="step-no">{i + 1}</span><span><strong>{s.title}</strong><span class="step-text">{s.text}</span></span></div>
-              <Shot name={s.shot} alt={s.alt} sizes="(min-width: 1152px) 680px, (min-width: 960px) 60vw, 100vw" />
+        <div class="tour-panels">
+          {tour.map((t, i) => (
+            <div class:list={['tour-panel', { 'is-active': i === 0 }]} id={`tour-${i}`} role="tabpanel" aria-labelledby={`tour-tab-${i}`}>
+              <div class="tour-text">
+                <span class="tour-no">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{t.title}</h3>
+                <p>{t.text}</p>
+              </div>
+              <Shot name={t.shot} alt={t.alt} sizes="(min-width: 1152px) 720px, (min-width: 960px) 62vw, 100vw" />
             </div>
           ))}
         </div>
@@ -85,51 +105,90 @@ const jsonLd = {
 
   <section id="features">
     <div class="wrap">
-      <h2 class="section-title">Why makers like it</h2>
-      <div class="highlights">
-        {highlights.map((h) => {
-          const Icon = icons[h.icon as keyof typeof icons];
-          return (
-            <article class="highlight">
-              <span class="icon"><Icon aria-hidden="true" /></span>
-              <h3>{h.title}</h3>
-              <p>{h.text}</p>
-            </article>
-          );
-        })}
+      <header class="section-head">
+        <h2>Everything around it</h2>
+        <p>The parts of a CAD workspace you expect, built for makers.</p>
+      </header>
+      <div class="bento">
+        {bento.map((b) => (
+          <article class:list={['tile', { 'tile-wide': b.size === 'wide' }]}>
+            <div class="tile-text">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </div>
+            <div class="tile-media" data-pos={b.pos}><Shot name={b.shot} alt={b.alt} sizes={b.size === 'wide' ? '(min-width: 960px) 700px, 100vw' : '(min-width: 960px) 340px, 100vw'} /></div>
+          </article>
+        ))}
       </div>
-
-      <h3 class="more-title">Also in the app</h3>
-      <dl class="more">
-        {more.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
-      </dl>
-      <p class="next">Coming next: {roadmap.next.join(', ')}. Ideas for later: {roadmap.later.join(', ')}.</p>
     </div>
   </section>
 
-  <section id="follow" class="band">
-    <div class="wrap follow">
-      <div>
-        <h2 class="section-title">{RELEASED ? 'Built in public' : 'Coming soon. Built in public.'}</h2>
-        <p class="muted">New features, real printed parts, and the things that went wrong.</p>
+  <section id="privacy" class="privacy-section">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Your parts. Your model. Your computer.</h2>
+      </header>
+      <div class="privacy">
+        {privacy.map((p, i) => {
+          const Icon = privacyIcons[i];
+          return (
+            <div class="privacy-item">
+              <Icon aria-hidden="true" />
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Where it stands</h2>
+        <p>An honest status. No dates; the order can change.</p>
+      </header>
+      <div class="status">
+        <div class="status-col">
+          <h3><span class="dot dot-today"></span>Works today</h3>
+          <ul>{status.today.map((s) => <li>{s}</li>)}</ul>
+        </div>
+        <div class="status-col">
+          <h3><span class="dot dot-next"></span>Next</h3>
+          <ul>{status.next.map((s) => <li>{s}</li>)}</ul>
+        </div>
+        <div class="status-col">
+          <h3><span class="dot"></span>Ideas for later</h3>
+          <ul>{status.later.map((s) => <li>{s}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="follow" class="cta-section">
+    <div class="wrap">
+      <div class="cta">
+        <h2>{RELEASED ? 'Built in public' : 'Coming soon. Follow the build.'}</h2>
+        <p>New features, real printed parts, and the things that went wrong.</p>
+        <ul class="channels">
+          {channels.map((c) => (
+            <li>
+              <a class="channel" href={c.url} rel="me">
+                <span><strong>{c.name}</strong><span class="handle">{c.handle}</span></span>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ul>
         <p class="kofi">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>. Entirely voluntary.</p>
       </div>
-      <ul class="channels">
-        {channels.map((c) => (
-          <li>
-            <a class="channel" href={c.url} rel="me">
-              <span><strong>{c.name}</strong><span class="muted">{c.handle}</span></span>
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
   <section id="faq">
-    <div class="wrap">
-      <h2 class="section-title">Questions</h2>
+    <div class="wrap faq-wrap">
+      <h2>Questions</h2>
       <div class="faq">
         {faq.map((f) => (
           <details>
@@ -143,21 +202,30 @@ const jsonLd = {
 
   <script is:inline>
     (() => {
-      // Steps: tabs on wide screens (all panels stay visible without JS and on phones).
-      const tabs = [...document.querySelectorAll('.step-tab')];
-      const show = (i, focus) => tabs.forEach((t, n) => {
-        const on = n === i;
-        t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
-        document.getElementById(t.getAttribute('aria-controls')).classList.toggle('is-active', on);
-        if (on && focus) t.focus();
-      });
-      tabs.forEach((t, i) => {
-        t.addEventListener('click', () => show(i));
-        t.addEventListener('keydown', (e) => {
-          const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
-          if (d) { e.preventDefault(); show((i + d + tabs.length) % tabs.length, true); }
+      // Tour: tabs with a progress bar. The bar is a CSS animation; when it ends, the next step opens.
+      // With reduced motion the bar does not run, so the tour only moves when the visitor clicks.
+      const root = document.querySelector('[data-tour]');
+      const tabs = [...root.querySelectorAll('.tour-tab')];
+      let current = 0;
+      const show = (i, focus) => {
+        current = i;
+        tabs.forEach((t, n) => {
+          const on = n === i;
+          t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).classList.toggle('is-active', on);
+          if (on && focus) t.focus();
         });
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => { root.classList.add('is-manual'); show(i); });
+        t.addEventListener('keydown', (e) => {
+          const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+          if (d) { e.preventDefault(); root.classList.add('is-manual'); show((i + d + tabs.length) % tabs.length, true); }
+        });
+        t.querySelector('.tour-bar').addEventListener('animationend', () => show((current + 1) % tabs.length));
       });
+      // Run only while the tour is on screen.
+      new IntersectionObserver(([e]) => root.classList.toggle('is-visible', e.isIntersecting), { threshold: 0.4 }).observe(root);
     })();
   </script>
 </Base>

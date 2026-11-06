@@ -11,73 +11,89 @@ export const channels = [
 
 export const KOFI_URL = 'https://ko-fi.com/partbuddy';
 
-// The three steps of the page, each with one big screenshot.
-export const steps = [
+// Short proof points next to the hero button.
+export const proof = [
+  'Real, editable CAD you can export as STEP',
+  'Asks before it guesses',
+  'Checks the part before your slicer',
+  'Your Claude or ChatGPT plan, or a local model',
+];
+
+// What PartBuddy works with. Text only, no third-party logos.
+export const worksWith = ['Claude Code', 'ChatGPT', 'Ollama', 'LM Studio', 'llama.cpp', 'Bambu Studio', 'OrcaSlicer', 'STEP', '3MF', 'STL'];
+
+// The product tour: one tab per step, each with one large picture.
+export const tour = [
   {
-    title: 'Describe it',
-    text: 'Type what you need, or draw it on squared paper and type the sizes that matter.',
+    tab: 'Sketch',
+    title: 'Sketch it with the sizes that matter',
+    text: 'Draw on squared paper in front, top and side sheets and type dimensions like 40, Ø 8 or R 3. Or just describe the part in a sentence.',
     shot: 'sketch',
-    alt: 'The sketch sheet with a rectangle, a circle and typed dimensions',
+    alt: 'The sketch sheet with a rectangle, a circle, typed dimensions and an M3 hole label',
   },
   {
-    title: 'Watch it take shape',
-    text: 'Every step appears live in the 3D view. Where there is a real choice, the assistant asks and recommends one option.',
+    tab: 'It asks',
+    title: 'It asks before it guesses',
+    text: 'Where a part can be built several ways, the assistant asks a short question with options and recommends one. You decide.',
     shot: 'clarify',
-    alt: 'An enclosure in the 3D view next to a question from the assistant with a recommended option',
+    alt: 'A housing in the 3D view next to questions from the assistant with recommended options',
   },
   {
-    title: 'Print it',
-    text: 'A check flags thin walls, parts too big for your printer and fits that are too tight. One click opens the part in Bambu Studio or OrcaSlicer.',
+    tab: 'Build',
+    title: 'Watch every step in real CAD',
+    text: 'SolidCraft builds editable geometry while you watch. Click any face or edge, pin a note to it and change it in words.',
+    shot: 'view',
+    alt: 'A cable clip with a selected face and its name, area and actions',
+  },
+  {
+    tab: 'Details',
+    title: 'Add the details that make it print',
+    text: 'Threads, snap hooks, screw bosses, lids with a lip, seats for heat-set inserts and nut traps, placed on the face you pick.',
+    shot: 'blocks',
+    alt: 'The function block panel adding a heat-set insert seat for M3',
+  },
+  {
+    tab: 'Check',
+    title: 'Know it will print before you slice',
+    text: 'One check flags thin walls, parts too big for your printer and fits tighter than your material allows, and points at the spot.',
     shot: 'printready',
-    alt: 'The ready-to-print check pointing at a fit that is too tight',
+    alt: 'The ready-to-print check reporting that lid and case are too tight',
+  },
+  {
+    tab: 'Print',
+    title: 'Straight to your slicer',
+    text: 'Open the part in Bambu Studio or OrcaSlicer with one click, or export 3MF, STEP and STL. Supports and orientation stay with your slicer.',
+    shot: 'export',
+    alt: 'The export menu with 3MF, STL, STEP, Sharing package and Open in Bambu Studio',
   },
 ];
 
-// Four reasons to care, text only.
-export const highlights = [
-  {
-    icon: 'messageCircleQuestion',
-    title: 'Asks before it guesses',
-    text: 'When a part can be built several ways, you get a short question with options and a recommendation. You decide.',
-  },
-  {
-    icon: 'slidersHorizontal',
-    title: 'Clear sizes change at once',
-    text: 'Dimensions driven by a parameter change directly, with a preview. No request to the assistant, no waiting.',
-  },
-  {
-    icon: 'penTool',
-    title: 'Sketches with real sizes',
-    text: 'Front, top and side sheets, typed dimensions like Ø 8 or R 3, and a photo underneath if you have one.',
-  },
-  {
-    icon: 'creditCard',
-    title: 'Your subscription, no API bill',
-    text: 'Runs on Claude Pro or Max through Claude Code, or ChatGPT Plus or Pro. Or on a local model.',
-  },
+// Everything else, as a bento grid. `size`: 'wide' tiles span two columns.
+export const bento = [
+  { title: 'Pull it apart', text: 'Exploded and section views for parts that belong together.', shot: 'explode', alt: 'An enclosure, its lid and a screw pulled apart', size: 'wide' },
+  { title: 'Versions you can compare', text: 'Saved before every request. Compare any of them with now.', shot: 'versions', alt: 'The versions dialog comparing a named version with the current design' },
+  { title: 'Start from a photo', text: 'It asks for the one size that sets the scale. It never guesses from pixels.', shot: 'photo', alt: 'The assistant asking for the length of a box shown in a photo' },
+  { title: 'Research with sources', text: 'Web search with sources, and standard screws, nuts and bearings.', shot: 'research', alt: 'Search results with sources and an M3 screw placed as a standard part', pos: 'right' },
+  { title: 'Build around real parts', text: 'Import STEP and IGES as editable bodies, STL, 3MF and OBJ as meshes.', shot: 'import', alt: 'A housing built around an imported circuit board', size: 'wide' },
+  { title: 'Projects and templates', text: 'Every design is a folder you can see. Start from a box, clip or holder.', shot: 'start', alt: 'The start page with templates and project tiles' },
+  { title: 'Pick model and effort', text: 'Per chat. With a Claude plan you see how much you have used.', shot: 'model', alt: 'The assistant menu with Claude Code, ChatGPT, local models, model and effort' },
 ];
 
-// Everything else the app does, one line each.
-export const more = [
-  ['Live 3D view', 'click faces and edges, pin notes to them'],
-  ['Function blocks', 'threads, countersinks, snap hooks, screw bosses, lids with lip, insert seats, nut traps, slots, text'],
-  ['Photo as input', 'the assistant asks for the critical sizes, never reads them off pixels'],
-  ['Research', 'web search with sources; screws, nuts, bearings and pins as standard parts'],
-  ['Section and exploded view', 'look inside and pull multi-part prints apart'],
-  ['Templates', 'box with lid, insert housing, wall holder, cable clip, tube adapter'],
-  ['Projects and versions', 'a folder per project, versions saved on their own, compare with now'],
-  ['Import', 'STEP and IGES as editable bodies, STL, 3MF and OBJ as meshes'],
-  ['Sharing package', '3MF, STEP, four pictures and a description in one folder'],
-  ['Local models', 'Ollama, LM Studio, llama.cpp, vLLM, Strata'],
-  ['English and German', 'with a short setup on first start and update checks'],
-] as const;
+// "Your data" section.
+export const privacy = [
+  { title: 'Your files stay yours', text: 'Projects are plain folders on your computer. PartBuddy has no account and no cloud of its own.' },
+  { title: 'Your model, your choice', text: 'Use your Claude or ChatGPT subscription, or keep everything on your machine with a local model.' },
+  { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' },
+];
 
 export const models = {
   local: ['Ollama', 'LM Studio', 'llama.cpp', 'vLLM', 'Strata'],
   localNote: 'PartBuddy finds local servers on this computer and offers only models that can call tools and have at least 16K context.',
 };
 
-export const roadmap = {
+// Honest status, Zoo-style: what works today, what comes next, ideas without dates.
+export const status = {
+  today: ['Design with an assistant in real CAD', 'Sketches, photos and research as input', 'Ready-to-print check and slicer hand-off', 'English and German, installer with update checks'],
   next: ['SolidCraft 0.40 final'],
   later: ['MCP server for Claude Desktop and Codex', 'Dimensions right at the edges', 'Permissions per tool', 'Cost display for your own API keys', 'Local-only mode'],
 };

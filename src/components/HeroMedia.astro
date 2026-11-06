@@ -39,7 +39,7 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
       const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches && !navigator.connection?.saveData;
       const light = { src: v.getAttribute('src'), poster: v.poster };
       const darkPair = v.dataset.darkSrc && { src: v.dataset.darkSrc, poster: v.dataset.darkPoster || '' };
-      const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+      const isDark = () => root.dataset.theme !== 'light';
       const sync = () => {
         b.toggleAttribute('data-paused', v.paused);
         b.setAttribute('aria-label', v.paused ? 'Watch it build' : 'Pause video');
@@ -60,10 +60,7 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
       sync();
     })();
   </script>
-) : posterSrc ? (
-  <Shot name="hero-poster" alt={alt} sizes="(min-width: 1152px) 1040px, 100vw" eager />
 ) : (
-  <div class="placeholder" role="img" aria-label="Video of PartBuddy coming soon">
-    <span><strong>Hero video goes here</strong><br /><span class="mono">src/assets/shots/hero.mp4 + hero-poster.png</span></span>
-  </div>
+  // Until the produced film is delivered: the whole app window, light and dark.
+  <Shot name="clarify" full eager alt="The PartBuddy window: parameters, a housing around a circuit board in the 3D view, and the assistant asking how the lid should hold" sizes="(min-width: 1152px) 1088px, 100vw" />
 )}
