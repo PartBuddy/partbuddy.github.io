@@ -12,3 +12,4 @@ h2{font-size:1.2rem;margin:32px 0 8px}
 .muted{color:var(--muted)}
 footer{max-width:720px;margin:0 auto;padding:24px 16px 48px;color:var(--muted);font-size:.9rem}
 footer a{color:inherit;margin-right:16px}
+.channels{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px 24px}
