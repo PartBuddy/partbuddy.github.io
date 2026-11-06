@@ -63,22 +63,20 @@ const jsonLd = {
     <div class="wrap">
       <h2 class="section-title">How it works</h2>
       <div class="steps" data-steps>
-        <ol class="step-tabs" role="tablist" aria-label="Steps">
+        <div class="step-tabs" role="tablist" aria-label="Steps">
           {steps.map((s, i) => (
-            <li>
               <button class="step-tab" role="tab" type="button" id={`step-tab-${i}`} aria-controls={`step-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
                 <span class="step-no">{i + 1}</span>
                 <span><strong>{s.title}</strong><span class="step-text">{s.text}</span></span>
               </button>
-            </li>
           ))}
-        </ol>
+        </div>
         <div class="step-panels">
           {steps.map((s, i) => (
-            <figure class:list={['step-panel', { 'is-active': i === 0 }]} id={`step-${i}`} role="tabpanel" aria-labelledby={`step-tab-${i}`}>
-              <figcaption><span class="step-no">{i + 1}</span><span><strong>{s.title}</strong><span class="step-text">{s.text}</span></span></figcaption>
+            <div class:list={['step-panel', { 'is-active': i === 0 }]} id={`step-${i}`} role="tabpanel" aria-labelledby={`step-tab-${i}`}>
+              <div class="step-caption"><span class="step-no">{i + 1}</span><span><strong>{s.title}</strong><span class="step-text">{s.text}</span></span></div>
               <Shot name={s.shot} alt={s.alt} sizes="(min-width: 1152px) 680px, (min-width: 960px) 60vw, 100vw" />
-            </figure>
+            </div>
           ))}
         </div>
       </div>

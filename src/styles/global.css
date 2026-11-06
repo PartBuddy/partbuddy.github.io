@@ -134,7 +134,7 @@ section { padding: 80px 0; }
 .step-tabs { display: none; list-style: none; margin: 0; padding: 0; }
 .step-panels { display: grid; gap: 48px; }
 .step-panel { margin: 0; display: grid; gap: 20px; }
-.step-panel figcaption, .step-tab { display: flex; gap: 16px; align-items: flex-start; text-align: left; }
+.step-panel .step-caption, .step-tab { display: flex; gap: 16px; align-items: flex-start; text-align: left; }
 .step-no {
   flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
   border: 1px solid var(--line-strong); font-size: 0.875rem; font-weight: 600; color: var(--muted);
@@ -148,7 +148,7 @@ section { padding: 80px 0; }
   .js .step-panels { display: block; }
   .js .step-panel { display: none; }
   .js .step-panel.is-active { display: block; }
-  .js .step-panel figcaption { display: none; }
+  .js .step-panel .step-caption { display: none; }
   .step-tab {
     width: 100%; padding: 20px; border: 1px solid transparent; border-radius: 14px;
     background: transparent; color: var(--ink); font: inherit; cursor: pointer;

@@ -23,7 +23,7 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
     <video id="hero-video" muted loop playsinline preload="none" src={mp4} poster={poster?.src}
       data-dark-src={mp4Dark} data-dark-poster={posterDark?.src}
       width={posterSrc?.width} height={posterSrc?.height} aria-label={alt}></video>
-    <button class="media-toggle" id="hero-toggle" type="button" aria-label="Pause video" data-paused>
+    <button class="media-toggle" id="hero-toggle" type="button" aria-label="Watch it build" data-paused>
       <Pause class="i-pause" aria-hidden="true" />
       <Play class="i-play" aria-hidden="true" />
       <span class="media-label" aria-hidden="true">Watch it build</span>
@@ -42,7 +42,7 @@ const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3
       const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
       const sync = () => {
         b.toggleAttribute('data-paused', v.paused);
-        b.setAttribute('aria-label', v.paused ? 'Play video' : 'Pause video');
+        b.setAttribute('aria-label', v.paused ? 'Watch it build' : 'Pause video');
       };
       const theme = () => {
         const want = darkPair && isDark() ? darkPair : light;
