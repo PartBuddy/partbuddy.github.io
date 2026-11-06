@@ -90,7 +90,7 @@ const jsonLd = {
             <a class="btn" href="#how">How it works<ArrowDown aria-hidden="true" /></a>
           </div>
         </div>
-        <Drawing name="hero-enclosure" class="hero-drawing" label="Technical drawing of a two-part enclosure" />
+        <Drawing name="hero-enclosure" class="hero-drawing" label="Technical drawing of a two-part Raspberry Pi 4 enclosure: base, lid with lip and a dimensioned front view" viewBox="40 20 1140 710" />
         <dl class="title-block">
           <div><dt>Product</dt><dd>PartBuddy{latest && <span class="mono"> {latest.version}</span>}</dd></div>
           <div><dt>Platform</dt><dd>Windows</dd></div>
@@ -166,26 +166,27 @@ const jsonLd = {
             {c.features.map((f) => (
               <article class="feature" id={f.id}>
                 <div class="feature-text">
-                  <h4>{f.title}</h4>
-                  <p>{f.text}</p>
+                  <div>
+                    <h4>{f.title}</h4>
+                    <p>{f.text}</p>
+                    {f.id === 'blocks' && <p>{textAndLogos}</p>}
+                  </div>
                   {f.id === 'blocks' ? (
-                    <>
-                      <ol class="parts-list" id="parts-list">
-                        {functionBlocks.map(([name, note], n) => (
-                          <li data-block={n + 1} tabindex="0"><span class="balloon mono" aria-hidden="true">{n + 1}</span><span>{name}</span><span class="muted">{note}</span></li>
-                        ))}
-                      </ol>
-                      <p class="muted">{textAndLogos}</p>
-                    </>
+                    <ol class="parts-list" id="parts-list">
+                      {functionBlocks.map(([name, note], n) => (
+                        <li data-block={n + 1} tabindex="0"><span class="balloon mono" aria-hidden="true">{n + 1}</span><span>{name}</span><span class="muted">{note}</span></li>
+                      ))}
+                    </ol>
                   ) : f.facts.length > 0 && (
                     <dl class="facts">
                       {f.facts.map(([k, v]) => <div><dt>{k}</dt><dd>{k === 'Keys' ? <span class="keys">{v.split(' ').map((key) => <kbd>{key}</kbd>)}</span> : v}</dd></div>)}
                     </dl>
                   )}
                 </div>
-                <div class="feature-media">
+                <div class:list={['feature-media', { 'has-extra': f.extra }]}>
                   {f.id === 'blocks' && <Drawing name="section-blocks" class="blocks-drawing" label="Section drawing with numbered function blocks" />}
-                  <Shot name={f.shot} alt={f.alt} sizes="(min-width: 1152px) 820px, (min-width: 960px) 70vw, 100vw" />
+                  <Shot name={f.shot} alt={f.alt} sizes={f.extra ? '(min-width: 1152px) 560px, (min-width: 960px) 55vw, 100vw' : '(min-width: 1152px) 880px, (min-width: 960px) 80vw, 100vw'} />
+                  {f.extra && <Shot name={f.extra.shot} alt={f.extra.alt} sizes="(min-width: 960px) 300px, 100vw" />}
                 </div>
               </article>
             ))}

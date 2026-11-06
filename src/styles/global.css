@@ -140,13 +140,17 @@ section { padding: 72px 0; }
   .title-block { grid-column: 1; }
 }
 .hero-copy { position: relative; }
-.hero-title { font-size: clamp(2.5rem, 1.2rem + 5.4vw, 5rem); line-height: 1; letter-spacing: -0.04em; }
+.hero-title { font-size: clamp(2.5rem, 1.2rem + 4.4vw, 4rem); line-height: 1; letter-spacing: -0.04em; }
 .lede { margin-top: 24px; max-width: 34em; font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem); color: var(--muted); }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .hero-drawing { color: var(--ink); }
 .drawing svg { width: 100%; height: auto; overflow: visible; }
+.drawing svg * { vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.hero-drawing svg { overflow: hidden; }
 .drawing .accent { stroke: var(--accent); color: var(--accent); }
 .drawing text { fill: var(--muted); }
+.hero-drawing text { font-size: 22px; }
+.blocks-drawing text { font-size: 17px; }
 .title-block {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 -20px; font-size: 0.875rem;
   border-top: 1px solid var(--line-strong); background: var(--paper);
@@ -179,14 +183,16 @@ section { padding: 72px 0; }
 .placeholder strong { color: var(--ink); font-weight: 500; }
 .media-toggle {
   position: absolute; right: 12px; bottom: 12px;
-  width: 44px; height: 44px; display: grid; place-items: center;
+  min-width: 44px; height: 44px; padding: 0 13px; display: flex; align-items: center; justify-content: center; gap: 8px;
   border-radius: 999px; border: 1px solid var(--line-strong);
-  background: color-mix(in srgb, var(--surface) 90%, transparent); color: var(--ink); cursor: pointer;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); color: var(--ink); cursor: pointer;
+  font: 500 0.875rem/1 Inter, system-ui, sans-serif;
 }
-.media-toggle svg { width: 18px; height: 18px; }
-.media-toggle .i-play { display: none; }
-.media-toggle[data-paused] .i-play { display: block; }
+.media-toggle svg { width: 18px; height: 18px; flex: none; }
+.media-toggle .i-play, .media-label { display: none; }
+.media-toggle[data-paused] .i-play, .media-toggle[data-paused] .media-label { display: block; }
 .media-toggle[data-paused] .i-pause { display: none; }
+.media-toggle[data-paused] { padding: 0 16px 0 14px; }
 
 /* How it works */
 .split { display: grid; gap: 24px; }
@@ -236,12 +242,18 @@ section { padding: 72px 0; }
 .chapter-no { font-size: 1rem; color: var(--muted); }
 .chapter-head h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); }
 .chapter-head p { grid-column: 2; color: var(--muted); max-width: 60ch; }
-.feature { display: grid; gap: 24px; padding: 48px 0; border-bottom: 1px solid var(--line); }
-@media (min-width: 960px) { .feature { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px; align-items: start; } }
+.feature { display: grid; gap: 28px; padding: 48px 0 56px; border-bottom: 1px solid var(--line); }
 .feature h4 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; }
-.feature-text p { margin-top: 12px; color: var(--muted); }
-@media (min-width: 960px) { .feature-text { position: sticky; top: 104px; } }
-.feature-media { display: grid; gap: 24px; min-width: 0; }
+.feature-text p { margin-top: 12px; color: var(--muted); max-width: 62ch; }
+/* Text left, facts right, the screenshot below at full width so the app stays readable. */
+@media (min-width: 960px) {
+  .feature-text { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: 48px; align-items: start; }
+  .feature-text > :is(.facts, .parts-list) { margin-top: 4px; }
+}
+.feature-media { display: grid; gap: 24px; min-width: 0; align-items: start; }
+@media (min-width: 760px) { .feature-media.has-extra { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+.frame-narrow, .model-shot .frame { max-width: 460px; }
+.has-extra .frame-narrow { max-width: none; }
 .facts { margin: 20px 0 0; display: grid; font-size: 0.875rem; border-top: 1px solid var(--line); }
 .facts > div { display: grid; grid-template-columns: 8.5em 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .facts dt { color: var(--muted); }

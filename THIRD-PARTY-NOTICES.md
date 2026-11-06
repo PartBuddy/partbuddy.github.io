@@ -35,3 +35,10 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ## PartBuddy brand assets
 
 Logos and favicons in `public/` come unchanged from the PartBuddy app repository (`assets/brand`).
+
+## Technical drawings
+
+`src/assets/drawings/hero-enclosure.svg` and `src/assets/drawings/section-blocks.svg` were
+generated with the OpenAI Codex CLI (model gpt-6-astra) on 6 November 2026 from a written brief,
+then used unchanged except for the per-element attributes the page moves into CSS. They are
+illustrations, not drawings of a tested part.

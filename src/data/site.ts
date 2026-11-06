@@ -18,6 +18,7 @@ export type Feature = {
   facts: [string, string][];
   shot: string;
   alt: string;
+  extra?: { shot: string; alt: string };
 };
 
 export type Chapter = { id: string; title: string; lede: string; features: Feature[] };
@@ -39,7 +40,8 @@ export const chapters: Chapter[] = [
           ['Keys', 'V P L R C A M T E'],
         ],
         shot: 'sketch',
-        alt: 'The sketch sheet with a rectangle, a circle and typed dimensions',
+        alt: 'The sketch sheet with a rectangle, a circle, typed dimensions and an M3 hole label',
+        extra: { shot: 'sketch-chat', alt: 'The assistant reading the sketch and asking for the height and thickness' },
       },
       {
         id: 'photo',
@@ -123,6 +125,7 @@ export const chapters: Chapter[] = [
         facts: [['Exploded view', 'from assembled to apart, nothing sinks below the floor']],
         shot: 'explode',
         alt: 'The exploded view of a two-part enclosure',
+        extra: { shot: 'section', alt: 'The section view cutting through a cable clip' },
       },
     ],
   },

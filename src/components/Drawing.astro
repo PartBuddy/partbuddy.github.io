@@ -2,14 +2,25 @@
 // Inlines a technical drawing from src/assets/drawings (commissioned from Codex) so it can draw
 // itself in. Each <g data-step="N"> gets --step for the staggered animation; solid strokes get
 // pathLength="1" for the draw-in, dashed ones keep their pattern and fade in.
-interface Props { name: string; class?: string; label: string }
-const { name, class: cls, label } = Astro.props;
+// `steps` keeps only those groups and `viewBox` crops the sheet (used for the hero's front view).
+interface Props { name: string; class?: string; label: string; steps?: number[]; viewBox?: string }
+const { name, class: cls, label, steps, viewBox } = Astro.props;
 const files = import.meta.glob<string>('../assets/drawings/*.svg', { eager: true, query: '?raw', import: 'default' });
-const raw = Object.entries(files).find(([p]) => p.endsWith(`/${name}.svg`))?.[1];
-const svg = raw
-  ?.replace(/<\?xml[^>]*>/, '')
-  .replace(/data-step="(\d+)"/g, (_m, n) => `data-step="${n}" style="--step:${n}"`)
-  .replace(/<(path|line|polyline|polygon|circle|ellipse|rect)\b([^>]*)>/g, (m, tag, attrs) =>
-    /stroke-dasharray|pathLength/.test(attrs) ? m : `<${tag} pathLength="1" data-draw${attrs}>`);
+let svg = Object.entries(files).find(([p]) => p.endsWith(`/${name}.svg`))?.[1];
+if (svg) {
+  if (steps) {
+    // shortcut: assumes flat step groups without nested <g>, as the commissioned files have.
+    svg = svg.replace(/<g class="step" data-step="(\d+)">[\s\S]*?<\/g>/g, (m, n) => (steps.includes(+n) ? m : ''));
+  }
+  const first = steps ? Math.min(...steps) : 1;
+  if (viewBox) svg = svg.replace(/viewBox="[^"]*"/, `viewBox="${viewBox}"`);
+  svg = svg
+    .replace(/<\?xml[^>]*>/, '')
+    // Repeated per-element attributes live in CSS (.drawing), which keeps the inlined HTML small.
+    .replace(/ (vector-effect="non-scaling-stroke"|stroke-linecap="round"|stroke-linejoin="round")/g, '')
+    .replace(/data-step="(\d+)"/g, (_m, n) => `data-step="${n}" style="--step:${+n - first}"`)
+    .replace(/<(path|line|polyline|polygon|circle|ellipse|rect)\b([^>]*)>/g, (m, tag, attrs) =>
+      /stroke-dasharray|pathLength/.test(attrs) ? m : `<${tag} pathLength="1" data-draw${attrs}>`);
+}
 ---
 {svg ? <div class:list={['drawing', cls]} set:html={svg} /> : <div class:list={['drawing-missing', cls]} aria-label={label} role="img" />}
