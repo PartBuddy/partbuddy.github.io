@@ -1,0 +1,113 @@
+---
+import '../styles/global.css';
+import { Sun, Moon } from '@lucide/astro';
+import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
+import { channels, KOFI_URL } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  nav?: boolean;
+  jsonLd?: object;
+  noindex?: boolean;
+}
+const { title, description, lang = 'en', nav = false, jsonLd, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/index(\.html)?$/, ''), SITE_URL).href;
+const image = `${SITE_URL}/social-preview.png`;
+const home = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {!noindex && <link rel="canonical" href={canonical} />}
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1b1f24" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PartBuddy" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={image} />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="640" />
+  <meta property="og:image:alt" content="PartBuddy logo" />
+  <meta name="twitter:card" content="summary_large_image" />
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  <script is:inline>
+    try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href={home} aria-label="PartBuddy home">
+        <img class="show-light" src="/logo.svg" alt="PartBuddy" width="103" height="24" />
+        <img class="show-dark" src="/logo-inverse.svg" alt="PartBuddy" width="103" height="24" />
+      </a>
+      {nav && (
+        <nav class="nav" aria-label="Sections">
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#models">Models</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      )}
+      <button class="btn icon-btn" type="button" id="theme-toggle" aria-label="Switch to dark theme">
+        <Sun class="show-dark" aria-hidden="true" />
+        <Moon class="show-light" aria-hidden="true" />
+      </button>
+      {RELEASED
+        ? <a class="btn btn-sm" href={DOWNLOAD_URL}>Download</a>
+        : <a class="btn btn-sm" href={`${home}#follow`}>Follow along</a>}
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <img class="show-light" src="/logo.svg" alt="PartBuddy" width="86" height="20" loading="lazy" />
+        <img class="show-dark" src="/logo-inverse.svg" alt="PartBuddy" width="86" height="20" loading="lazy" />
+        <p style="margin-top:12px">Built in public in Austria.</p>
+      </div>
+      <nav aria-label="Footer">
+        {channels.map((c) => <a href={c.url} rel="me">{c.name}</a>)}
+        <a href={KOFI_URL}>Ko-fi</a>
+        <a href="/privacy.html">Privacy policy</a>
+        <a href="/imprint.html">Imprint</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script is:inline>
+    (() => {
+      const b = document.getElementById('theme-toggle');
+      const root = document.documentElement;
+      const current = () => root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const label = () => b.setAttribute('aria-label', current() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+      label();
+      b.addEventListener('click', () => {
+        const next = current() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch {}
+        label();
+      });
+    })();
+  </script>
+</body>
+</html>

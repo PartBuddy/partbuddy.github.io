@@ -1,0 +1,51 @@
+---
+// Silent app loop for the hero. Drop hero.mp4 (+ hero-poster.png) into src/assets/shots.
+// Without the video the poster screenshot is shown; without both, a marked placeholder.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { Pause, Play } from '@lucide/astro';
+import Shot from './Shot.astro';
+
+const videos = import.meta.glob<string>('../assets/shots/hero.{mp4,webm}', { eager: true, query: '?url', import: 'default' });
+const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster.png', { eager: true });
+const mp4 = Object.entries(videos).find(([p]) => p.endsWith('.mp4'))?.[1];
+const webm = Object.entries(videos).find(([p]) => p.endsWith('.webm'))?.[1];
+const posterSrc = Object.values(posters)[0]?.default;
+const poster = posterSrc ? await getImage({ src: posterSrc, width: Math.min(1600, posterSrc.width), format: 'webp', quality: 72 }) : undefined;
+const alt = 'PartBuddy building a part step by step in the 3D view';
+---
+{mp4 || webm ? (
+  <div class="frame">
+    <video id="hero-video" muted loop playsinline preload="metadata" poster={poster?.src}
+      width={posterSrc?.width} height={posterSrc?.height} aria-label={alt}>
+      {webm && <source src={webm} type="video/webm" />}
+      {mp4 && <source src={mp4} type="video/mp4" />}
+    </video>
+    <button class="media-toggle" id="hero-toggle" type="button" aria-label="Pause video" data-paused>
+      <Pause class="i-pause" aria-hidden="true" />
+      <Play class="i-play" aria-hidden="true" />
+    </button>
+  </div>
+  <script is:inline>
+    (() => {
+      const v = document.getElementById('hero-video');
+      const b = document.getElementById('hero-toggle');
+      const sync = () => {
+        b.toggleAttribute('data-paused', v.paused);
+        b.setAttribute('aria-label', v.paused ? 'Play video' : 'Pause video');
+      };
+      v.addEventListener('play', sync);
+      v.addEventListener('pause', sync);
+      b.addEventListener('click', () => (v.paused ? v.play() : v.pause()));
+      // Reduced motion: keep the still image until the visitor presses play.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(sync);
+      sync();
+    })();
+  </script>
+) : posterSrc ? (
+  <Shot name="hero-poster" alt={alt} sizes="(min-width: 1152px) 1088px, 100vw" eager />
+) : (
+  <div class="placeholder" role="img" aria-label="Video of PartBuddy coming soon">
+    <span><strong>Hero video goes here</strong><br /><span class="mono">src/assets/shots/hero.mp4 + hero-poster.png</span></span>
+  </div>
+)}

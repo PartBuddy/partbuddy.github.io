@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://partbuddy.github.io/sitemap.xml
