@@ -1,0 +1,15 @@
+---
+// Inlines a technical drawing from src/assets/drawings (commissioned from Codex) so it can draw
+// itself in. Each <g data-step="N"> gets --step for the staggered animation; solid strokes get
+// pathLength="1" for the draw-in, dashed ones keep their pattern and fade in.
+interface Props { name: string; class?: string; label: string }
+const { name, class: cls, label } = Astro.props;
+const files = import.meta.glob<string>('../assets/drawings/*.svg', { eager: true, query: '?raw', import: 'default' });
+const raw = Object.entries(files).find(([p]) => p.endsWith(`/${name}.svg`))?.[1];
+const svg = raw
+  ?.replace(/<\?xml[^>]*>/, '')
+  .replace(/data-step="(\d+)"/g, (_m, n) => `data-step="${n}" style="--step:${n}"`)
+  .replace(/<(path|line|polyline|polygon|circle|ellipse|rect)\b([^>]*)>/g, (m, tag, attrs) =>
+    /stroke-dasharray|pathLength/.test(attrs) ? m : `<${tag} pathLength="1" data-draw${attrs}>`);
+---
+{svg ? <div class:list={['drawing', cls]} set:html={svg} /> : <div class:list={['drawing-missing', cls]} aria-label={label} role="img" />}

@@ -2,11 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Shot from '../components/Shot.astro';
 import HeroMedia from '../components/HeroMedia.astro';
-import { Move3d, Search, PenTool, Puzzle, CircleCheck, FolderOpen, Share2, ArrowUpRight, ArrowDown, Download, Plus } from '@lucide/astro';
+import Drawing from '../components/Drawing.astro';
+import { ArrowUpRight, ArrowDown, Download, Plus } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
-import { channels, KOFI_URL, features, aroundIt, models, roadmap } from '../data/site';
+import { channels, KOFI_URL, chapters, functionBlocks, textAndLogos, aroundIt, models, roadmap } from '../data/site';
+import { getReleases } from '../lib/releases';
 
-const icons = { move3d: Move3d, search: Search, penTool: PenTool, puzzle: Puzzle, circleCheck: CircleCheck, folderOpen: FolderOpen, share2: Share2 };
+const releases = await getReleases();
+const latest = releases[0];
 
 const title = 'PartBuddy · Design printable FDM parts with an assistant';
 const description =
@@ -17,9 +20,7 @@ const faq = [
   {
     q: 'What does it cost?',
     a: [
-      RELEASED
-        ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.'
-        : 'Nothing. PartBuddy is free.',
+      RELEASED ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.' : 'Nothing. PartBuddy is free.',
       'The assistant runs on a subscription you already have or on a local model. PartBuddy adds no fees of its own.',
     ],
   },
@@ -29,11 +30,8 @@ const faq = [
   },
   {
     q: 'Can it run locally?',
-    a: [`Yes. PartBuddy works with local models through ${models.local.slice(0, -1).join(', ')} and ${models.local.at(-1)}.`],
+    a: [`Yes, with ${models.local.slice(0, -1).join(', ')} or ${models.local.at(-1)}. ${models.localNote}`],
   },
-  ...(RELEASED
-    ? [{ q: 'Why does Windows warn about the installer?', a: ['PartBuddy is a hobby project and its installer is not code-signed, so Windows SmartScreen may show a warning. Choose More info, then Run anyway. The source code is public.'] }]
-    : []),
   {
     q: 'What is SolidCraft?',
     a: [
@@ -41,6 +39,9 @@ const faq = [
       'You install SolidCraft yourself. The setup on first start finds it or links to its download.',
     ],
   },
+  ...(RELEASED
+    ? [{ q: 'Why does Windows warn about the installer?', a: ['PartBuddy is a hobby project and its installer is not code-signed, so Windows SmartScreen may show a warning. Choose More info, then Run anyway. The source code is public.'] }]
+    : []),
   {
     q: 'Is my design private?',
     a: [
@@ -48,6 +49,12 @@ const faq = [
       'A strict local-only mode is on the ideas list.',
     ],
   },
+];
+
+const clarifyOptions = [
+  { id: 'snap', label: 'Snap hooks', note: 'Recommended', text: 'Opens by hand, no screws or inserts. Four hooks on the long sides.', result: 'Adds 4 snap hooks and a lip with a clearance gap.' },
+  { id: 'insert', label: 'M2.5 screws in heat-set inserts', text: 'Holds firmly and survives many openings. Needs inserts and a soldering iron.', result: 'Adds 4 screw bosses with insert seats and countersunk holes in the lid.' },
+  { id: 'press', label: 'Press fit', text: 'Simplest to print. Holds by friction only and loosens over time.', result: 'Adds a lip sized to your material’s press fit.' },
 ];
 
 const jsonLd = {
@@ -63,148 +70,206 @@ const jsonLd = {
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
   sameAs: channels.map((c) => c.url),
   ...(RELEASED ? { downloadUrl: DOWNLOAD_URL, license: 'https://www.gnu.org/licenses/gpl-3.0.html' } : {}),
+  ...(latest ? { softwareVersion: latest.version } : {}),
 };
 ---
 <Base title={title} description={description} nav jsonLd={jsonLd}>
   <section class="hero">
     <div class="wrap">
-      <p class="label mono">Free desktop app for Windows</p>
-      <h1>Your part, step by step.</h1>
-      <p class="lede">
-        PartBuddy is a CAD workspace for printable FDM parts, with an assistant at your side.
-        You change dimensions directly. Where it comes down to intent, the assistant asks first, with options and a recommendation.
-      </p>
-      <div class="actions">
-        {RELEASED
-          ? <a class="btn btn-primary" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
-          : <a class="btn btn-primary" href="#follow">Coming soon – follow along</a>}
-        <a class="btn" href="#how">How it works<ArrowDown aria-hidden="true" /></a>
+      <div class="sheet">
+        <div class="hero-copy">
+          <h1 class="hero-title">Your part,<br /> step by step.</h1>
+          <p class="lede">
+            PartBuddy is a CAD workspace for printable FDM parts, with an assistant at your side.
+            You change dimensions directly. Where it comes down to intent, the assistant asks first.
+          </p>
+          <div class="actions">
+            {RELEASED
+              ? <a class="btn btn-primary" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
+              : <a class="btn btn-primary" href="#follow">Coming soon – follow along</a>}
+            <a class="btn" href="#how">How it works<ArrowDown aria-hidden="true" /></a>
+          </div>
+        </div>
+        <Drawing name="hero-enclosure" class="hero-drawing" label="Technical drawing of a two-part enclosure" />
+        <dl class="title-block">
+          <div><dt>Product</dt><dd>PartBuddy{latest && <span class="mono"> {latest.version}</span>}</dd></div>
+          <div><dt>Platform</dt><dd>Windows</dd></div>
+          <div><dt>Price</dt><dd>{RELEASED ? 'Free, GPL-3.0' : 'Free'}</dd></div>
+          <div><dt>Assistant</dt><dd>Your Claude or ChatGPT subscription, or a local model</dd></div>
+        </dl>
       </div>
-      <p class="meta mono muted">
-        {RELEASED ? 'Free and open source · GPL-3.0 · ' : 'Free · '}Runs on your Claude or ChatGPT subscription, or a local model
-      </p>
       <div class="hero-media">
         <HeroMedia />
       </div>
     </div>
   </section>
 
-  <section id="how" class="section-alt">
+  <section id="how" class="band">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">01 · How it works</p>
+      <header class="section-head">
         <h2>Direct where it is unambiguous. The assistant where intent matters.</h2>
-      </div>
+      </header>
       <div class="split">
-        <article class="panel reveal">
+        <article class="panel">
           <h3>You change what is clear</h3>
-          <p>A dimension that is driven by a parameter changes at once, with a preview. No request to the assistant, no tokens, no waiting.</p>
+          <p>A dimension driven by a parameter changes at once, with a preview. No request to the assistant, no tokens, no waiting.</p>
           <Shot name="params" alt="Parameters with their values and ranges next to the 3D view" />
         </article>
-        <article class="panel reveal">
+        <article class="panel">
           <h3>The assistant asks before it guesses</h3>
-          <p>When there are several sensible ways, it asks one short question. Each option says what it changes, one is marked as recommended, and you decide.</p>
-          <Shot name="clarify" alt="A clarification card with three options, one marked as recommended" />
+          <p>When there are several sensible ways, it asks one short question. Each option says what it changes, one is recommended with its reason, and you decide. Try it:</p>
+          <form class="ask" id="ask" aria-label="Example question from the assistant">
+            <fieldset>
+              <legend>How should the lid hold on the Raspberry Pi 4 enclosure?</legend>
+              {clarifyOptions.map((o, i) => (
+                <label class="ask-option">
+                  <input type="radio" name="lid" value={o.id} checked={i === 0} data-result={o.result} />
+                  <span class="ask-text">
+                    <span class="ask-label">{o.label}{o.note && <span class="tag tag-accent">{o.note}</span>}</span>
+                    <span class="ask-note">{o.text}</span>
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+            <p class="ask-why">Asked because the lid can hold in several sensible ways, and each one changes the parts you print.</p>
+            <p class="ask-result" aria-live="polite"><span class="muted">The assistant then:</span> <span id="ask-result">{clarifyOptions[0].result}</span></p>
+          </form>
         </article>
       </div>
     </div>
   </section>
 
-  <section id="features">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">02 · Features</p>
-        <h2>A real CAD workspace, built for makers.</h2>
-        <p>SolidCraft builds the geometry. PartBuddy puts the view, the timeline, the parameters and the assistant around it.</p>
+  <section id="features" class="features">
+    <div class="wrap features-grid">
+      <nav class="rail" aria-label="Features">
+        <ol>
+          {chapters.map((c, i) => (
+            <li>
+              <a href={`#${c.id}`} data-rail={c.id}><span class="mono">{i + 1}</span>{c.title}</a>
+              <ul>{c.features.map((f) => <li><a href={`#${f.id}`}>{f.title}</a></li>)}</ul>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <div class="chapters">
+        <header class="section-head">
+          <h2>From an idea to a part on the print bed.</h2>
+          <p>Every feature below is in the app today.</p>
+        </header>
+        {chapters.map((c, i) => (
+          <section class="chapter" id={c.id} aria-labelledby={`${c.id}-title`} data-chapter={c.id}>
+            <header class="chapter-head">
+              <span class="chapter-no mono" aria-hidden="true">{i + 1}</span>
+              <h3 id={`${c.id}-title`}>{c.title}</h3>
+              <p>{c.lede}</p>
+            </header>
+            {c.features.map((f) => (
+              <article class="feature" id={f.id}>
+                <div class="feature-text">
+                  <h4>{f.title}</h4>
+                  <p>{f.text}</p>
+                  {f.id === 'blocks' ? (
+                    <>
+                      <ol class="parts-list" id="parts-list">
+                        {functionBlocks.map(([name, note], n) => (
+                          <li data-block={n + 1} tabindex="0"><span class="balloon mono" aria-hidden="true">{n + 1}</span><span>{name}</span><span class="muted">{note}</span></li>
+                        ))}
+                      </ol>
+                      <p class="muted">{textAndLogos}</p>
+                    </>
+                  ) : f.facts.length > 0 && (
+                    <dl class="facts">
+                      {f.facts.map(([k, v]) => <div><dt>{k}</dt><dd>{k === 'Keys' ? <span class="keys">{v.split(' ').map((key) => <kbd>{key}</kbd>)}</span> : v}</dd></div>)}
+                    </dl>
+                  )}
+                </div>
+                <div class="feature-media">
+                  {f.id === 'blocks' && <Drawing name="section-blocks" class="blocks-drawing" label="Section drawing with numbered function blocks" />}
+                  <Shot name={f.shot} alt={f.alt} sizes="(min-width: 1152px) 820px, (min-width: 960px) 70vw, 100vw" />
+                </div>
+              </article>
+            ))}
+          </section>
+        ))}
+        <dl class="facts around">
+          {aroundIt.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
       </div>
-      <div class="grid">
-        {features.map((f) => {
-          const Icon = icons[f.icon];
-          return (
-            <article class:list={['card', 'reveal', { wide: 'wide' in f && f.wide }]}>
-              <span class="icon"><Icon aria-hidden="true" /></span>
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
-              <div class="media"><Shot name={f.shot} alt={f.alt} sizes={'wide' in f && f.wide ? '(min-width: 1152px) 620px, (min-width: 760px) 55vw, 100vw' : undefined} /></div>
-            </article>
-          );
-        })}
-      </div>
-      <p class="around reveal">{aroundIt}</p>
     </div>
   </section>
 
-  <section id="models" class="section-alt">
+  <section id="models" class="band">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">03 · Bring your own model</p>
+      <header class="section-head">
         <h2>Use the subscription you already pay for.</h2>
-        <p>PartBuddy has no plan of its own and charges nothing for the assistant. It connects to what you have.</p>
-      </div>
+        <p>PartBuddy has no plan of its own and charges nothing for the assistant. Model and effort are chosen per chat and can change mid-conversation.</p>
+      </header>
       <div class="models">
-        <article class="card reveal">
-          <span class="tag">Main path</span>
-          <h3>Your subscription</h3>
-          <p>No API costs on top. With a Claude subscription, PartBuddy shows how much of it you have used.</p>
-          <ul>{models.subscriptions.map((m) => <li>{m}</li>)}</ul>
-        </article>
-        <article class="card reveal">
-          <span class="tag">Alternative</span>
-          <h3>Local models</h3>
-          <p>Runs on your own hardware.</p>
-          <ul>{models.local.map((m) => <li class="mono">{m}</li>)}</ul>
-        </article>
+        <div class="model-col">
+          <h3>Your subscription <span class="tag">Main path</span></h3>
+          <ul class="rows">{models.subscriptions.map(([n, via]) => <li><span>{n}</span><span class="muted">{via}</span></li>)}</ul>
+          <p class="muted">No API costs on top. With a Claude subscription, PartBuddy shows how much of it you have used.</p>
+        </div>
+        <div class="model-col">
+          <h3>Local models <span class="tag">Alternative</span></h3>
+          <ul class="rows">{models.local.map((m) => <li><span class="mono">{m}</span></li>)}</ul>
+          <p class="muted">{models.localNote}</p>
+        </div>
+        <div class="model-shot"><Shot name="model" alt="The model menu in the chat input with model and effort" /></div>
       </div>
-      <p class="note reveal">Model and effort are chosen per chat and can change in the middle of a conversation.</p>
     </div>
   </section>
 
   <section id="scope">
     <div class="wrap boundary">
-      <div class="reveal">
-        <p class="label mono">04 · What PartBuddy leaves out</p>
-        <h2 style="font-size:clamp(1.75rem,1.2rem + 2.2vw,2.5rem);line-height:1.15">No slicer work. On purpose.</h2>
-      </div>
-      <div class="prose reveal">
+      <header>
+        <h2>No slicer work. On purpose.</h2>
+      </header>
+      <div class="prose">
         <p>Supports, bridges, print orientation and calibration belong in the slicer. It knows your printer profile and does them better than a design tool could.</p>
-        <p>PartBuddy designs the geometry, checks what can only be decided while designing, and hands the part over. Overhang is shown as a hint, never as an error.</p>
-        <ul class="ledger" style="margin-top:32px">
-          <li><span>Geometry, fits, function blocks</span><span>PartBuddy</span></li>
-          <li><span>Build volume, thin walls, bed contact, clearance</span><span>PartBuddy</span></li>
-          <li><span>Supports, bridges, orientation, calibration</span><span>Your slicer</span></li>
-        </ul>
+        <p>PartBuddy designs the geometry, checks what can only be decided while designing, and hands the part over.</p>
+        <table class="ledger">
+          <caption class="sr-only">Who does what</caption>
+          <tbody>
+            <tr><th scope="row">Geometry, fits, function blocks</th><td>PartBuddy</td></tr>
+            <tr><th scope="row">Build volume, thin walls, bed contact, clearance</th><td>PartBuddy</td></tr>
+            <tr><th scope="row">Supports, bridges, orientation, calibration</th><td>Your slicer</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <section id="roadmap" class="section-alt">
+  <section id="roadmap" class="band">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">05 · Roadmap</p>
+      <header class="section-head">
         <h2>What comes next.</h2>
         <p>No dates. The order can change.</p>
-      </div>
-      <div class="roadmap">
-        <article class="card reveal">
-          <h3>Next</h3>
-          <ul>{roadmap.next.map((r, i) => <li><span class="mono">{String(i + 1).padStart(2, '0')}</span><span>{r}</span></li>)}</ul>
-        </article>
-        <article class="card reveal">
-          <h3>Ideas for later</h3>
-          <ul>{roadmap.later.map((r) => <li><span class="mono">–</span><span>{r}</span></li>)}</ul>
-        </article>
-      </div>
+      </header>
+      <table class="revisions">
+        <caption class="sr-only">Roadmap</caption>
+        <thead><tr><th scope="col">Status</th><th scope="col">Change</th></tr></thead>
+        <tbody>
+          {releases.map((r) => (
+            <tr>
+              <td><a href={r.url} class="mono">{r.version}</a><span class="muted"> {r.date}</span></td>
+              <td>{r.notes.length ? <ul>{r.notes.map((n) => <li>{n}</li>)}</ul> : 'Released'}</td>
+            </tr>
+          ))}
+          {roadmap.next.map((r) => <tr><td><span class="status status-next">Next</span></td><td>{r}</td></tr>)}
+          {roadmap.later.map((r) => <tr><td><span class="status">Idea</span></td><td>{r}</td></tr>)}
+        </tbody>
+      </table>
     </div>
   </section>
 
   <section id="follow">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">06 · Follow along</p>
+      <header class="section-head">
         <h2>{RELEASED ? 'Built in public.' : 'Coming soon. Built in public.'}</h2>
         <p>New features, real printed parts, and the things that went wrong.</p>
-      </div>
-      <ul class="channels reveal">
+      </header>
+      <ul class="channels">
         {channels.map((c) => (
           <li>
             <a class="channel" href={c.url} rel="me">
@@ -214,17 +279,14 @@ const jsonLd = {
           </li>
         ))}
       </ul>
-      <p class="kofi reveal">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>, entirely voluntary.</p>
+      <p class="kofi">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>. Entirely voluntary.</p>
     </div>
   </section>
 
-  <section id="faq" class="section-alt">
+  <section id="faq" class="band">
     <div class="wrap">
-      <div class="section-head reveal">
-        <p class="label mono">07 · FAQ</p>
-        <h2>Questions.</h2>
-      </div>
-      <div class="faq reveal">
+      <header class="section-head"><h2>Questions</h2></header>
+      <div class="faq">
         {faq.map((f) => (
           <details>
             <summary>{f.q}<Plus aria-hidden="true" /></summary>
@@ -234,4 +296,34 @@ const jsonLd = {
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      // Example question: show what the chosen option changes.
+      const out = document.getElementById('ask-result');
+      document.getElementById('ask')?.addEventListener('change', (e) => { out.textContent = e.target.dataset.result; });
+
+      // Parts list ↔ balloons in the section drawing.
+      const drawing = document.querySelector('.blocks-drawing svg');
+      document.querySelectorAll('#parts-list [data-block]').forEach((li) => {
+        const on = () => drawing?.setAttribute('data-active', li.dataset.block);
+        const off = () => drawing?.removeAttribute('data-active');
+        li.addEventListener('mouseenter', on); li.addEventListener('focus', on);
+        li.addEventListener('mouseleave', off); li.addEventListener('blur', off);
+      });
+
+      // Feature rail: mark the chapter in view.
+      const links = new Map([...document.querySelectorAll('[data-rail]')].map((a) => [a.dataset.rail, a]));
+      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { links.forEach((a) => a.removeAttribute('aria-current')); links.get(en.target.dataset.chapter)?.setAttribute('aria-current', 'true'); }
+      }), { rootMargin: '-45% 0px -50% 0px' });
+      document.querySelectorAll('[data-chapter]').forEach((s) => io.observe(s));
+
+      // Drawings draw themselves once they come into view.
+      const dio = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add('is-drawn'); dio.unobserve(en.target); }
+      }), { threshold: 0.25 });
+      document.querySelectorAll('.drawing').forEach((d) => dio.observe(d));
+    })();
+  </script>
 </Base>
