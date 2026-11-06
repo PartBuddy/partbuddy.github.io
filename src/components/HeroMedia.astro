@@ -1,26 +1,28 @@
 ---
-// Silent app loop for the hero. Drop hero.mp4 (+ hero-poster.png) into src/assets/shots.
+// Silent app loop for the hero: src/assets/shots/hero.mp4 + hero-poster.png, optionally
+// hero-dark.mp4 + hero-poster-dark.png for the dark theme (used only as a pair).
 // Without the video the poster screenshot is shown; without both, a marked placeholder.
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { Pause, Play } from '@lucide/astro';
 import Shot from './Shot.astro';
 
-const videos = import.meta.glob<string>('../assets/shots/hero.{mp4,webm}', { eager: true, query: '?url', import: 'default' });
-const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster.png', { eager: true });
-const mp4 = Object.entries(videos).find(([p]) => p.endsWith('.mp4'))?.[1];
-const webm = Object.entries(videos).find(([p]) => p.endsWith('.webm'))?.[1];
-const posterSrc = Object.values(posters)[0]?.default;
-const poster = posterSrc ? await getImage({ src: posterSrc, width: Math.min(1600, posterSrc.width), format: 'webp', quality: 72 }) : undefined;
-const alt = 'PartBuddy building a part step by step in the 3D view';
+const videos = import.meta.glob<string>('../assets/shots/hero{,-dark}.mp4', { eager: true, query: '?url', import: 'default' });
+const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster{,-dark}.png', { eager: true });
+const pick = <T,>(o: Record<string, T>, end: string) => Object.entries(o).find(([p]) => p.endsWith(end))?.[1];
+const mp4 = pick(videos, '/hero.mp4');
+const mp4Dark = pick(videos, '/hero-dark.mp4');
+const posterSrc = pick(posters, '/hero-poster.png')?.default;
+const posterDarkSrc = pick(posters, '/hero-poster-dark.png')?.default;
+const webp = (src?: ImageMetadata) => (src ? getImage({ src, width: Math.min(960, src.width), format: 'webp', quality: 68 }) : undefined);
+const [poster, posterDark] = await Promise.all([webp(posterSrc), mp4Dark ? webp(posterDarkSrc) : undefined]);
+const alt = 'PartBuddy building a Raspberry Pi 4 enclosure step by step in the 3D view';
 ---
-{mp4 || webm ? (
+{mp4 ? (
   <div class="frame">
-    <video id="hero-video" muted loop playsinline preload="metadata" poster={poster?.src}
-      width={posterSrc?.width} height={posterSrc?.height} aria-label={alt}>
-      {webm && <source src={webm} type="video/webm" />}
-      {mp4 && <source src={mp4} type="video/mp4" />}
-    </video>
+    <video id="hero-video" muted loop playsinline preload="none" src={mp4} poster={poster?.src}
+      data-dark-src={mp4Dark} data-dark-poster={posterDark?.src}
+      width={posterSrc?.width} height={posterSrc?.height} aria-label={alt}></video>
     <button class="media-toggle" id="hero-toggle" type="button" aria-label="Pause video" data-paused>
       <Pause class="i-pause" aria-hidden="true" />
       <Play class="i-play" aria-hidden="true" />
@@ -30,20 +32,34 @@ const alt = 'PartBuddy building a part step by step in the 3D view';
     (() => {
       const v = document.getElementById('hero-video');
       const b = document.getElementById('hero-toggle');
+      const root = document.documentElement;
+      const motion = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const light = { src: v.getAttribute('src'), poster: v.poster };
+      const darkPair = v.dataset.darkSrc && { src: v.dataset.darkSrc, poster: v.dataset.darkPoster || '' };
+      const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
       const sync = () => {
         b.toggleAttribute('data-paused', v.paused);
         b.setAttribute('aria-label', v.paused ? 'Play video' : 'Pause video');
       };
+      const theme = () => {
+        const want = darkPair && isDark() ? darkPair : light;
+        if (v.getAttribute('src') === want.src) return;
+        const playing = !v.paused;
+        v.poster = want.poster; v.src = want.src;
+        if (playing) v.play().catch(sync);
+      };
       v.addEventListener('play', sync);
       v.addEventListener('pause', sync);
       b.addEventListener('click', () => (v.paused ? v.play() : v.pause()));
+      new MutationObserver(theme).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      theme();
       // Reduced motion: keep the still image until the visitor presses play.
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(sync);
+      if (motion) addEventListener('load', () => setTimeout(() => v.play().catch(sync), 300), { once: true });
       sync();
     })();
   </script>
 ) : posterSrc ? (
-  <Shot name="hero-poster" alt={alt} sizes="(min-width: 1152px) 1088px, 100vw" eager />
+  <Shot name="hero-poster" alt={alt} sizes="(min-width: 1152px) 1040px, 100vw" eager />
 ) : (
   <div class="placeholder" role="img" aria-label="Video of PartBuddy coming soon">
     <span><strong>Hero video goes here</strong><br /><span class="mono">src/assets/shots/hero.mp4 + hero-poster.png</span></span>
