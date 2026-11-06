@@ -122,7 +122,7 @@ export const bento = [
 
 // "Your data" section.
 export const privacy = [
-  { title: 'Your files stay yours', text: 'Projects are plain folders on your computer. PartBuddy has no account and no cloud of its own.' },
+  { title: 'Your files stay yours', text: 'Projects are plain folders on your computer, sign-ins stay in the Windows credential store, and the app sends no telemetry. No account, no cloud of its own.' },
   { title: 'Your model, your choice', text: 'Use your Claude or ChatGPT subscription, or keep everything on your machine with a local model.' },
   { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' },
 ];
