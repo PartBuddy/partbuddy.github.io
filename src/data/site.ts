@@ -32,11 +32,14 @@ export const chapters: Chapter[] = [
       {
         id: 'sketch',
         title: 'Sketch with real dimensions',
-        text: 'Draw on squared paper with the mouse or a pen. Lines, rectangles, circles and arcs snap to the grid, and you type the sizes that matter. The assistant builds from your dimensions and asks only for the ones the sketch leaves open.',
+        text: 'Draw on squared paper with the mouse or a pen, in a front, top and side view if you like. Lines, rectangles, circles and arcs snap to the grid, and you type the sizes that matter. The assistant builds from your dimensions and asks only for the ones the sketch leaves open.',
         facts: [
           ['Tools', 'pen, line, rectangle, circle, arc, dimension, label'],
-          ['Dimensions', '40 · Ø 8 · R 3, in mm'],
-          ['Snapping', 'half squares and corners; Shift for 45°'],
+          ['Sheets', 'Sketch, Front, Top, Side, sent together as one labelled picture'],
+          ['Dimensions', '40 · Ø 8 · R 3, in mm; typed sizes win over the grid'],
+          ['Scale', 'optional, e.g. 1 square = 5 mm'],
+          ['Photo', 'lay one under a sheet and mark holes and sizes on it'],
+          ['Saved', 'every sketch you send, in the project; reopen it from Earlier sketches'],
           ['Keys', 'V P L R C A M T E'],
         ],
         shot: 'sketch',
@@ -200,6 +203,7 @@ export const aroundIt = [
   ['Languages', 'English and German, switched at once'],
   ['First start', 'a short setup: SolidCraft, assistant, printer and material, project folder'],
   ['Updates', 'the installer checks GitHub releases and installs on your word'],
+  ['Log file', 'one file per profile, opened from Settings › About'],
 ] as const;
 
 export const models = {
@@ -213,7 +217,7 @@ export const models = {
 };
 
 export const roadmap = {
-  next: ['Its own log file', 'SolidCraft 0.40 final'],
+  next: ['SolidCraft 0.40 final'],
   later: [
     'MCP server for Claude Desktop and Codex',
     'Dimensions right at the edges',
