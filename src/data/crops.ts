@@ -1,8 +1,12 @@
 // Crop of each app screenshot, in CSS pixels of the 1440 × 900 window the shots are taken in
 // (`pnpm site:shots` in the app repository renders them at 2x). [left, top, width, height].
 // A dark variant (<name>-dark) uses the crop of <name>. Shots without an entry are used whole.
+// { from, rect } cuts a second view out of another shot.
 // Layout at 1440 × 900: title bar 0–40, left panel 0–235, 3D view 240–1020, chat 1020–1440.
-export const crops: Record<string, [number, number, number, number]> = {
+type Rect = [number, number, number, number];
+export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
+  // The whole conversation: the request, answered questions, a research step and its result.
+  conversation: { from: 'research', rect: [340, 40, 1100, 680] },
   sketch: [270, 96, 900, 780],
   'sketch-chat': [1020, 40, 420, 600],
   photo: [1020, 40, 420, 420],

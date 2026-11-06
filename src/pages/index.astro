@@ -4,16 +4,16 @@ import Shot from '../components/Shot.astro';
 import HeroMedia from '../components/HeroMedia.astro';
 import { ArrowUpRight, Download, Plus, Check, FolderLock, Cpu, EyeOff } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
-import { channels, KOFI_URL, proof, worksWith, tour, bento, privacy, models, status } from '../data/site';
+import { channels, KOFI_URL, proof, worksWith, tour, standards, bento, privacy, models, status } from '../data/site';
 import { getReleases } from '../lib/releases';
 
 const releases = await getReleases();
 const latest = releases[0];
 const privacyIcons = [FolderLock, Cpu, EyeOff];
 
-const title = 'PartBuddy · Describe the part. Get a printable CAD model.';
+const title = 'PartBuddy · Design 3D-print parts in conversation';
 const description =
-  'PartBuddy is a free CAD app for Windows with an assistant that asks before it guesses, builds editable geometry while you watch and checks the part before your slicer. Runs on your Claude or ChatGPT plan or a local model.';
+  'PartBuddy is a free CAD app for Windows where you design 3D-print parts in conversation with an assistant: concepts, questions and a plan, editable geometry, ISO fasteners, material fits and print checks built in. Runs on your Claude or ChatGPT plan or a local model.';
 
 const faq = [
   { q: 'What does it cost?', a: [RELEASED ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.' : 'Nothing. PartBuddy is free.', 'The assistant runs on a subscription you already have or on a local model. PartBuddy adds no fees of its own.'] },
@@ -47,8 +47,8 @@ const jsonLd = {
     <div class="wrap">
       <div class="hero-copy">
         <p class="pill">{RELEASED ? 'Free for Windows' : 'In development · Built in public'}</p>
-        <h1>Describe the part.<br /> Get a printable CAD model.</h1>
-        <p class="lede">PartBuddy is a free CAD app for Windows with an assistant at your side. It asks what matters, builds editable geometry while you watch, and checks the part before your slicer.</p>
+        <h1>Work out your part together.<br /> Print it right.</h1>
+        <p class="lede">PartBuddy is a free CAD app for Windows where you design 3D-print parts in conversation with an assistant. It proposes, asks and plans with you, builds editable geometry while you watch, and knows the standards your print depends on.</p>
         <div class="actions">
           {RELEASED
             ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
@@ -103,6 +103,48 @@ const jsonLd = {
     </div>
   </section>
 
+  <section id="standards">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>The standards your print depends on, built in</h2>
+        <p>Fasteners, inserts, fits and print rules are part of PartBuddy, not left to luck. These are the defaults; your printer and material profile changes them.</p>
+      </header>
+      <div class="standards">
+        <article class="std std-fits">
+          <h3>Fits per material</h3>
+          <p>Clearance per side in mm, so a lid slides and a pin holds. Nominal sizes stay parameters; the fit is added on top.</p>
+          <div class="table-scroll">
+            <table class="fits">
+              <thead><tr><th scope="col">Material</th><th scope="col">Clamp</th><th scope="col">Push</th><th scope="col">Slide</th><th scope="col">Turn</th><th scope="col">Overhang</th></tr></thead>
+              <tbody>
+                {standards.fits.map((r) => (
+                  <tr><th scope="row">{r.material}</th>{r.fits.map((v) => <td>{v}</td>)}<td>{r.overhang}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="std">
+          <h3>Screws, nuts and holes</h3>
+          <dl class="std-list">{standards.fasteners.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        </article>
+        <article class="std">
+          <h3>Heat-set inserts</h3>
+          <dl class="std-list">{standards.inserts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+          <p class="std-note">{standards.insertNote}</p>
+        </article>
+        <article class="std">
+          <h3>Designed to print without supports</h3>
+          <ul class="std-bullets">{standards.supportFree.map((s) => <li>{s}</li>)}</ul>
+        </article>
+        <article class="std">
+          <h3>Checked after every change</h3>
+          <ul class="std-bullets">{standards.checks.map((s) => <li>{s}</li>)}</ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section id="features">
     <div class="wrap">
       <header class="section-head">
@@ -116,7 +158,7 @@ const jsonLd = {
               <h3>{b.title}</h3>
               <p>{b.text}</p>
             </div>
-            <div class="tile-media" data-pos={b.pos}><Shot name={b.shot} alt={b.alt} sizes={b.size === 'wide' ? '(min-width: 960px) 700px, 100vw' : '(min-width: 960px) 340px, 100vw'} /></div>
+            <div class="tile-media"><Shot name={b.shot} alt={b.alt} sizes={b.size === 'wide' ? '(min-width: 960px) 700px, 100vw' : '(min-width: 960px) 340px, 100vw'} /></div>
           </article>
         ))}
       </div>

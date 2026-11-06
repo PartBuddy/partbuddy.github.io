@@ -13,49 +13,50 @@ export const KOFI_URL = 'https://ko-fi.com/partbuddy';
 
 // Short proof points next to the hero button.
 export const proof = [
-  'Real, editable CAD you can export as STEP',
-  'Asks before it guesses',
-  'Checks the part before your slicer',
+  'Concepts, questions and a plan before it builds',
+  'ISO screws, nuts, inserts and material fits built in',
+  'Checked for your printer after every change',
   'Your Claude or ChatGPT plan, or a local model',
 ];
 
 // What PartBuddy works with. Text only, no third-party logos.
 export const worksWith = ['Claude Code', 'ChatGPT', 'Ollama', 'LM Studio', 'llama.cpp', 'Bambu Studio', 'OrcaSlicer', 'STEP', '3MF', 'STL'];
 
-// The product tour: one tab per step, each with one large picture.
+// The product tour: one tab per step, each with one large picture. The conversation comes first:
+// it is how PartBuddy is used (sources: apps/desktop/src/main/agents/questions.ts, workLog.ts).
 export const tour = [
   {
-    tab: 'Sketch',
-    title: 'Sketch it with the sizes that matter',
-    text: 'Draw on squared paper in front, top and side sheets and type dimensions like 40, Ø 8 or R 3. Or just describe the part in a sentence.',
-    shot: 'sketch',
-    alt: 'The sketch sheet with a rectangle, a circle, typed dimensions and an M3 hole label',
+    tab: 'Talk',
+    title: 'Work it out in conversation',
+    text: 'Say what the part is for. The assistant offers two or three concepts based on proven designs, asks about loads, cables and the real sizes of your things, and looks up data sheets with sources.',
+    shot: 'conversation',
+    alt: 'A conversation: fit this housing to the circuit board, answered questions, research on M3 screws per ISO 4762 and ISO 273, and the screw seated as a standard part',
   },
   {
-    tab: 'It asks',
+    tab: 'Decide',
     title: 'It asks before it guesses',
-    text: 'Where a part can be built several ways, the assistant asks a short question with options and recommends one. You decide.',
+    text: 'Questions come as cards with the recommended answer preselected and its reason. Before it builds, it checks the function and shows a plan. Nothing changes until you press Go.',
     shot: 'clarify',
     alt: 'A housing in the 3D view next to questions from the assistant with recommended options',
   },
   {
     tab: 'Build',
     title: 'Watch every step in real CAD',
-    text: 'SolidCraft builds editable geometry while you watch. Click any face or edge, pin a note to it and change it in words.',
+    text: 'SolidCraft builds editable geometry while you watch. Click a face, pin a note to it and ask for the change in words. Every step, yours or the assistant’s, can be taken back.',
     shot: 'view',
     alt: 'A cable clip with a selected face and its name, area and actions',
   },
   {
     tab: 'Details',
     title: 'Add the details that make it print',
-    text: 'Threads, snap hooks, screw bosses, lids with a lip, seats for heat-set inserts and nut traps, placed on the face you pick.',
+    text: 'Threads, countersinks, snap fits, screw bosses, lids with a lip, seats for heat-set inserts and nut traps, sized to the standards below and placed on the face you pick.',
     shot: 'blocks',
     alt: 'The function block panel adding a heat-set insert seat for M3',
   },
   {
     tab: 'Check',
     title: 'Know it will print before you slice',
-    text: 'One check flags thin walls, parts too big for your printer and fits tighter than your material allows, and points at the spot.',
+    text: 'After every change, PartBuddy checks the part against your printer and material and points at each finding. The assistant sees the result too.',
     shot: 'printready',
     alt: 'The ready-to-print check reporting that lid and case are too tight',
   },
@@ -68,15 +69,55 @@ export const tour = [
   },
 ];
 
+// Built-in standards and defaults (sources: apps/desktop/src/shared/blocks.ts,
+// apps/desktop/src/main/print/printProfiles.ts, packages/geometry/src/printCheck.ts).
+export const standards = {
+  fasteners: [
+    ['Socket head cap screws', 'ISO 4762'],
+    ['Countersunk screws, 90°', 'ISO 10642'],
+    ['Hex nuts', 'ISO 4032'],
+    ['Clearance holes', 'ISO 273, medium'],
+    ['M3 / M4 hole', '3.4 / 4.5 mm'],
+    ['Sizes', 'M2 to M10'],
+    ['Fit', 'close, normal or loose'],
+  ],
+  inserts: [
+    ['M2', 'Ø 3.2 × 4 mm'],
+    ['M3', 'Ø 4 × 5.7 mm'],
+    ['M4', 'Ø 5.6 × 8.1 mm'],
+    ['M6', 'Ø 8 × 12.7 mm'],
+  ],
+  insertNote: 'Seats 1 mm deeper than the insert, bosses with at least 2 mm of wall.',
+  // Clearance per side in mm: clamp, push, slide, turn.
+  fits: [
+    { material: 'PLA', overhang: '45°', fits: ['0.05', '0.15', '0.25', '0.30'] },
+    { material: 'PETG · ASA', overhang: '40°', fits: ['0.10', '0.20', '0.30', '0.35'] },
+    { material: 'TPU', overhang: '35°', fits: ['0', '0.10', '0.30', '0.40'] },
+  ],
+  supportFree: [
+    'Edges facing the bed get a 45° chamfer instead of a fillet',
+    'Bridges up to 10 mm, ledges up to 1.5 mm, wider ones become a 45° slope',
+    'Lying holes above about 10 mm get a teardrop or flat roof',
+    'Snap fits at about 1.4 % strain, with a warning above 2 % for PLA',
+  ],
+  checks: [
+    'Fits your build volume',
+    'Walls of at least two lines, 0.9 mm with a 0.4 mm nozzle',
+    'Overhangs past your material’s angle, as a hint',
+    'At least 25 mm² on the bed',
+    'Gaps between parts tighter than the push fit',
+  ],
+};
+
 // Everything else, as a bento grid. `size`: 'wide' tiles span two columns.
 export const bento = [
   { title: 'Pull it apart', text: 'Exploded and section views for parts that belong together.', shot: 'explode', alt: 'An enclosure, its lid and a screw pulled apart', size: 'wide' },
   { title: 'Versions you can compare', text: 'Saved before every request. Compare any of them with now.', shot: 'versions', alt: 'The versions dialog comparing a named version with the current design' },
+  { title: 'Sketch the sizes', text: 'Draw it on squared paper and type 40, Ø 8 or R 3. The assistant builds from them.', shot: 'sketch', alt: 'The sketch sheet with typed dimensions and an M3 hole label' },
   { title: 'Start from a photo', text: 'It asks for the one size that sets the scale. It never guesses from pixels.', shot: 'photo', alt: 'The assistant asking for the length of a box shown in a photo' },
-  { title: 'Research with sources', text: 'Web search with sources, and standard screws, nuts and bearings.', shot: 'research', alt: 'Search results with sources and an M3 screw placed as a standard part', pos: 'right' },
+  { title: 'Pick model and effort', text: 'Per chat. With a Claude plan you see how much you have used.', shot: 'model', alt: 'The assistant menu with Claude Code, ChatGPT, local models, model and effort' },
   { title: 'Build around real parts', text: 'Import STEP and IGES as editable bodies, STL, 3MF and OBJ as meshes.', shot: 'import', alt: 'A housing built around an imported circuit board', size: 'wide' },
   { title: 'Projects and templates', text: 'Every design is a folder you can see. Start from a box, clip or holder.', shot: 'start', alt: 'The start page with templates and project tiles' },
-  { title: 'Pick model and effort', text: 'Per chat. With a Claude plan you see how much you have used.', shot: 'model', alt: 'The assistant menu with Claude Code, ChatGPT, local models, model and effort' },
 ];
 
 // "Your data" section.

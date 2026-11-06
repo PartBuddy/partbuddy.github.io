@@ -200,9 +200,6 @@ section { padding: 88px 0; }
 .tile-media picture, .tile-media img { height: 100%; }
 .tile-media img { object-fit: cover; object-position: left top; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .tile:hover .tile-media img { transform: scale(1.03); }
-.tile-media[data-pos="right"] { padding: 0 26px 0 0; }
-.tile-media[data-pos="right"] .frame { border-radius: 0 12px 0 0; border-left: 0; border-right: 1px solid var(--line-strong); }
-.tile-media[data-pos="right"] img { object-position: right top; }
 @media (min-width: 1000px) { .tile-media { height: 300px; } }
 
 /* Privacy */
@@ -302,4 +299,31 @@ section { padding: 88px 0; }
 @keyframes reveal { from { opacity: 0; transform: translateY(28px); } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* Standards */
+.standards { display: grid; gap: 16px; }
+@media (min-width: 760px) { .standards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .standards { grid-template-columns: repeat(3, 1fr); gap: 20px; } .std-fits { grid-column: span 2; } }
+.std { min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.std h3 { font-size: 1.125rem; letter-spacing: -0.015em; }
+.std > p { margin-top: 8px; color: var(--muted); font-size: 0.9375rem; max-width: 46em; }
+.table-scroll { margin-top: 20px; overflow-x: auto; }
+.fits { width: 100%; min-width: 460px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.fits th, .fits td { padding: 12px 14px 12px 0; text-align: left; border-bottom: 1px solid var(--line); }
+.fits thead th { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
+.fits tbody th { font-weight: 600; }
+.fits td { font-family: 'Cascadia Mono', ui-monospace, Consolas, monospace; font-size: 0.9375rem; }
+.fits tbody tr:last-child > * { border-bottom: 0; }
+.std-list { margin: 16px 0 0; display: grid; font-size: 0.9375rem; }
+.std-list > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.std-list > div:last-child { border-bottom: 0; }
+.std-list dt { color: var(--muted); }
+.std-list dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+.std-note { margin-top: 12px; font-size: 0.875rem; color: var(--muted); }
+.std-bullets { margin-top: 16px; display: grid; gap: 10px; font-size: 0.9375rem; color: var(--muted); }
+.std-bullets li { padding-left: 18px; position: relative; }
+.std-bullets li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) { .std { animation: reveal linear both; animation-timeline: view(); animation-range: entry 5% cover 25%; } }
 }
