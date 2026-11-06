@@ -17,7 +17,6 @@ npm run preview   # serve dist/ on http://localhost:4321
   `src/assets/shots/`. `scripts/crop-shots.mjs` cuts each one to the region in `src/data/crops.ts`
   before every build. Missing files render as marked placeholders.
 - **Hero video:** `hero.mp4` + `hero-poster.png` (optionally `hero-dark.mp4` + `hero-poster-dark.png`).
-- **Drawings:** `src/assets/drawings/*.svg`, commissioned from Codex; they draw themselves in on scroll.
 - **Lighthouse on this server:** run Chrome with `--disable-gpu`. Without a GPU, headless Chrome
   waits up to 350 ms for its software GPU process, which shows up as about 1.5 s of blocking time.
 - No tracking, no cookies, no external requests. The theme choice is kept in `localStorage`.
