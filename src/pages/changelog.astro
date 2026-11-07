@@ -6,14 +6,15 @@ import { Download } from '@lucide/astro';
 const description = 'Every PartBuddy release with its date and changes.';
 ---
 <Base title="Changelog · PartBuddy" description={description}>
-  <div class="wrap">
-    <article class="changelog">
-      <header>
-        <h1>Changelog</h1>
-        <p class="muted">{RELEASED ? description : 'No release yet. PartBuddy is in development; the first release will appear here.'}</p>
-        {RELEASED && <div class="actions"><a class="btn btn-primary" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download {releases[0].version}</a></div>}
+  <div class="page glow-top">
+    <div class="wrap">
+      <header class="page-head">
+        <p class="kicker">Changelog</p>
+        <h1>Every release, every change.</h1>
+        <p>{RELEASED ? description : 'No release yet. PartBuddy is in development; the first release will appear here.'}</p>
+        {RELEASED && <div class="ctas"><a class="btn btn-primary" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download {releases[0].version}</a></div>}
       </header>
-      {releases.map((r) => (
+      {RELEASED ? releases.map((r) => (
         <section class="release" id={`v${r.version}`} aria-labelledby={`h-${r.version}`}>
           <div class="release-meta">
             <h2 id={`h-${r.version}`}><a href={`#v${r.version}`}>{r.version}</a></h2>
@@ -29,7 +30,7 @@ const description = 'Every PartBuddy release with its date and changes.';
             <p class="release-link"><a href={r.url}>Release on GitHub</a></p>
           </div>
         </section>
-      ))}
-    </article>
+      )) : <p class="empty">Follow the build on <a class="link-arrow" href="/#follow">YouTube, TikTok, Instagram or Bluesky</a> to hear about the first release.</p>}
+    </div>
   </div>
 </Base>
