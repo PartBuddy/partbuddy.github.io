@@ -10,8 +10,8 @@
 ## Lucide
 
 - Icons rendered at build time as inline SVG through the npm package `@lucide/astro` 1.70.0
-  ([lucide.dev](https://lucide.dev)): message-circle-question-mark, sliders-horizontal, pen-tool, credit-card,
-  arrow-up-right, download, plus, sun, moon, pause, play.
+  ([lucide.dev](https://lucide.dev)): arrow-right, arrow-up-right,
+  check, cpu, download, eye-off, folder-lock, minus, play, plus, x.
 - Licence: ISC.
 
 ```
@@ -30,6 +30,47 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+```
+
+## Logos of other products
+
+Shown in `src/assets/logos/` to name the tools PartBuddy works with and the channels it is on. The
+logos are trademarks of their owners; their use here only identifies those products and implies no
+endorsement.
+
+- From **Lobe Icons** (npm `@lobehub/icons-static-svg` 1.102.0, [lobehub/lobe-icons](https://github.com/lobehub/lobe-icons),
+  MIT licence, Copyright (c) 2023 LobeHub): `claude-code.svg` (claudecode-color), `chatgpt.svg` (openai),
+  `ollama.svg`, `lm-studio.svg` (lmstudio), `vllm.svg` (vllm-color).
+- From **Simple Icons** (npm `simple-icons` 16.36.0, [simpleicons.org](https://simpleicons.org), CC0 1.0):
+  `bambu-studio.svg` (bambulab), `youtube.svg`, `tiktok.svg`, `instagram.svg`, `bluesky.svg`, `kofi.svg`,
+  `github.svg`.
+- `orcaslicer.svg`: the OrcaSlicer app icon, unchanged from `resources/images/OrcaSlicer.svg` in
+  [SoftFever/OrcaSlicer](https://github.com/SoftFever/OrcaSlicer) (AGPL-3.0).
+
+Lobe Icons licence:
+
+```
+MIT License
+
+Copyright (c) 2023 LobeHub
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
 ## PartBuddy brand assets

@@ -1,0 +1,40 @@
+---
+// Third-party logos (free packages, see THIRD-PARTY-NOTICES.md), looked up by the name used in the
+// content. Unknown names render nothing, so the caller shows the name as text only.
+import ClaudeCode from '../assets/logos/claude-code.svg';
+import ChatGPT from '../assets/logos/chatgpt.svg';
+import Ollama from '../assets/logos/ollama.svg';
+import LMStudio from '../assets/logos/lm-studio.svg';
+import VLLM from '../assets/logos/vllm.svg';
+import Bambu from '../assets/logos/bambu-studio.svg';
+import Orca from '../assets/logos/orcaslicer.svg';
+import YouTube from '../assets/logos/youtube.svg';
+import TikTok from '../assets/logos/tiktok.svg';
+import Instagram from '../assets/logos/instagram.svg';
+import Bluesky from '../assets/logos/bluesky.svg';
+import KoFi from '../assets/logos/kofi.svg';
+import GitHub from '../assets/logos/github.svg';
+
+// Simple Icons ship without a fill; they take the text colour, or their brand colour where given.
+const mono = { fill: 'currentColor' };
+const marks: Record<string, [typeof ClaudeCode, Record<string, string>]> = {
+  'Claude Code': [ClaudeCode, {}],
+  ChatGPT: [ChatGPT, { class: 'mark-mono' }],
+  Ollama: [Ollama, { class: 'mark-mono' }],
+  'LM Studio': [LMStudio, { class: 'mark-mono' }],
+  vLLM: [VLLM, {}],
+  'Bambu Studio': [Bambu, { ...mono, style: 'color:#00AE42' }],
+  OrcaSlicer: [Orca, {}],
+  YouTube: [YouTube, mono],
+  TikTok: [TikTok, mono],
+  Instagram: [Instagram, mono],
+  Bluesky: [Bluesky, mono],
+  'Ko-fi': [KoFi, mono],
+  GitHub: [GitHub, mono],
+};
+
+interface Props { name: string }
+const entry = marks[Astro.props.name];
+const Mark = entry?.[0];
+---
+{Mark && <Mark aria-hidden="true" focusable="false" {...entry[1]} />}
