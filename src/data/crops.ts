@@ -7,7 +7,7 @@ type Rect = [number, number, number, number];
 export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
   // The whole conversation: the request, answered questions, a research step and its result.
   conversation: { from: 'research', rect: [340, 40, 1100, 680] },
-  sketch: [270, 96, 900, 780],
+  sketch: [270, 96, 900, 796],
   'sketch-chat': [1020, 40, 420, 600],
   photo: [1020, 40, 420, 420],
   research: [560, 300, 880, 420],
