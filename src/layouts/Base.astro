@@ -1,21 +1,24 @@
 ---
 import '../styles/global.css';
-import { Sun, Moon } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
 import { channels, KOFI_URL } from '../data/site';
+import Brand from '../components/Brand.astro';
 
 interface Props {
   title: string;
   description: string;
   lang?: string;
-  nav?: boolean;
   jsonLd?: object;
   noindex?: boolean;
 }
-const { title, description, lang = 'en', nav = false, jsonLd, noindex = false } = Astro.props;
+const { title, description, lang = 'en', jsonLd, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname.replace(/index(\.html)?$/, ''), SITE_URL).href;
-const image = `${SITE_URL}/social-preview.png`;
+const image = `${SITE_URL}/og.png`;
 const home = import.meta.env.BASE_URL;
+// On the homepage the section links stay on the page; elsewhere they lead back to it.
+const onHome = Astro.url.pathname === home || Astro.url.pathname === `${home}index.html`;
+const to = (hash: string) => (onHome ? hash : `${home}${hash}`);
+const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#follow'), label: 'Follow the build' };
 ---
 <!doctype html>
 <html lang={lang}>
@@ -26,8 +29,8 @@ const home = import.meta.env.BASE_URL;
   <meta name="description" content={description} />
   {!noindex && <link rel="canonical" href={canonical} />}
   {noindex && <meta name="robots" content="noindex" />}
-  <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#1b1f24" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#08090b" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
@@ -37,41 +40,26 @@ const home = import.meta.env.BASE_URL;
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
   <meta property="og:image" content={image} />
-  <meta property="og:image:width" content="1280" />
-  <meta property="og:image:height" content="640" />
-  <meta property="og:image:alt" content="PartBuddy logo" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="PartBuddy: Parts that fit. First print. The app window with a housing in the 3D view and the assistant's questions." />
   <meta name="twitter:card" content="summary_large_image" />
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
-  <script is:inline>
-    document.documentElement.classList.add('js');
-    try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
-  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href={home} aria-label="PartBuddy home">
-        <img class="show-light" src="/logo.svg" alt="PartBuddy" width="103" height="24" />
-        <img class="show-dark" src="/logo-inverse.svg" alt="PartBuddy" width="103" height="24" />
+        <img src="/logo-inverse.svg" alt="PartBuddy" width="103" height="24" />
       </a>
-      {nav && (
-        <nav class="nav" aria-label="Sections">
-          <a href="#how">How it works</a>
-          <a href="#tour">Tour</a>
-          <a href="#compare">Compare</a>
-          <a href="#standards">Standards</a>
-          <a href="#status">Roadmap</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-      )}
-      <button class="btn icon-btn" type="button" id="theme-toggle" aria-label="Switch to dark theme">
-        <Sun class="show-dark" aria-hidden="true" />
-        <Moon class="show-light" aria-hidden="true" />
-      </button>
-      {RELEASED
-        ? <a class="btn btn-sm" href={DOWNLOAD_URL}>Download</a>
-        : <a class="btn btn-sm" href={`${home}#follow`}>Follow along</a>}
+      <nav class="nav" aria-label="Main">
+        <a href={to('#product')}>Product</a>
+        <a href={to('#compare')}>Compare</a>
+        <a href="/changelog.html">Changelog</a>
+        <a href={to('#faq')}>FAQ</a>
+      </nav>
+      <a class="btn btn-sm" href={cta.href}>{cta.label}</a>
     </div>
   </header>
 
@@ -81,35 +69,40 @@ const home = import.meta.env.BASE_URL;
 
   <footer class="site-footer">
     <div class="wrap">
-      <div>
-        <img class="show-light" src="/logo.svg" alt="PartBuddy" width="86" height="20" loading="lazy" />
-        <img class="show-dark" src="/logo-inverse.svg" alt="PartBuddy" width="86" height="20" loading="lazy" />
-        <p style="margin-top:12px">Built in public in Austria.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="/logo-inverse.svg" alt="PartBuddy" width="94" height="22" loading="lazy" />
+          <p>Free CAD for FDM printing, with an assistant that asks before it builds. Built in public in Austria.</p>
+        </div>
+        <nav aria-labelledby="f-product">
+          <h2 id="f-product">Product</h2>
+          <ul>
+            <li><a href={to('#product')}>Features</a></li>
+            <li><a href={to('#compare')}>Compare</a></li>
+            <li><a href="/changelog.html">Changelog</a></li>
+            <li><a href={to('#faq')}>FAQ</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="f-follow">
+          <h2 id="f-follow">Follow</h2>
+          <ul>
+            {channels.map((c) => <li><a href={c.url} rel="me"><Brand name={c.name} />{c.name}</a></li>)}
+            <li><a href={KOFI_URL}><Brand name="Ko-fi" />Ko-fi</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="f-legal">
+          <h2 id="f-legal">Legal</h2>
+          <ul>
+            <li><a href="/privacy.html">Privacy policy</a></li>
+            <li><a href="/imprint.html">Imprint</a></li>
+          </ul>
+        </nav>
       </div>
-      <nav aria-label="Footer">
-        {channels.map((c) => <a href={c.url} rel="me">{c.name}</a>)}
-        <a href={KOFI_URL}>Ko-fi</a>
-        <a href="/changelog.html">Changelog</a>
-        <a href="/privacy.html">Privacy policy</a>
-        <a href="/imprint.html">Imprint</a>
-      </nav>
+      <div class="footer-base">
+        <span>{RELEASED ? 'Free and open source under GPL-3.0.' : 'Free. In development.'}</span>
+        <span>No cookies, no tracking, nothing loaded from other servers.</span>
+      </div>
     </div>
   </footer>
-
-  <script is:inline>
-    (() => {
-      const b = document.getElementById('theme-toggle');
-      const root = document.documentElement;
-      const current = () => root.dataset.theme || 'dark';
-      const label = () => b.setAttribute('aria-label', current() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-      label();
-      b.addEventListener('click', () => {
-        const next = current() === 'dark' ? 'light' : 'dark';
-        root.dataset.theme = next;
-        try { localStorage.setItem('theme', next); } catch {}
-        label();
-      });
-    })();
-  </script>
 </body>
 </html>

@@ -1,21 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
 import Shot from '../components/Shot.astro';
-import HeroMedia from '../components/HeroMedia.astro';
-import { ArrowUpRight, ArrowRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, MessageSquareText, ListChecks, Printer } from '@lucide/astro';
+import Brand from '../components/Brand.astro';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { ArrowRight, ArrowUpRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, Play } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL, latest } from '../config';
-import { channels, KOFI_URL, proof, worksWith, steps, tour, standards, bento, privacy, models, roadmap as status } from '../data/site';
+import { channels, KOFI_URL, hero, worksWith, chapters, standards, bento, privacy, models, roadmap as status } from '../data/site';
 import { compare } from '../data/compare';
 
 const privacyIcons = [FolderLock, Cpu, EyeOff];
-const stepIcons = [MessageSquareText, ListChecks, Printer];
 const markIcon = { yes: Check, no: X, part: Minus };
 const markLabel = { yes: 'Yes', no: 'No', part: 'Partly' };
-const latestNotes = latest?.sections.flatMap((s) => s.items).slice(0, 4) ?? [];
 
-const title = 'PartBuddy · Design 3D-print parts in conversation';
+// The produced build film (src/assets/shots/hero.mp4 + hero-poster.png) opens in a dialog.
+const videos = import.meta.glob<string>('../assets/shots/hero.mp4', { eager: true, query: '?url', import: 'default' });
+const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster.png', { eager: true });
+const film = Object.values(videos)[0];
+const posterSrc = Object.values(posters)[0]?.default;
+const poster = posterSrc && (await getImage({ src: posterSrc, width: Math.min(1100, posterSrc.width), format: 'webp', quality: 70 }));
+
+const title = 'PartBuddy · Parts that fit. First print.';
 const description =
-  'PartBuddy is a free CAD app for Windows where you design 3D-print parts in conversation with an assistant: concepts, questions and a plan, editable geometry, ISO fasteners, material fits and print checks built in. Runs on your Claude or ChatGPT plan or a local model.';
+  'PartBuddy is a free CAD app for Windows: describe the part you need, and its assistant asks what matters, builds real, editable CAD while you watch, and checks it against your printer. ISO fasteners and material fits built in. Runs on your Claude or ChatGPT plan or a local model.';
 
 const faq = [
   { q: 'What does it cost?', a: [RELEASED ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.' : 'Nothing. PartBuddy is free.', 'The assistant runs on a subscription you already have or on a local model. PartBuddy adds no fees of its own.'] },
@@ -34,7 +41,7 @@ const jsonLd = {
   name: 'PartBuddy',
   description,
   url: `${SITE_URL}/`,
-  image: `${SITE_URL}/social-preview.png`,
+  image: `${SITE_URL}/og.png`,
   applicationCategory: 'DesignApplication',
   operatingSystem: 'Windows',
   inLanguage: ['en', 'de'],
@@ -44,97 +51,111 @@ const jsonLd = {
   ...(latest ? { softwareVersion: latest.version } : {}),
 };
 ---
-<Base title={title} description={description} nav jsonLd={jsonLd}>
-  <section class="hero">
-    <div class="wrap">
-      <div class="hero-copy">
-        {latest
-          ? <a class="pill pill-link" href="/changelog.html"><span class="pill-tag">{latest.version}</span>Released {latest.dateLabel} · What’s new<ArrowRight aria-hidden="true" /></a>
-          : <p class="pill"><span class="pill-dot" aria-hidden="true"></span>In development · Built in public</p>}
-        <h1>Work out your part together.<br /> Print it right.</h1>
-        <p class="lede">A free CAD app for Windows, for anyone with an FDM printer who needs a part that fits and works, without learning CAD first. Describe it to an assistant: it asks what it needs to know, builds editable geometry while you watch, and checks the part against your printer.</p>
-        <div class="actions">
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-copy">
+      {latest
+        ? <a class="eyebrow" href="/changelog.html"><span class="tag">{latest.version}</span>Released {latest.dateLabel}<ArrowRight aria-hidden="true" /></a>
+        : <a class="eyebrow" href="#follow"><span class="dot" aria-hidden="true"></span>In development · Built in public<ArrowRight aria-hidden="true" /></a>}
+      <h1 id="hero-title">{hero.title[0]}<br /><span>{hero.title[1]}</span></h1>
+      <div class="hero-side">
+        <p class="sub">{hero.sub}</p>
+        <div class="ctas">
           {RELEASED
             ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
             : <a class="btn btn-primary btn-lg" href="#follow">Follow the build</a>}
-          <a class="btn btn-lg btn-ghost" href="#how">See how it works</a>
+          {film
+            ? <button class="btn btn-lg" type="button" data-film-open><Play aria-hidden="true" />Watch it build</button>
+            : <a class="btn btn-lg" href="#product">See how it works</a>}
         </div>
-        <ul class="proof">
-          {proof.map((p) => <li><Check aria-hidden="true" />{p}</li>)}
-        </ul>
+        <p class="fine">{hero.fine}</p>
       </div>
     </div>
-    <div class="wrap wrap-wide">
-      <div class="hero-media"><HeroMedia /></div>
+    <div class="stage">
+      <Shot name="clarify" full eager class="window" sizes="(min-width: 1360px) 1300px, (min-width: 760px) 94vw, 190vw"
+        alt="The PartBuddy window: parameters, a housing around a circuit board in the 3D view, and the assistant asking how the lid should hold" />
     </div>
-    <div class="wrap">
-      <div class="works-with">
-        <p>Works with</p>
-        <ul>{worksWith.map((w) => <li>{w}</li>)}</ul>
-      </div>
+    <div class="wrap works">
+      <p>Works with</p>
+      <ul class="logos">{worksWith.map((w) => <li class="logo"><Brand name={w} />{w}</li>)}</ul>
     </div>
   </section>
 
-  <section id="how" class="how-section" aria-labelledby="how-title">
+  <section id="product" class="section section-alt" aria-labelledby="product-title">
     <div class="wrap">
-      <header class="section-head">
-        <h2 id="how-title">How it works</h2>
-        <p>Three steps from an idea to a file your slicer can print.</p>
+      <header class="section-head reveal">
+        <p class="kicker">How it works</p>
+        <h2 id="product-title">From a sentence to the print bed.</h2>
+        <p>One workspace, four steps. Everything you see is the app as it is today.</p>
       </header>
-      <ol class="steps">
-        {steps.map((s, i) => {
-          const Icon = stepIcons[i];
-          return (
-            <li class="step">
-              <div class="step-head"><span class="step-no">{i + 1}</span><Icon aria-hidden="true" /></div>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
-  </section>
-
-  <section id="tour" class="tour-section">
-    <div class="wrap">
-      <header class="section-head">
-        <h2>From an idea to the print bed</h2>
-        <p>Six steps, one workspace. Everything you see is the app as it is today.</p>
-      </header>
-      <div class="tour" data-tour>
-        <div class="tour-tabs" role="tablist" aria-label="Tour">
-          {tour.map((t, i) => (
-            <button class="tour-tab" role="tab" type="button" id={`tour-tab-${i}`} aria-controls={`tour-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
-              <span class="tour-no">{String(i + 1).padStart(2, '0')}</span>
-              <span class="tour-name">{t.tab}</span>
-              <span class="tour-bar" aria-hidden="true"></span>
-            </button>
-          ))}
-        </div>
-        <div class="tour-panels">
-          {tour.map((t, i) => (
-            <div class:list={['tour-panel', { 'is-active': i === 0 }]} id={`tour-${i}`} role="tabpanel" aria-labelledby={`tour-tab-${i}`}>
-              <div class="tour-text">
-                <span class="tour-no">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{t.title}</h3>
-                <p>{t.text}</p>
-              </div>
-              <Shot name={t.shot} alt={t.alt} sizes="(min-width: 1152px) 720px, (min-width: 960px) 62vw, 100vw" />
+      <div class="chapters">
+        {chapters.map((c, i) => (
+          <article class="chapter" aria-labelledby={`ch-${i}`}>
+            <div class="chapter-text reveal">
+              <p class="kicker"><span class="no">0{i + 1}</span>{c.kicker}</p>
+              <h2 id={`ch-${i}`}>{c.title}</h2>
+              <p>{c.text}</p>
+              <ul class="points">{c.points.map((p) => <li><Check aria-hidden="true" />{p}</li>)}</ul>
             </div>
-          ))}
-        </div>
+            <div class="chapter-shot reveal">
+              <Shot name={c.shot} alt={c.alt} sizes="(min-width: 1200px) 760px, (min-width: 960px) 60vw, 100vw" />
+            </div>
+            {c.kicker === 'Check' && (
+              <div class="spec reveal" style="grid-column: 1 / -1">
+                <div>
+                  <h3>Fits per material · clearance per side, mm</h3>
+                  <table class="fits">
+                    <thead><tr><th scope="col">Material</th><th scope="col">Clamp</th><th scope="col">Push</th><th scope="col">Slide</th><th scope="col">Turn</th><th scope="col">Overhang</th></tr></thead>
+                    <tbody>{standards.fits.map((r) => <tr><th scope="row">{r.material}</th>{r.fits.map((v) => <td>{v}</td>)}<td>{r.overhang}</td></tr>)}</tbody>
+                  </table>
+                  <p class="note">The defaults. Your printer and material profile changes them.</p>
+                </div>
+                <div>
+                  <h3>Screws, nuts and inserts</h3>
+                  <dl>{[...standards.fasteners.slice(0, 4), ...standards.inserts.slice(0, 2).map(([k, v]) => [`Insert ${k}`, v])].map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+                  <p class="note">{standards.insertNote}</p>
+                </div>
+                <div>
+                  <h3>Designed to print without supports</h3>
+                  <ul>{standards.supportFree.map((s) => <li><Check aria-hidden="true" />{s}</li>)}</ul>
+                </div>
+              </div>
+            )}
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <section id="compare" aria-labelledby="compare-title">
+  <section id="features" class="section" aria-labelledby="bench-title">
     <div class="wrap">
-      <header class="section-head">
+      <header class="section-head reveal">
+        <p class="kicker">Workspace</p>
+        <h2 id="bench-title">Everything else on the bench.</h2>
+        <p>The parts of a CAD workspace you expect, built for makers.</p>
+      </header>
+      <div class="bench">
+        {bento.map((b) => (
+          <article class:list={['tile reveal', `tile-${b.shot}`, { 'tile-wide': b.size === 'wide' }]}>
+            <div class="tile-text">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </div>
+            <div class="tile-media"><Shot name={b.shot} alt={b.alt} sizes={b.size === 'wide' ? '(min-width: 1040px) 780px, 100vw' : '(min-width: 1040px) 380px, (min-width: 760px) 50vw, 100vw'} /></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="compare" class="section section-alt" aria-labelledby="compare-title">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <p class="kicker">Compare</p>
         <h2 id="compare-title">Why not just use …</h2>
         <p>{compare.intro}</p>
       </header>
-      <div class="compare-scroll" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways">
+      <div class="compare-scroll reveal" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways">
         <table class="compare">
           <thead>
             <tr>
@@ -149,7 +170,7 @@ const jsonLd = {
                 {r.cells.map(([mark, note], i) => {
                   const Icon = markIcon[mark];
                   return (
-                    <td class:list={[`m-${mark}`, { 'is-us': i === r.cells.length - 1 }]} data-label={compare.columns[i]}>
+                    <td class:list={[`m-${mark}`, { 'is-us': i === r.cells.length - 1 }]}>
                       <span class="mark"><Icon aria-hidden="true" /><span class="sr-only">{markLabel[mark]}</span></span>
                       {note && <span class="note">{note}</span>}
                     </td>
@@ -164,78 +185,17 @@ const jsonLd = {
     </div>
   </section>
 
-  <section id="standards">
+  <section id="trust" class="section" aria-labelledby="trust-title">
     <div class="wrap">
-      <header class="section-head">
-        <h2>The standards your print depends on, built in</h2>
-        <p>Fasteners, inserts, fits and print rules are built into PartBuddy and its assistant, not left to luck. These are the defaults; your printer and material profile changes them.</p>
+      <header class="section-head reveal">
+        <p class="kicker">Privacy</p>
+        <h2 id="trust-title">Yours, end to end.</h2>
       </header>
-      <div class="standards">
-        <article class="std std-fits">
-          <h3>Fits per material</h3>
-          <p>Clearance per side in mm, so a lid slides and a pin holds. The assistant keeps nominal sizes as parameters and adds the fit it chose on top.</p>
-          <div class="table-scroll">
-            <table class="fits">
-              <thead><tr><th scope="col">Material</th><th scope="col">Clamp</th><th scope="col">Push</th><th scope="col">Slide</th><th scope="col">Turn</th><th scope="col">Overhang</th></tr></thead>
-              <tbody>
-                {standards.fits.map((r) => (
-                  <tr><th scope="row">{r.material}</th>{r.fits.map((v) => <td>{v}</td>)}<td>{r.overhang}</td></tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </article>
-        <article class="std">
-          <h3>Screws, nuts and holes</h3>
-          <dl class="std-list">{standards.fasteners.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
-        </article>
-        <article class="std">
-          <h3>Heat-set inserts</h3>
-          <dl class="std-list">{standards.inserts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
-          <p class="std-note">{standards.insertNote}</p>
-        </article>
-        <article class="std">
-          <h3>Designed to print without supports</h3>
-          <ul class="std-bullets">{standards.supportFree.map((s) => <li>{s}</li>)}</ul>
-        </article>
-        <article class="std">
-          <h3>Checked after every change</h3>
-          <ul class="std-bullets">{standards.checks.map((s) => <li>{s}</li>)}</ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="features">
-    <div class="wrap">
-      <header class="section-head">
-        <h2>Everything around it</h2>
-        <p>The parts of a CAD workspace you expect, built for makers.</p>
-      </header>
-      <div class="bento">
-        {bento.map((b) => (
-          <article class:list={['tile', { 'tile-wide': b.size === 'wide' }]}>
-            <div class="tile-text">
-              <h3>{b.title}</h3>
-              <p>{b.text}</p>
-            </div>
-            <div class="tile-media"><Shot name={b.shot} alt={b.alt} sizes={b.size === 'wide' ? '(min-width: 960px) 700px, 100vw' : '(min-width: 960px) 340px, 100vw'} /></div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="privacy" class="privacy-section">
-    <div class="wrap">
-      <header class="section-head">
-        <h2>Your parts. Your model. Your computer.</h2>
-      </header>
-      <div class="privacy">
+      <div class="trust">
         {privacy.map((p, i) => {
           const Icon = privacyIcons[i];
           return (
-            <div class="privacy-item">
+            <div class="trust-item reveal">
               <Icon aria-hidden="true" />
               <h3>{p.title}</h3>
               <p>{p.text}</p>
@@ -243,76 +203,51 @@ const jsonLd = {
           );
         })}
       </div>
-    </div>
-  </section>
-
-  <section id="status">
-    <div class="wrap">
-      <header class="section-head">
-        <h2>Where it stands</h2>
-        <p>An honest status. No dates; the order can change.</p>
-      </header>
-      <div class="status">
-        <div class="status-col">
-          <h3><span class="dot dot-today"></span>Works today</h3>
+      <div class="status reveal" aria-label="Where PartBuddy stands">
+        <div>
+          <h3><span class="dot" aria-hidden="true"></span>Works today</h3>
           <ul>{status.today.map((s) => <li>{s}</li>)}</ul>
         </div>
-        <div class="status-col">
-          <h3><span class="dot dot-next"></span>Next</h3>
+        <div>
+          <h3><span class="dot dot-next" aria-hidden="true"></span>Next</h3>
           <ul>{status.next.map((s) => <li>{s}</li>)}</ul>
         </div>
-        <div class="status-col">
-          <h3><span class="dot"></span>Ideas for later</h3>
+        <div>
+          <h3><span class="dot dot-later" aria-hidden="true"></span>Later</h3>
           <ul>{status.later.map((s) => <li>{s}</li>)}</ul>
         </div>
-      </div>
-      <div class="release-card">
-        {latest ? (
-          <>
-            <div>
-              <p class="release-kicker">Latest release</p>
-              <p class="release-title"><strong>{latest.version}</strong><time datetime={latest.date}>{latest.dateLabel}</time></p>
-            </div>
-            {latestNotes.length > 0 && <ul>{latestNotes.map((n) => <li>{n}</li>)}</ul>}
-            <a class="btn" href="/changelog.html">Full changelog<ArrowRight aria-hidden="true" /></a>
-          </>
-        ) : (
-          <>
-            <div>
-              <p class="release-kicker">Latest release</p>
-              <p class="release-title"><strong>Coming soon</strong></p>
-            </div>
-            <p class="muted">The first release will be listed in the changelog with every change.</p>
-            <a class="btn" href="/changelog.html">Changelog<ArrowRight aria-hidden="true" /></a>
-          </>
-        )}
+        <div class="release">
+          <div>
+            <h3>Latest release</h3>
+            {latest
+              ? <p><strong>{latest.version}</strong></p><time datetime={latest.date}>{latest.dateLabel}</time>
+              : <p><strong>Coming soon</strong></p><p>Every release is listed with its changes.</p>}
+          </div>
+          <a class="link-arrow" href="/changelog.html">Changelog<ArrowRight aria-hidden="true" /></a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="follow" class="cta-section">
+  <section id="follow" class="final" aria-labelledby="follow-title">
     <div class="wrap">
-      <div class="cta">
-        <h2>{RELEASED ? 'Built in public' : 'Coming soon. Follow the build.'}</h2>
-        <p>New features, real printed parts, and the things that went wrong.</p>
-        <ul class="channels">
-          {channels.map((c) => (
-            <li>
-              <a class="channel" href={c.url} rel="me">
-                <span><strong>{c.name}</strong><span class="handle">{c.handle}</span></span>
-                <ArrowUpRight aria-hidden="true" />
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p class="kofi">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>. Entirely voluntary.</p>
-      </div>
+      <h2 id="follow-title" class="reveal">Your next part starts with a sentence.</h2>
+      <p class="lead reveal">{RELEASED
+        ? 'Download PartBuddy for Windows. Free, open source, no account.'
+        : 'PartBuddy is in development. Follow the build for new features, real printed parts, and the things that went wrong.'}</p>
+      {RELEASED && <div class="ctas"><a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a></div>}
+      <ul class="channels">
+        {channels.map((c) => (
+          <li><a class="channel" href={c.url} rel="me"><Brand name={c.name} />{c.name}<span class="sr-only"> {c.handle}</span><ArrowUpRight aria-hidden="true" /></a></li>
+        ))}
+      </ul>
+      <p class="kofi">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>. Entirely voluntary.</p>
     </div>
   </section>
 
-  <section id="faq">
+  <section id="faq" class="section" aria-labelledby="faq-title">
     <div class="wrap faq-wrap">
-      <h2>Questions</h2>
+      <h2 id="faq-title">Questions</h2>
       <div class="faq">
         {faq.map((f) => (
           <details>
@@ -324,32 +259,22 @@ const jsonLd = {
     </div>
   </section>
 
-  <script is:inline>
-    (() => {
-      // Tour: tabs with a progress bar. The bar is a CSS animation; when it ends, the next step opens.
-      // With reduced motion the bar does not run, so the tour only moves when the visitor clicks.
-      const root = document.querySelector('[data-tour]');
-      const tabs = [...root.querySelectorAll('.tour-tab')];
-      let current = 0;
-      const show = (i, focus) => {
-        current = i;
-        tabs.forEach((t, n) => {
-          const on = n === i;
-          t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
-          document.getElementById(t.getAttribute('aria-controls')).classList.toggle('is-active', on);
-          if (on && focus) t.focus();
-        });
-      };
-      tabs.forEach((t, i) => {
-        t.addEventListener('click', () => { root.classList.add('is-manual'); show(i); });
-        t.addEventListener('keydown', (e) => {
-          const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
-          if (d) { e.preventDefault(); root.classList.add('is-manual'); show((i + d + tabs.length) % tabs.length, true); }
-        });
-        t.querySelector('.tour-bar').addEventListener('animationend', () => show((current + 1) % tabs.length));
-      });
-      // Run only while the tour is on screen.
-      new IntersectionObserver(([e]) => root.classList.toggle('is-visible', e.isIntersecting), { threshold: 0.4 }).observe(root);
-    })();
-  </script>
+  {film && (
+    <dialog class="film" id="film" aria-label="PartBuddy building a Raspberry Pi 4 enclosure step by step">
+      <form method="dialog"><button class="btn film-close" aria-label="Close"><X aria-hidden="true" /></button></form>
+      <video src={film} poster={poster?.src} controls muted playsinline preload="none" width={posterSrc?.width} height={posterSrc?.height}></video>
+    </dialog>
+    <script is:inline>
+      (() => {
+        const d = document.getElementById('film');
+        const v = d.querySelector('video');
+        document.querySelectorAll('[data-film-open]').forEach((b) => b.addEventListener('click', () => {
+          d.showModal();
+          if (!matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {});
+        }));
+        d.addEventListener('close', () => v.pause());
+        d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+      })();
+    </script>
+  )}
 </Base>

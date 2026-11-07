@@ -1,6 +1,7 @@
 ---
-// Real app screenshot from src/assets/shots/<name>.png (optional <name>-dark.png for the dark theme).
-// A missing file renders a clearly marked placeholder, so new material drops in without code changes.
+// Real app screenshot from src/assets/shots/<name>-dark.png (the site is dark), falling back to
+// <name>.png. A missing file renders a clearly marked placeholder, so new material drops in without
+// code changes.
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -14,31 +15,20 @@ const base = (p: string) => p.split('/').pop()!.replace(/\.\w+$/, '');
 const find = (n: string) =>
   ((!full && Object.entries(files).find(([p]) => p.includes('/crops/') && base(p) === n)) || Object.entries(files).find(([p]) => p.includes('/shots/') && base(p) === n))?.[1].default;
 
-async function variant(src: ImageMetadata) {
-  const widths = [480, 800, 1200, 1600, 2400].filter((w) => w <= src.width);
-  const [avif, webp] = await Promise.all(
-    (['avif', 'webp'] as const).map((format) => getImage({ src, widths, format, quality: 72 })),
-  );
-  return { avif: avif.srcSet.attribute, webp: webp.srcSet.attribute, fallback: webp.src, width: src.width, height: src.height };
-}
-const light = find(name);
-const dark = find(`${name}-dark`);
-const variants = [
-  ...(light ? [{ v: await variant(light), cls: dark ? 'show-light' : '' }] : []),
-  ...(dark ? [{ v: await variant(dark), cls: 'show-dark' }] : []),
-];
+const src = find(`${name}-dark`) ?? find(name);
+const widths = src ? [480, 800, 1200, 1600, 2400].filter((w) => w <= src.width) : [];
+const [avif, webp] = src
+  ? await Promise.all((['avif', 'webp'] as const).map((format) => getImage({ src, widths, format, quality: 72 })))
+  : [];
 ---
-{variants.length ? (
-  <div class:list={['frame', cls, { 'frame-narrow': light && light.width / light.height < 1.1 }]}>
-    {variants.map(({ v, cls: c }) => (
-      <picture class={c}>
-        <source type="image/avif" srcset={v.avif} sizes={sizes} />
-        <source type="image/webp" srcset={v.webp} sizes={sizes} />
-        {/* Only the variant of the default (dark) theme loads eagerly; the hidden one waits until shown. */}
-        <img src={v.fallback} alt={alt} width={v.width} height={v.height}
-          loading={eager && c !== 'show-light' ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager && c !== 'show-light' ? 'high' : 'auto'} />
-      </picture>
-    ))}
+{src && avif && webp ? (
+  <div class:list={['frame', cls]}>
+    <picture>
+      <source type="image/avif" srcset={avif.srcSet.attribute} sizes={sizes} />
+      <source type="image/webp" srcset={webp.srcSet.attribute} sizes={sizes} />
+      <img src={webp.src} alt={alt} width={src.width} height={src.height}
+        loading={eager ? 'eager' : 'lazy'} decoding={eager ? 'sync' : 'async'} fetchpriority={eager ? 'high' : 'auto'} />
+    </picture>
   </div>
 ) : (
   <div class:list={['placeholder', cls]} role="img" aria-label={`Screenshot coming soon: ${alt}`}>

@@ -6,10 +6,8 @@ import content from './site-content.json';
 
 type Titled = { title: string; text: string };
 type SiteContent = {
-  proof: string[];
   worksWith: string[];
-  steps: Titled[];
-  tour: { tab: string; title: string; text: string; shot: string; alt: string }[];
+  chapters: { kicker: string; title: string; text: string; points: string[]; shot: string; alt: string }[];
   standards: {
     fasteners: string[][];
     inserts: string[][];
@@ -25,11 +23,17 @@ type SiteContent = {
 };
 const c: SiteContent = content;
 
-export const { proof, worksWith, steps, tour, standards, bento, models, roadmap } = c;
+export const { worksWith, chapters, standards, bento, models, roadmap } = c;
 // The app's privacy facts plus one about this website.
 export const privacy: Titled[] = [...c.privacy, { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' }];
 
-// Website-only content.
+// Website-only content: positioning, not product facts.
+export const hero = {
+  title: ['Parts that fit.', 'First print.'],
+  kicker: 'CAD that asks before it builds',
+  sub: 'Describe the part you need. PartBuddy asks what matters, builds real, editable CAD while you watch, and checks it against your printer before you slice.',
+  fine: 'Free · For Windows · Your Claude or ChatGPT plan, or a local model',
+};
 export const channels = [
   { name: 'YouTube', handle: '@PartBuddy', url: 'https://www.youtube.com/@PartBuddy' },
   { name: 'TikTok', handle: '@partbuddy', url: 'https://www.tiktok.com/@partbuddy' },
