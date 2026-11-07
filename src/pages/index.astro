@@ -2,14 +2,16 @@
 import Base from '../layouts/Base.astro';
 import Shot from '../components/Shot.astro';
 import HeroMedia from '../components/HeroMedia.astro';
-import { ArrowUpRight, Download, Plus, Check, FolderLock, Cpu, EyeOff } from '@lucide/astro';
+import { ArrowUpRight, ArrowRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, MessageSquareText, ListChecks, Printer } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL, latest } from '../config';
-import { channels, KOFI_URL, proof, worksWith, tour, standards, bento, privacy, models, roadmap as status } from '../data/site';
-
-
-
+import { channels, KOFI_URL, proof, worksWith, steps, tour, standards, bento, privacy, models, roadmap as status } from '../data/site';
+import { compare } from '../data/compare';
 
 const privacyIcons = [FolderLock, Cpu, EyeOff];
+const stepIcons = [MessageSquareText, ListChecks, Printer];
+const markIcon = { yes: Check, no: X, part: Minus };
+const markLabel = { yes: 'Yes', no: 'No', part: 'Partly' };
+const latestNotes = latest?.sections.flatMap((s) => s.items).slice(0, 4) ?? [];
 
 const title = 'PartBuddy · Design 3D-print parts in conversation';
 const description =
@@ -46,14 +48,16 @@ const jsonLd = {
   <section class="hero">
     <div class="wrap">
       <div class="hero-copy">
-        <p class="pill">{RELEASED ? 'Free for Windows' : 'In development · Built in public'}</p>
+        {latest
+          ? <a class="pill pill-link" href="/changelog.html"><span class="pill-tag">{latest.version}</span>Released {latest.dateLabel} · What’s new<ArrowRight aria-hidden="true" /></a>
+          : <p class="pill"><span class="pill-dot" aria-hidden="true"></span>In development · Built in public</p>}
         <h1>Work out your part together.<br /> Print it right.</h1>
-        <p class="lede">PartBuddy is a free CAD app for Windows where you design 3D-print parts in conversation with an assistant. It proposes, asks and plans with you, builds editable geometry while you watch, and knows the standards your print depends on.</p>
+        <p class="lede">A free CAD app for Windows, for anyone with an FDM printer who needs a part that fits and works, without learning CAD first. Describe it to an assistant: it asks what it needs to know, builds editable geometry while you watch, and checks the part against your printer.</p>
         <div class="actions">
           {RELEASED
             ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
             : <a class="btn btn-primary btn-lg" href="#follow">Follow the build</a>}
-          <a class="btn btn-lg btn-ghost" href="#tour">See how it works</a>
+          <a class="btn btn-lg btn-ghost" href="#how">See how it works</a>
         </div>
         <ul class="proof">
           {proof.map((p) => <li><Check aria-hidden="true" />{p}</li>)}
@@ -68,6 +72,27 @@ const jsonLd = {
         <p>Works with</p>
         <ul>{worksWith.map((w) => <li>{w}</li>)}</ul>
       </div>
+    </div>
+  </section>
+
+  <section id="how" class="how-section" aria-labelledby="how-title">
+    <div class="wrap">
+      <header class="section-head">
+        <h2 id="how-title">How it works</h2>
+        <p>Three steps from an idea to a file your slicer can print.</p>
+      </header>
+      <ol class="steps">
+        {steps.map((s, i) => {
+          const Icon = stepIcons[i];
+          return (
+            <li class="step">
+              <div class="step-head"><span class="step-no">{i + 1}</span><Icon aria-hidden="true" /></div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   </section>
 
@@ -100,6 +125,42 @@ const jsonLd = {
           ))}
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="compare" aria-labelledby="compare-title">
+    <div class="wrap">
+      <header class="section-head">
+        <h2 id="compare-title">Why not just use …</h2>
+        <p>{compare.intro}</p>
+      </header>
+      <div class="compare-scroll" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways">
+        <table class="compare">
+          <thead>
+            <tr>
+              <td></td>
+              {compare.columns.map((c, i) => <th scope="col" class:list={{ 'is-us': i === compare.columns.length - 1 }}>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {compare.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.label}</th>
+                {r.cells.map(([mark, note], i) => {
+                  const Icon = markIcon[mark];
+                  return (
+                    <td class:list={[`m-${mark}`, { 'is-us': i === r.cells.length - 1 }]} data-label={compare.columns[i]}>
+                      <span class="mark"><Icon aria-hidden="true" /><span class="sr-only">{markLabel[mark]}</span></span>
+                      {note && <span class="note">{note}</span>}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="compare-foot">{compare.footnote}</p>
     </div>
   </section>
 
@@ -204,6 +265,27 @@ const jsonLd = {
           <h3><span class="dot"></span>Ideas for later</h3>
           <ul>{status.later.map((s) => <li>{s}</li>)}</ul>
         </div>
+      </div>
+      <div class="release-card">
+        {latest ? (
+          <>
+            <div>
+              <p class="release-kicker">Latest release</p>
+              <p class="release-title"><strong>{latest.version}</strong><time datetime={latest.date}>{latest.dateLabel}</time></p>
+            </div>
+            {latestNotes.length > 0 && <ul>{latestNotes.map((n) => <li>{n}</li>)}</ul>}
+            <a class="btn" href="/changelog.html">Full changelog<ArrowRight aria-hidden="true" /></a>
+          </>
+        ) : (
+          <>
+            <div>
+              <p class="release-kicker">Latest release</p>
+              <p class="release-title"><strong>Coming soon</strong></p>
+            </div>
+            <p class="muted">The first release will be listed in the changelog with every change.</p>
+            <a class="btn" href="/changelog.html">Changelog<ArrowRight aria-hidden="true" /></a>
+          </>
+        )}
       </div>
     </div>
   </section>
