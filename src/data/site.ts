@@ -1,7 +1,35 @@
-// All product content of the homepage lives here, so the PartBuddy development can keep it current
-// by editing this one file. Facts only: nothing goes in that the app does not do today.
-// `shot` is a file name in src/assets/shots without extension (cropped per src/data/crops.ts).
+// Thin adapter. The product facts (features, models, roadmap) live in the app repository as
+// site/site-content.json and arrive here as src/data/site-content.json through the sync pull
+// request of its site-sync workflow. Edit them there, not here. The type below makes
+// `astro check` fail when the synced file is missing a field.
+import content from './site-content.json';
 
+type Titled = { title: string; text: string };
+type SiteContent = {
+  proof: string[];
+  worksWith: string[];
+  steps: Titled[];
+  tour: { tab: string; title: string; text: string; shot: string; alt: string }[];
+  standards: {
+    fasteners: string[][];
+    inserts: string[][];
+    insertNote: string;
+    fits: { material: string; overhang: string; fits: string[] }[];
+    supportFree: string[];
+    checks: string[];
+  };
+  bento: { title: string; text: string; shot: string; alt: string; size?: string }[];
+  privacy: Titled[];
+  models: { local: string[]; localNote: string };
+  roadmap: { today: string[]; next: string[]; later: string[] };
+};
+const c: SiteContent = content;
+
+export const { proof, worksWith, steps, tour, standards, bento, models, roadmap } = c;
+// The app's privacy facts plus one about this website.
+export const privacy: Titled[] = [...c.privacy, { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' }];
+
+// Website-only content.
 export const channels = [
   { name: 'YouTube', handle: '@PartBuddy', url: 'https://www.youtube.com/@PartBuddy' },
   { name: 'TikTok', handle: '@partbuddy', url: 'https://www.tiktok.com/@partbuddy' },
@@ -10,131 +38,3 @@ export const channels = [
 ];
 
 export const KOFI_URL = 'https://ko-fi.com/partbuddy';
-
-// Short proof points next to the hero button.
-export const proof = [
-  'Concepts, questions and a plan before it builds',
-  'ISO screws, nuts, inserts and material fits built in',
-  'Checked for your printer after every change',
-  'Your Claude or ChatGPT plan, or a local model',
-];
-
-// What PartBuddy works with. Text only, no third-party logos.
-export const worksWith = ['Claude Code', 'ChatGPT', 'Ollama', 'LM Studio', 'llama.cpp', 'Bambu Studio', 'OrcaSlicer', 'STEP', '3MF', 'STL'];
-
-// The product tour: one tab per step, each with one large picture. The conversation comes first:
-// it is how PartBuddy is used (sources: apps/desktop/src/main/agents/questions.ts, workLog.ts).
-export const tour = [
-  {
-    tab: 'Talk',
-    title: 'Work it out in conversation',
-    text: 'Say what the part is for. The assistant offers two or three concepts based on proven designs, asks about loads, cables and the real sizes of your things, and looks up data sheets with sources.',
-    shot: 'conversation',
-    alt: 'A conversation: fit this housing to the circuit board, answered questions, research on M3 screws per ISO 4762 and ISO 273, and the screw seated as a standard part',
-  },
-  {
-    tab: 'Decide',
-    title: 'It asks before it guesses',
-    text: 'Questions come as cards with the recommended answer preselected and its reason. Before it builds, it checks the function and shows a plan. Nothing changes until you press Go.',
-    shot: 'clarify',
-    alt: 'A housing in the 3D view next to questions from the assistant with recommended options',
-  },
-  {
-    tab: 'Build',
-    title: 'Watch every step in real CAD',
-    text: 'SolidCraft builds editable geometry while you watch. Click a face, pin a note to it and ask for the change in words. Every step, yours or the assistant’s, can be taken back.',
-    shot: 'view',
-    alt: 'A cable clip with a selected face and its name, area and actions',
-  },
-  {
-    tab: 'Details',
-    title: 'Add the details that make it print',
-    text: 'Threads, countersinks, snap fits, screw bosses, lids with a lip, seats for heat-set inserts and nut traps, sized to the standards below and placed on the face you pick.',
-    shot: 'blocks',
-    alt: 'The function block panel adding a heat-set insert seat for M3',
-  },
-  {
-    tab: 'Check',
-    title: 'Know it will print before you slice',
-    text: 'After every change, PartBuddy checks the part against your printer and material and points at each finding. The assistant sees the result too.',
-    shot: 'printready',
-    alt: 'The ready-to-print check reporting that lid and case are too tight',
-  },
-  {
-    tab: 'Print',
-    title: 'Straight to your slicer',
-    text: 'Open the part in Bambu Studio or OrcaSlicer with one click, or export 3MF, STEP and STL. Supports and orientation stay with your slicer.',
-    shot: 'export',
-    alt: 'The export menu with 3MF, STL, STEP, Sharing package and Open in Bambu Studio',
-  },
-];
-
-// Built-in standards and defaults (sources: apps/desktop/src/shared/blocks.ts,
-// apps/desktop/src/main/print/printProfiles.ts, packages/geometry/src/printCheck.ts).
-export const standards = {
-  fasteners: [
-    ['Socket head cap screws', 'ISO 4762'],
-    ['Countersunk screws, 90°', 'ISO 10642'],
-    ['Hex nuts', 'ISO 4032'],
-    ['Clearance holes', 'ISO 273, medium'],
-    ['M3 / M4 hole', '3.4 / 4.5 mm'],
-    ['Sizes', 'M2 to M10'],
-    ['Fit', 'close, normal or loose'],
-  ],
-  inserts: [
-    ['M2', 'Ø 3.2 × 4 mm'],
-    ['M3', 'Ø 4 × 5.7 mm'],
-    ['M4', 'Ø 5.6 × 8.1 mm'],
-    ['M6', 'Ø 8 × 12.7 mm'],
-  ],
-  insertNote: 'Seats 1 mm deeper than the insert, bosses with at least 2 mm of wall.',
-  // Clearance per side in mm: clamp, push, slide, turn.
-  fits: [
-    { material: 'PLA', overhang: '45°', fits: ['0.05', '0.15', '0.25', '0.30'] },
-    { material: 'PETG · ASA', overhang: '40°', fits: ['0.10', '0.20', '0.30', '0.35'] },
-    { material: 'TPU', overhang: '35°', fits: ['0', '0.10', '0.30', '0.40'] },
-  ],
-  supportFree: [
-    'Edges facing the bed get a 45° chamfer instead of a fillet',
-    'Bridges up to 10 mm, ledges up to 1.5 mm, wider ones become a 45° slope',
-    'Lying holes above about 10 mm get a teardrop or flat roof',
-    'Snap fits at about 1.4 % strain, with a warning above 2 % for PLA',
-  ],
-  checks: [
-    'Fits your build volume',
-    'Walls of at least two lines, 0.9 mm with a 0.4 mm nozzle',
-    'Overhangs past your material’s angle, as a hint',
-    'At least 25 mm² on the bed',
-    'Gaps between parts tighter than the push fit',
-  ],
-};
-
-// Everything else, as a bento grid. `size`: 'wide' tiles span two columns.
-export const bento = [
-  { title: 'Pull it apart', text: 'Exploded and section views for parts that belong together.', shot: 'explode', alt: 'An enclosure, its lid and a screw pulled apart', size: 'wide' },
-  { title: 'Versions you can compare', text: 'Saved before every request. Compare any of them with now.', shot: 'versions', alt: 'The versions dialog comparing a named version with the current design' },
-  { title: 'Sketch the sizes', text: 'Draw it on squared paper and type 40, Ø 8 or R 3. The assistant builds from them.', shot: 'sketch', alt: 'The sketch sheet with typed dimensions and an M3 hole label' },
-  { title: 'Start from a photo', text: 'It asks for the one size that sets the scale. It never guesses from pixels.', shot: 'photo', alt: 'The assistant asking for the length of a box shown in a photo' },
-  { title: 'Pick model and effort', text: 'Per chat. With a Claude plan you see how much you have used.', shot: 'model', alt: 'The assistant menu with Claude Code, ChatGPT, local models, model and effort' },
-  { title: 'Build around real parts', text: 'Import STEP and IGES as editable bodies, STL, 3MF and OBJ as meshes.', shot: 'import', alt: 'A housing built around an imported circuit board', size: 'wide' },
-  { title: 'Projects and templates', text: 'Every design is a folder you can see. Start from a box, clip or holder.', shot: 'start', alt: 'The start page with templates and project tiles' },
-];
-
-// "Your data" section.
-export const privacy = [
-  { title: 'Your files stay yours', text: 'Projects are plain folders on your computer, sign-ins stay in the Windows credential store, and the app sends no telemetry. No account, no cloud of its own.' },
-  { title: 'Your model, your choice', text: 'Use your Claude or ChatGPT subscription, or keep everything on your machine with a local model.' },
-  { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' },
-];
-
-export const models = {
-  local: ['Ollama', 'LM Studio', 'llama.cpp', 'vLLM', 'Strata'],
-  localNote: 'PartBuddy finds local servers on this computer and offers only models that can call tools and have at least 16K context.',
-};
-
-// Honest status, Zoo-style: what works today, what comes next, ideas without dates.
-export const status = {
-  today: ['Design with an assistant in real CAD', 'Sketches, photos and research as input', 'Ready-to-print check and slicer hand-off', 'English and German, installer with update checks'],
-  next: ['SolidCraft 0.40 final'],
-  later: ['MCP server for Claude Desktop and Codex', 'Dimensions right at the edges', 'Permissions per tool', 'Cost display for your own API keys', 'Local-only mode'],
-};
