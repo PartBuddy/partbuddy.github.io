@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { releases, RELEASED, DOWNLOAD_URL } from '../config';
+import { Download } from '@lucide/astro';
+
+const description = 'Every PartBuddy release with its date and changes.';
+---
+<Base title="Changelog · PartBuddy" description={description}>
+  <div class="wrap">
+    <article class="changelog">
+      <header>
+        <h1>Changelog</h1>
+        <p class="muted">{RELEASED ? description : 'No release yet. PartBuddy is in development; the first release will appear here.'}</p>
+        {RELEASED && <div class="actions"><a class="btn btn-primary" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download {releases[0].version}</a></div>}
+      </header>
+      {releases.map((r) => (
+        <section class="release" id={`v${r.version}`} aria-labelledby={`h-${r.version}`}>
+          <div class="release-meta">
+            <h2 id={`h-${r.version}`}><a href={`#v${r.version}`}>{r.version}</a></h2>
+            <time datetime={r.date}>{r.dateLabel}</time>
+          </div>
+          <div class="release-body">
+            {r.sections.length ? r.sections.map((s) => (
+              <>
+                <h3>{s.title}</h3>
+                <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+              </>
+            )) : <p class="muted">No notes.</p>}
+            <p class="release-link"><a href={r.url}>Release on GitHub</a></p>
+          </div>
+        </section>
+      ))}
+    </article>
+  </div>
+</Base>

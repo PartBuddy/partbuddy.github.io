@@ -3,12 +3,12 @@ import Base from '../layouts/Base.astro';
 import Shot from '../components/Shot.astro';
 import HeroMedia from '../components/HeroMedia.astro';
 import { ArrowUpRight, Download, Plus, Check, FolderLock, Cpu, EyeOff } from '@lucide/astro';
-import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
-import { channels, KOFI_URL, proof, worksWith, tour, standards, bento, privacy, models, status } from '../data/site';
-import { getReleases } from '../lib/releases';
+import { RELEASED, SITE_URL, DOWNLOAD_URL, latest } from '../config';
+import { channels, KOFI_URL, proof, worksWith, tour, standards, bento, privacy, models, roadmap as status } from '../data/site';
 
-const releases = await getReleases();
-const latest = releases[0];
+
+
+
 const privacyIcons = [FolderLock, Cpu, EyeOff];
 
 const title = 'PartBuddy · Design 3D-print parts in conversation';
