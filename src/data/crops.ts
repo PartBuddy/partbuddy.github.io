@@ -18,6 +18,8 @@ export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
   templates: [130, 90, 1180, 260],
   printready: [150, 300, 870, 580],
   explode: [240, 40, 780, 600],
+  plate: [240, 40, 780, 800],
+  assembly: [240, 40, 780, 800],
   section: [240, 40, 780, 640],
   start: [130, 50, 1180, 590],
   versions: [380, 80, 680, 380],
