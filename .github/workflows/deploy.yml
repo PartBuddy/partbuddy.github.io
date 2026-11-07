@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Sync pull requests from the app repository are built and tested, not deployed.
+  pull_request:
+  # A release in PartBuddy/partbuddy redeploys at once (its site-sync workflow).
+  repository_dispatch:
+    types: [partbuddy-release]
   workflow_dispatch:
 
 permissions:
@@ -11,11 +16,14 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
   cancel-in-progress: false
 
 env:
   ASTRO_TELEMETRY_DISABLED: 1
+  # Read access to the releases of PartBuddy/partbuddy while that repository is private.
+  # Without it the build uses the snapshot in src/data/releases.json.
+  PARTBUDDY_RELEASES_TOKEN: ${{ secrets.PARTBUDDY_RELEASES_TOKEN }}
 
 jobs:
   build:
@@ -25,7 +33,10 @@ jobs:
       - uses: withastro/action@v6
         with:
           node-version: 26
+      - name: Test
+        run: npm test
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
