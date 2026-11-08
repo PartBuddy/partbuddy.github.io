@@ -42,3 +42,5 @@ export const channels = [
 ];
 
 export const KOFI_URL = 'https://ko-fi.com/partbuddy';
+// Tested SolidCraft build (a pre-release); SolidCraft's "Latest" is still 0.30.1, so link the tag itself.
+export const SOLIDCRAFT = { version: '0.40.0-rc.3', url: 'https://github.com/tangency-labs/solidcraft/releases/tag/v0.40.0-rc.3' };

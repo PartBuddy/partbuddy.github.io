@@ -6,7 +6,7 @@ import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { ArrowRight, ArrowUpRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, Play } from '@lucide/astro';
 import { RELEASED, SITE_URL, DOWNLOAD_URL, latest } from '../config';
-import { channels, KOFI_URL, hero, worksWith, chapters, standards, bento, privacy, models, roadmap as status } from '../data/site';
+import { channels, KOFI_URL, SOLIDCRAFT, hero, worksWith, chapters, standards, bento, privacy, models, roadmap as status } from '../data/site';
 import { compare } from '../data/compare';
 
 const privacyIcons = [FolderLock, Cpu, EyeOff];
@@ -32,6 +32,7 @@ const faq = [
   { q: 'Does it do supports and print orientation?', a: ['No, on purpose. That is slicer work, and your slicer knows your printer profile. PartBuddy designs the part, checks what can only be decided while designing, and opens it in Bambu Studio or OrcaSlicer.'] },
   { q: 'Does it run only on Windows?', a: ['Yes. PartBuddy is a Windows desktop app.'] },
   { q: 'What is SolidCraft?', a: ['The CAD engine behind PartBuddy. It builds the geometry; PartBuddy runs it in the background and shows every step in its own 3D view. You install SolidCraft yourself, and the setup on first start helps you find it.'] },
+  { q: 'Which SolidCraft version do I need?', a: [`SolidCraft ${SOLIDCRAFT.version}, a pre-release. Download SolidCraft-${SOLIDCRAFT.version}-windows-x64.exe from <a href="${SOLIDCRAFT.url}">its release page</a>; the release marked “Latest” on SolidCraft’s GitHub page is still the older 0.30.1.`, `The older SolidCraft 0.30.1 starts too, but PartBuddy is only tested with ${SOLIDCRAFT.version}, and 0.30.1 can’t open designs saved by 0.40.`] },
   { q: 'Why not connect Claude or ChatGPT to SolidCraft directly?', a: ['You can: SolidCraft has its own MCP server, and PartBuddy drives the same engine. What PartBuddy adds is everything around it.', 'It asks about loads, fits and real sizes and shows a plan before it builds. It checks every change against your printer and material. ISO fasteners, inserts and fits measured on your printer are built in. You click a face and pin a note to it, so the assistant knows exactly which face you mean, even after a rebuild.', 'The assistant works only through PartBuddy’s checks and only in your project folder. Every step can be taken back, versions can be compared, and the part goes straight to your slicer. And there is nothing to configure: sign in with your plan and start.'] },
   ...(RELEASED ? [{ q: 'Why does Windows warn about the installer?', a: ['PartBuddy is a hobby project and its installer is not code-signed, so Windows SmartScreen may show a warning. Choose More info, then Run anyway. The source code is public.'] }] : []),
 ];
@@ -70,6 +71,7 @@ const jsonLd = {
             : <a class="btn btn-lg" href="#product">See how it works</a>}
         </div>
         <p class="fine">{hero.fine}</p>
+        {RELEASED && <p class="fine">Needs the free CAD engine <a href={SOLIDCRAFT.url}>SolidCraft {SOLIDCRAFT.version}</a>.</p>}
       </div>
     </div>
     <div class="stage">
@@ -256,7 +258,7 @@ const jsonLd = {
         {faq.map((f) => (
           <details>
             <summary>{f.q}<Plus aria-hidden="true" /></summary>
-            {f.a.map((p) => <p>{p}</p>)}
+            {f.a.map((p) => <p set:html={p} />)}
           </details>
         ))}
       </div>
