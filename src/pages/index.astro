@@ -242,7 +242,10 @@ const jsonLd = {
           <li><a class="channel" href={c.url} rel="me"><Brand name={c.name} />{c.name}<span class="sr-only"> {c.handle}</span><ArrowUpRight aria-hidden="true" /></a></li>
         ))}
       </ul>
-      <p class="kofi">Want to help? <a href={KOFI_URL}>Support PartBuddy on Ko-fi</a>. Entirely voluntary.</p>
+      <div class="kofi">
+        <p>PartBuddy is free and a hobby project. If it saves you a print, you can buy it a coffee. Entirely voluntary.</p>
+        <a class="btn" href={KOFI_URL}><Brand name="Ko-fi" />Support on Ko-fi</a>
+      </div>
     </div>
   </section>
 

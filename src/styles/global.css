@@ -83,6 +83,8 @@ p { text-wrap: pretty; }
 .nav { display: flex; gap: 2px; font-size: 0.875rem; color: var(--muted); }
 .nav a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 8px; transition: color 0.15s; }
 .nav a:hover { color: var(--ink); }
+.nav-kofi { gap: 7px; }
+.nav-kofi svg { width: 15px; height: 15px; }
 @supports (animation-timeline: scroll()) {
   .site-header { animation: header-line linear both; animation-timeline: scroll(root); animation-range: 0 120px; }
   @keyframes header-line { to { border-bottom-color: var(--line); } }
@@ -270,8 +272,10 @@ h3 { font-size: 1.125rem; letter-spacing: -0.015em; line-height: 1.3; }
 .channel { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: rgb(8 9 11 / 0.5); backdrop-filter: blur(10px); font-size: 0.875rem; color: #d3d7dd; transition: border-color 0.15s, color 0.15s; }
 .channel:hover { border-color: rgb(255 255 255 / 0.3); color: var(--ink); }
 .channel svg { width: 18px; height: 18px; }
-.kofi { margin-top: 28px; font-size: 0.9375rem; color: var(--muted); }
-.kofi a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 0.2em; }
+.kofi { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 20px; max-width: 640px; margin: 40px auto 0; padding: 20px 24px; border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--line); font-size: 0.9375rem; color: var(--muted); }
+.kofi p { flex: 1 1 280px; text-align: left; }
+/* Ko-fi red only on the cup: present, not loud. */
+:is(.kofi, .nav-kofi) svg { color: #ff5e5b; }
 
 /* ---------- FAQ ---------- */
 .faq-wrap { display: grid; gap: 32px; }
