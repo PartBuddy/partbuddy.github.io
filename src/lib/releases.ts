@@ -3,6 +3,7 @@
 // src/data/releases.json, which the app's site-sync workflow keeps current. So the site builds
 // without network or token and then shows the last known state, or "Coming soon" if there is none.
 import { readFile } from 'node:fs/promises';
+import hidden from '../data/changelog-hidden.json' with { type: 'json' };
 
 // The fields of a GitHub API release that are used; the snapshot stores exactly these.
 export type RawRelease = {
@@ -17,7 +18,13 @@ export type RawRelease = {
 export type Section = { title: string; items: string[] };
 export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; sections: Section[] };
 
-const API = 'https://api.github.com/repos/PartBuddy/partbuddy/releases?per_page=30';
+// The site shows only what is in the app: no breaking-change notes, docs, CI or build work, no
+// entries of the prototype, runner or site, and none of the features removed before the release.
+const SHOWN_SECTIONS = new Set(['Changes', 'Features', 'Bug Fixes', 'Performance']);
+const NOT_APP = /^(prototype|clickdummy|runner|ci|site|docs|build): /;
+const HIDDEN = new Set(hidden.items);
+
+const API ='https://api.github.com/repos/PartBuddy/partbuddy/releases?per_page=30';
 const SNAPSHOT = 'src/data/releases.json';
 
 // A bullet of release-please notes, e.g. "**desktop:** chat polish ([#151](…)) ([6a07faf](…))", as plain text.
@@ -45,7 +52,10 @@ export function parseNotes(body: string | null): Section[] {
     }
   }
   if (current.items.length) sections.push(current);
-  return sections;
+  return sections
+    .filter((s) => SHOWN_SECTIONS.has(s.title))
+    .map((s) => ({ ...s, items: s.items.filter((t) => !HIDDEN.has(t) && !NOT_APP.test(t)) }))
+    .filter((s) => s.items.length);
 }
 
 export function parseReleases(raw: RawRelease[]): Release[] {
