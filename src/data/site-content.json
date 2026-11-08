@@ -40,7 +40,7 @@
       "text": "After every change, PartBuddy checks the part against your printer and material and points at each finding. The assistant sees the result too, and the standards behind the numbers are built in.",
       "points": [
         "Build volume, wall thickness, overhangs and bed contact",
-        "Fits per material, so a lid slides and a pin holds",
+        "Fits per material, measured on your printer with three test pieces",
         "ISO screws, nuts and heat-set inserts, sized for printing"
       ],
       "shot": "printready",
@@ -182,10 +182,22 @@
       "alt": "The assistant asking for the length of a box shown in a photo"
     },
     {
+      "title": "Pin a note to the face",
+      "text": "Click a face, edge or point and pin a note to it: “this edge R2 instead of R1”. The assistant reads it, the note follows its face through rebuilds, says so if it loses its place, and travels with the design file.",
+      "shot": "notes",
+      "alt": "A cable clip with three numbered notes on its faces and edge, listed in the structure tree"
+    },
+    {
       "title": "Versions you can compare",
       "text": "Saved before every request. Keep any of them as a milestone, compare it with now or open it as a project of its own.",
       "shot": "versions",
       "alt": "The versions dialog comparing a named version with the current design"
+    },
+    {
+      "title": "Measure your printer",
+      "text": "Pick a material from the catalog, print three small test pieces and enter what fits. Clearances, holes and overhang then match your printer.",
+      "shot": "tolerance",
+      "alt": "The tolerance assistant with the fit comb, hole plate and overhang staircase rendered by SolidCraft"
     },
     {
       "title": "Pick model and effort",
@@ -204,7 +216,7 @@
   "privacy": [
     {
       "title": "Your files stay yours",
-      "text": "Projects are plain folders on your computer, sign-ins stay in the Windows credential store, and the app sends no telemetry. No account, no cloud of its own."
+      "text": "Projects are plain folders on your computer, sign-ins stay in the Windows credential store, and the app sends no telemetry. Its only call of its own is the update check, and you can turn that off. No account, no cloud of its own."
     },
     {
       "title": "Your model, your choice",
