@@ -28,4 +28,6 @@ export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
   import: [0, 40, 1020, 760],
   export: [160, 0, 860, 540],
   model: [1000, 180, 440, 700],
+  // The clip with its three numbered notes (face, edge, plate).
+  notes: [330, 320, 600, 440],
 };
