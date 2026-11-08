@@ -22,3 +22,20 @@ test('release-please notes become versions, sections and a download link', async
 test('an empty list means not released', () => {
   assert.deepEqual(parseReleases([]), []);
 });
+
+test('breaking changes stay off the site', () => {
+  const [r] = parseReleases([{ tag_name: 'v1.0.0', published_at: '2026-11-08T00:00:00Z', html_url: 'u', body: '### ⚠ BREAKING CHANGES\n\n* **desktop:** removed X\n\n### Features\n\n* **desktop:** added Y' }]);
+  assert.deepEqual(r.sections, [{ title: 'Features', items: ['desktop: added Y'] }]);
+});
+
+test('the site leaves out docs, CI, prototype work and features removed before the release', async () => {
+  const raw = JSON.parse(await readFile('src/data/releases.json', 'utf8')) as RawRelease[];
+  const hidden = JSON.parse(await readFile('src/data/changelog-hidden.json', 'utf8')).items as string[];
+  // Every hidden entry must match a real note, or a typo would let it through.
+  const all = raw.flatMap((r) => (r.body ?? '').split('\n')).join('\n');
+  for (const h of hidden) assert.ok(all.includes(h.replace(/^\w[\w-]*: /, '').split(' (')[0]), h);
+  const items = parseReleases(raw).flatMap((r) => r.sections.flatMap((s) => s.items));
+  for (const h of hidden) assert.ok(!items.includes(h), h);
+  assert.ok(!items.some((t) => /^(prototype|runner|ci|site|clickdummy): /.test(t)));
+  assert.ok(items.includes('desktop: logo block from an SVG file (F1)'));
+});
