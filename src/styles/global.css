@@ -223,7 +223,7 @@ h3 { font-size: 1.125rem; letter-spacing: -0.015em; line-height: 1.3; }
 
 /* ---------- Compare ---------- */
 .compare-scroll { overflow-x: auto; border-radius: var(--radius); background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
-.compare { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.9375rem; }
+.compare { width: 100%; min-width: 900px; border-collapse: collapse; font-size: 0.9375rem; }
 .compare th, .compare td { padding: 16px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
 .compare tbody tr:last-child > * { border-bottom: 0; }
 .compare thead th { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
