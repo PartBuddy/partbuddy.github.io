@@ -22,7 +22,9 @@ test('release-please notes become versions, sections and a download link', async
 test("the hand-written What's new becomes headline, items and shot, and stays out of the change lists", () => {
   const body = "Intro.\n\n## What's new\n\n<!-- shot: logos -->\n- **Place SVG logos** on any face.\n- Drag them along an axis.\n\n---\n\n## [0.2.0](u) (2026-11-09)\n\n### Features\n\n* **desktop:** svg logos";
   const [r] = parseReleases([{ tag_name: 'v0.2.0', published_at: '2026-11-09T00:00:00Z', html_url: 'u', body }]);
-  assert.deepEqual(r.news, { headline: 'Place SVG logos', items: ['Place SVG logos on any face.', 'Drag them along an axis.'], shot: 'logos' });
+  assert.deepEqual(r.news, { headline: 'Place SVG logos', items: [{ title: 'Place SVG logos', text: 'On any face.' }, { title: '', text: 'Drag them along an axis.' }], shot: 'logos' });
+  const [colon] = parseReleases([{ tag_name: 'v1', published_at: '2026-11-09T00:00:00Z', html_url: 'u', body: "## What's new\n- **Logos on the part:** engraved or raised." }]);
+  assert.deepEqual(colon.news?.items, [{ title: 'Logos on the part', text: 'Engraved or raised.' }]);
   assert.deepEqual(r.sections, [{ title: 'Features', items: ['desktop: svg logos'] }]);
   const [old] = parseReleases([{ tag_name: 'v0.1.0', published_at: '2026-11-08T00:00:00Z', html_url: 'u', body: '### Features\n\n* x' }]);
   assert.equal(old.news, undefined);

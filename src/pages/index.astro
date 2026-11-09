@@ -87,23 +87,22 @@ const jsonLd = {
   </section>
 
   {latest?.news && (
-    <section id="new" class="section" aria-labelledby="new-title">
+    <section id="new" class="update-wrap" aria-labelledby="new-title">
       <div class="wrap">
-        <div class="chapters">
-          <article class="chapter">
-            <div class="chapter-text reveal">
-              <p class="kicker">New in {latest.version} · {latest.dateLabel}</p>
-              <h2 id="new-title">{latest.news.headline}</h2>
-              <ul class="points">{latest.news.items.map((p) => <li><Check aria-hidden="true" />{p}</li>)}</ul>
-              <p><a class="link-arrow" href={`/changelog.html#v${latest.version}`}>All changes in {latest.version}</a></p>
+        <article class:list={['update reveal', { 'update-shot': latest.news.shot }]}>
+          <div class="update-text">
+            <p class="update-head"><span class="update-tag">New in {latest.version}</span><time datetime={latest.date}>{latest.dateLabel}</time></p>
+            <h2 id="new-title">PartBuddy {latest.version} is out.</h2>
+            <ol class="update-items">
+              {latest.news.items.map((i) => <li>{i.title && <h3>{i.title}</h3>}<p>{i.text}</p></li>)}
+            </ol>
+            <div class="ctas">
+              <a class="btn btn-primary" href={DOWNLOAD_URL} data-goatcounter-click="download-update"><Download aria-hidden="true" />Get {latest.version}</a>
+              <a class="btn" href={`/changelog.html#v${latest.version}`}>All changes<ArrowRight aria-hidden="true" /></a>
             </div>
-            {latest.news.shot && (
-              <div class="chapter-shot reveal">
-                <Shot name={latest.news.shot} alt={latest.news.headline} sizes="(min-width: 1200px) 760px, (min-width: 960px) 60vw, 100vw" />
-              </div>
-            )}
-          </article>
-        </div>
+          </div>
+          {latest.news.shot && <Shot name={latest.news.shot} alt={latest.news.headline} sizes="(min-width: 1200px) 620px, (min-width: 960px) 50vw, 100vw" />}
+        </article>
       </div>
     </section>
   )}

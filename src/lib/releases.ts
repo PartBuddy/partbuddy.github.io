@@ -16,7 +16,7 @@ export type RawRelease = {
 };
 export type Section = { title: string; items: string[] };
 // The user-facing highlights of a release: the "## What's new" section its author writes by hand.
-export type News = { headline: string; items: string[]; shot?: string };
+export type News = { headline: string; items: { title: string; text: string }[]; shot?: string };
 export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; sections: Section[]; news?: News };
 
 // The site shows only what is in the app: no breaking-change notes, docs, CI or build work, no
@@ -36,12 +36,11 @@ const clean = (s: string) =>
     .replace(/\*\*|`/g, '')
     .trim();
 
-// "## What's new" up to the next heading or "---": its bullets, the bold start of the first one as the
-// headline ("- **Place SVG logos** on any face." → "Place SVG logos"), and an optional
-// "<!-- shot: name -->" naming a picture in src/assets/shots.
+// "## What's new" up to the next heading or "---": its bullets split into the bold start and the rest
+// ("- **Place SVG logos:** on any face." → "Place SVG logos" + "on any face."), the first title as the
+// headline, and an optional "<!-- shot: name -->" naming a picture in src/assets/shots.
 export function parseNews(body: string | null): News | undefined {
-  const items: string[] = [];
-  let headline = '';
+  const items: News['items'] = [];
   let shot: string | undefined;
   let inside = false;
   for (const line of (body ?? '').split(/\r?\n/)) {
@@ -50,10 +49,11 @@ export function parseNews(body: string | null): News | undefined {
       shot ??= /<!--\s*shot:\s*([\w-]+)\s*-->/.exec(line)?.[1];
       const bullet = /^\s*[-*]\s+(.+)/.exec(line)?.[1];
       if (!bullet) continue;
-      if (!items.length) headline = (/^\*\*([^*]+)\*\*/.exec(bullet)?.[1] ?? clean(bullet)).replace(/[:.]\s*$/, '');
-      items.push(clean(bullet));
+      const bold = /^\*\*([^*]+)\*\*(.*)/.exec(bullet);
+      items.push(bold ? { title: bold[1].replace(/[:.]\s*$/, '').trim(), text: clean(bold[2].replace(/^\s*:/, '')).replace(/^\p{Ll}/u, (c) => c.toUpperCase()) } : { title: '', text: clean(bullet) });
     }
   }
+  const headline = items[0]?.title || items[0]?.text || '';
   return items.length ? { headline, items, shot } : undefined;
 }
 
