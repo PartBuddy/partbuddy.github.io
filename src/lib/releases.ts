@@ -15,7 +15,9 @@ export type RawRelease = {
   assets?: { name: string; browser_download_url: string }[];
 };
 export type Section = { title: string; items: string[] };
-export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; sections: Section[] };
+// The user-facing highlights of a release: the "## What's new" section its author writes by hand.
+export type News = { headline: string; items: string[]; shot?: string };
+export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; sections: Section[]; news?: News };
 
 // The site shows only what is in the app: no breaking-change notes, docs, CI or build work, no
 // entries of the prototype, runner or site.
@@ -34,12 +36,34 @@ const clean = (s: string) =>
     .replace(/\*\*|`/g, '')
     .trim();
 
-// "### Features" starts a section; the "## [0.2.0](…) (date)" title line of release-please is skipped.
+// "## What's new" up to the next heading or "---": its bullets, the bold start of the first one as the
+// headline ("- **Place SVG logos** on any face." → "Place SVG logos"), and an optional
+// "<!-- shot: name -->" naming a picture in src/assets/shots.
+export function parseNews(body: string | null): News | undefined {
+  const items: string[] = [];
+  let headline = '';
+  let shot: string | undefined;
+  let inside = false;
+  for (const line of (body ?? '').split(/\r?\n/)) {
+    if (/^#{1,6}\s|^---/.test(line)) inside = /^##\s+What's new\s*$/i.test(line);
+    else if (inside) {
+      shot ??= /<!--\s*shot:\s*([\w-]+)\s*-->/.exec(line)?.[1];
+      const bullet = /^\s*[-*]\s+(.+)/.exec(line)?.[1];
+      if (!bullet) continue;
+      if (!items.length) headline = (/^\*\*([^*]+)\*\*/.exec(bullet)?.[1] ?? clean(bullet)).replace(/[:.]\s*$/, '');
+      items.push(clean(bullet));
+    }
+  }
+  return items.length ? { headline, items, shot } : undefined;
+}
+
+// "### Features" starts a section; "## " titles (release-please's "## [0.2.0](…) (date)", "## What's
+// new") start sections that are not shown, so their bullets stay out of the change lists.
 export function parseNotes(body: string | null): Section[] {
   const sections: Section[] = [];
   let current: Section = { title: 'Changes', items: [] };
   for (const line of (body ?? '').split(/\r?\n/)) {
-    const heading = /^###\s+(.+)/.exec(line);
+    const heading = /^#{2,3}\s+(.+)/.exec(line);
     const bullet = /^\s*[-*]\s+(.+)/.exec(line);
     if (heading) {
       if (current.items.length) sections.push(current);
@@ -68,6 +92,7 @@ export function parseReleases(raw: RawRelease[]): Release[] {
       // The Windows installer if the release has one, else the release page.
       downloadUrl: r.assets?.find((a) => /\.exe$/i.test(a.name))?.browser_download_url ?? r.html_url,
       sections: parseNotes(r.body),
+      news: parseNews(r.body),
     }));
 }
 

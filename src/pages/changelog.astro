@@ -21,6 +21,12 @@ const description = 'Every PartBuddy release with its date and changes.';
             <time datetime={r.date}>{r.dateLabel}</time>
           </div>
           <div class="release-body">
+            {r.news && (
+              <>
+                <h3>What's new</h3>
+                <ul>{r.news.items.map((i) => <li>{i}</li>)}</ul>
+              </>
+            )}
             {r.sections.length ? r.sections.map((s) => (
               <>
                 <h3>{s.title}</h3>
