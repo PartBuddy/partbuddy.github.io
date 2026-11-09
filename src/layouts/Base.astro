@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { RELEASED, SITE_URL, DOWNLOAD_URL } from '../config';
+import { RELEASED, SITE_URL, DOWNLOAD_URL, GOATCOUNTER_URL } from '../config';
 import { channels, KOFI_URL } from '../data/site';
 import Brand from '../components/Brand.astro';
 
@@ -45,6 +45,7 @@ const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#
   <meta property="og:image:alt" content="PartBuddy: Parts that fit. First print. The app window with a housing in the 3D view and the assistant's questions." />
   <meta name="twitter:card" content="summary_large_image" />
   {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {GOATCOUNTER_URL && <script is:inline async src={`${GOATCOUNTER_URL}/count.js`} data-goatcounter={`${GOATCOUNTER_URL}/count`}></script>}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -60,7 +61,7 @@ const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#
         <a href={to('#faq')}>FAQ</a>
         <a class="nav-kofi" href={KOFI_URL}><Brand name="Ko-fi" />Support</a>
       </nav>
-      <a class="btn btn-sm" href={cta.href}>{cta.label}</a>
+      <a class="btn btn-sm" href={cta.href} data-goatcounter-click={RELEASED ? 'download-windows' : undefined}>{cta.label}</a>
     </div>
   </header>
 
@@ -101,7 +102,7 @@ const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#
       </div>
       <div class="footer-base">
         <span>{RELEASED ? 'Free and open source under GPL-3.0.' : 'Free. In development.'}</span>
-        <span>No cookies, no tracking, nothing loaded from other servers.</span>
+        <span>{GOATCOUNTER_URL ? 'No cookies. Anonymous visitor counts through GoatCounter.' : 'No cookies, no tracking, nothing loaded from other servers.'}</span>
       </div>
     </div>
   </footer>

@@ -25,7 +25,7 @@ const c: SiteContent = content;
 
 export const { worksWith, chapters, standards, bento, models, roadmap } = c;
 // The app's privacy facts plus one about this website.
-export const privacy: Titled[] = [...c.privacy, { title: 'No tracking here either', text: 'This website sets no cookies and loads nothing from other servers.' }];
+export const privacy: Titled[] = [...c.privacy, { title: 'No cookies here either', text: 'This website sets no cookies. It only counts visits anonymously, on the maker’s own server.' }];
 
 // Website-only content: positioning, not product facts.
 export const hero = {
