@@ -1,18 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
+import { GOATCOUNTER_URL } from '../config';
 ---
 <Base title="Privacy policy · PartBuddy" description="Privacy policy of the PartBuddy website and the PartBuddy Marketing Google OAuth app.">
   <div class="page">
     <div class="wrap">
     <article class="legal">
       <header class="page-head"><p class="kicker">Privacy</p><h1>Privacy policy</h1></header>
-      <p class="mono muted">Last updated: 7 November 2026</p>
+      <p class="mono muted">Last updated: 9 November 2026</p>
 
       <h2>Controller</h2>
       <p>Manuel Staggl, Austria. Contact: <a href="mailto:partbuddy@gmx.at">partbuddy@gmx.at</a></p>
 
       <h2>This website</h2>
-      <p>This website uses no cookies, no analytics and no tracking. It is hosted on GitHub Pages; GitHub processes the IP address of visitors to deliver the pages and for security purposes (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>). Legal basis: legitimate interest in operating the website (Art. 6(1)(f) GDPR).</p>
+      <p>{GOATCOUNTER_URL ? 'This website uses no cookies. It counts visits anonymously, see below.' : 'This website uses no cookies, no analytics and no tracking.'} It is hosted on GitHub Pages; GitHub processes the IP address of visitors to deliver the pages and for security purposes (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>). Legal basis: legitimate interest in operating the website (Art. 6(1)(f) GDPR).</p>
+      {GOATCOUNTER_URL && <>
+        <h2>Visitor counts (GoatCounter)</h2>
+        <p>To see how many people visit the site, where they come from and how many click the download button, the pages count visits with <a href="https://www.goatcounter.com">GoatCounter</a>, open-source software that the operator runs on his own server in Austria at {GOATCOUNTER_URL.replace('https://', '')}. No third-party analytics service is involved. Requests to it pass through Cloudflare, Inc., which delivers them to the server (<a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>). The counting script sets no cookies and stores nothing in your browser.</p>
+        <p>GoatCounter keeps only totals per day or hour: the page, the referring site, browser and operating system name and version, screen width, language and the country derived from the IP address, plus the number of clicks on the download button. To recognise a repeat visit, it keeps a combination of IP address and browser identification in memory for up to eight hours; IP addresses and the full browser identification are never stored. Legal basis: legitimate interest in knowing how the website is used (Art. 6(1)(f) GDPR). How GoatCounter stores data: <a href="https://www.goatcounter.com/help/privacy">GoatCounter documentation</a>.</p>
+      </>}
 
       <h2>PartBuddy Marketing (Google OAuth app)</h2>
       <p>“PartBuddy Marketing” is an internal tool used only by the operator to manage the operator’s own PartBuddy YouTube channel: uploading videos, editing video and channel details, reading and replying to comments, and reading channel statistics. It is not offered to other users.</p>

@@ -8,4 +8,6 @@ export const latest = releases[0];
 export const RELEASED = releases.length > 0;
 
 export const SITE_URL = 'https://partbuddy.github.io';
+// Own GoatCounter instance (LXC 102 on pve-n100, through the Cloudflare tunnel); empty means no counting.
+export const GOATCOUNTER_URL = 'https://stats.mstaggl.me';
 export const DOWNLOAD_URL = latest?.downloadUrl ?? 'https://github.com/PartBuddy/partbuddy/releases/latest';

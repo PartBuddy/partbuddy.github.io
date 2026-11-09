@@ -64,7 +64,7 @@ const jsonLd = {
         <p class="sub">{hero.sub}</p>
         <div class="ctas">
           {RELEASED
-            ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a>
+            ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL} data-goatcounter-click="download-windows"><Download aria-hidden="true" />Download for Windows</a>
             : <a class="btn btn-primary btn-lg" href="#follow">Follow the build</a>}
           {film
             ? <button class="btn btn-lg" type="button" data-film-open><Play aria-hidden="true" />Watch it build</button>
@@ -238,7 +238,7 @@ const jsonLd = {
       <p class="lead reveal">{RELEASED
         ? 'Download PartBuddy for Windows. Free, open source, no account.'
         : 'PartBuddy is in development. Follow the build for new features, real printed parts, and the things that went wrong.'}</p>
-      {RELEASED && <div class="ctas"><a class="btn btn-primary btn-lg" href={DOWNLOAD_URL}><Download aria-hidden="true" />Download for Windows</a></div>}
+      {RELEASED && <div class="ctas"><a class="btn btn-primary btn-lg" href={DOWNLOAD_URL} data-goatcounter-click="download-windows"><Download aria-hidden="true" />Download for Windows</a></div>}
       <ul class="channels">
         {channels.map((c) => (
           <li><a class="channel" href={c.url} rel="me"><Brand name={c.name} />{c.name}<span class="sr-only"> {c.handle}</span><ArrowUpRight aria-hidden="true" /></a></li>
