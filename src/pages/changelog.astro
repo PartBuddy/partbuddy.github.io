@@ -24,7 +24,7 @@ const description = 'Every PartBuddy release with its date and changes.';
             {r.news && (
               <>
                 <h3>What's new</h3>
-                <ul>{r.news.items.map((i) => <li>{i}</li>)}</ul>
+                <ul>{r.news.items.map((i) => <li>{i.title && <strong>{i.title}: </strong>}{i.text}</li>)}</ul>
               </>
             )}
             {r.sections.length ? r.sections.map((s) => (
