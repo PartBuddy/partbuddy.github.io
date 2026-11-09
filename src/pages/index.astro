@@ -57,7 +57,9 @@ const jsonLd = {
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap hero-copy">
       {latest
-        ? <a class="eyebrow" href="/changelog.html"><span class="tag">{latest.version}</span>Released {latest.dateLabel}<ArrowRight aria-hidden="true" /></a>
+        ? latest.news
+          ? <a class="eyebrow" href="#new"><span class="tag">New in {latest.version}</span>{latest.news.headline}<ArrowRight aria-hidden="true" /></a>
+          : <a class="eyebrow" href="/changelog.html"><span class="tag">{latest.version}</span>Released {latest.dateLabel}<ArrowRight aria-hidden="true" /></a>
         : <a class="eyebrow" href="#follow"><span class="dot" aria-hidden="true"></span>In development · Built in public<ArrowRight aria-hidden="true" /></a>}
       <h1 id="hero-title">{hero.title[0]}<br /><span>{hero.title[1]}</span></h1>
       <div class="hero-side">
@@ -83,6 +85,28 @@ const jsonLd = {
       <ul class="logos">{worksWith.map((w) => <li class="logo"><Brand name={w} />{w}</li>)}</ul>
     </div>
   </section>
+
+  {latest?.news && (
+    <section id="new" class="section" aria-labelledby="new-title">
+      <div class="wrap">
+        <div class="chapters">
+          <article class="chapter">
+            <div class="chapter-text reveal">
+              <p class="kicker">New in {latest.version} · {latest.dateLabel}</p>
+              <h2 id="new-title">{latest.news.headline}</h2>
+              <ul class="points">{latest.news.items.map((p) => <li><Check aria-hidden="true" />{p}</li>)}</ul>
+              <p><a class="link-arrow" href={`/changelog.html#v${latest.version}`}>All changes in {latest.version}</a></p>
+            </div>
+            {latest.news.shot && (
+              <div class="chapter-shot reveal">
+                <Shot name={latest.news.shot} alt={latest.news.headline} sizes="(min-width: 1200px) 760px, (min-width: 960px) 60vw, 100vw" />
+              </div>
+            )}
+          </article>
+        </div>
+      </div>
+    </section>
+  )}
 
   <section id="product" class="section section-alt" aria-labelledby="product-title">
     <div class="wrap">
