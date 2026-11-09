@@ -76,3 +76,10 @@ SOFTWARE.
 ## PartBuddy brand assets
 
 Logos and favicons in `public/` come unchanged from the PartBuddy app repository (`assets/brand`).
+
+## Twemoji
+
+- `src/assets/shots/logo.png` and `logo-dark.png` show the fox face (U+1F98A) of Twemoji 15.1.0 as a
+  logo on a part. Copyright 2019 Twitter, Inc and other contributors; Copyright 2024 jdecked and other
+  contributors ([jdecked/twemoji](https://github.com/jdecked/twemoji)).
+- Licence: CC-BY 4.0, https://creativecommons.org/licenses/by/4.0/
