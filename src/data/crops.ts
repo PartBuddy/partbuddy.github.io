@@ -10,6 +10,8 @@ export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
   sketch: [270, 96, 900, 796],
   'sketch-chat': [1020, 40, 420, 600],
   photo: [1020, 40, 420, 420],
+  // Release 0.2.1: a second message waiting below the working assistant.
+  queue: [1020, 305, 420, 220],
   research: [560, 300, 880, 420],
   // Homepage chapters: Ask (part and question cards), Build (parameters, clip, face actions),
   // Check (finding card, part, warning in the status bar), Print (parts nested on the bed).
