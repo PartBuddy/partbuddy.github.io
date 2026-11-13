@@ -4,8 +4,8 @@ import Shot from '../components/Shot.astro';
 import Brand from '../components/Brand.astro';
 import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import { ArrowRight, ArrowUpRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, Play } from '@lucide/astro';
-import { RELEASED, SITE_URL, DOWNLOAD_URL, latest } from '../config';
+import { ArrowRight, ArrowUpRight, Download, Plus, Check, X, Minus, FolderLock, Cpu, EyeOff, Play, Star } from '@lucide/astro';
+import { RELEASED, SITE_URL, DOWNLOAD_URL, REPO_URL, STARS, latest } from '../config';
 import { channels, KOFI_URL, SOLIDCRAFT, hero, worksWith, chapters, standards, bento, privacy, models, roadmap as status } from '../data/site';
 import { compare } from '../data/compare';
 
@@ -261,7 +261,10 @@ const jsonLd = {
       <p class="lead reveal">{RELEASED
         ? 'Download PartBuddy for Windows. Free, open source, no account.'
         : 'PartBuddy is in development. Follow the build for new features, real printed parts, and the things that went wrong.'}</p>
-      {RELEASED && <div class="ctas"><a class="btn btn-primary btn-lg" href={DOWNLOAD_URL} data-goatcounter-click="download-windows"><Download aria-hidden="true" />Download for Windows</a></div>}
+      {RELEASED && <div class="ctas">
+        <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL} data-goatcounter-click="download-windows"><Download aria-hidden="true" />Download for Windows</a>
+        <a class="btn btn-lg" href={REPO_URL} data-goatcounter-click="star-follow"><Star aria-hidden="true" />Star on GitHub{STARS !== undefined && <span class="stars">{STARS}</span>}</a>
+      </div>}
       <ul class="channels">
         {channels.map((c) => (
           <li><a class="channel" href={c.url} rel="me"><Brand name={c.name} />{c.name}<span class="sr-only"> {c.handle}</span><ArrowUpRight aria-hidden="true" /></a></li>

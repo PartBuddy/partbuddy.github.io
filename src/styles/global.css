@@ -83,8 +83,9 @@ p { text-wrap: pretty; }
 .nav { display: flex; gap: 2px; font-size: 0.875rem; color: var(--muted); }
 .nav a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 8px; transition: color 0.15s; }
 .nav a:hover { color: var(--ink); }
-.nav-kofi { gap: 7px; }
-.nav-kofi svg { width: 15px; height: 15px; }
+.nav-icon { gap: 7px; }
+.nav-icon svg { width: 15px; height: 15px; }
+.stars { padding: 1px 7px; border-radius: 999px; background: rgb(255 255 255 / 0.08); font-size: 0.75rem; font-variant-numeric: tabular-nums; color: var(--ink); }
 @supports (animation-timeline: scroll()) {
   .site-header { animation: header-line linear both; animation-timeline: scroll(root); animation-range: 0 120px; }
   @keyframes header-line { to { border-bottom-color: var(--line); } }
