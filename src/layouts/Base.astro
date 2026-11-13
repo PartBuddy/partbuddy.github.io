@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { RELEASED, SITE_URL, DOWNLOAD_URL, GOATCOUNTER_URL } from '../config';
+import { RELEASED, SITE_URL, DOWNLOAD_URL, GOATCOUNTER_URL, REPO_URL, STARS } from '../config';
 import { channels, KOFI_URL } from '../data/site';
 import Brand from '../components/Brand.astro';
 
@@ -59,7 +59,8 @@ const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#
         <a href={to('#compare')}>Compare</a>
         <a href="/changelog.html">Changelog</a>
         <a href={to('#faq')}>FAQ</a>
-        <a class="nav-kofi" href={KOFI_URL}><Brand name="Ko-fi" />Support</a>
+        <a class="nav-icon" href={REPO_URL} data-goatcounter-click="star-header"><Brand name="GitHub" />Star{STARS !== undefined && <span class="stars">{STARS}</span>}</a>
+        <a class="nav-icon nav-kofi" href={KOFI_URL}><Brand name="Ko-fi" />Support</a>
       </nav>
       <a class="btn btn-sm" href={cta.href} data-goatcounter-click={RELEASED ? 'download-windows' : undefined}>{cta.label}</a>
     </div>
@@ -88,6 +89,7 @@ const cta = RELEASED ? { href: DOWNLOAD_URL, label: 'Download' } : { href: to('#
         <nav aria-labelledby="f-follow">
           <h2 id="f-follow">Follow</h2>
           <ul>
+            <li><a href={REPO_URL}><Brand name="GitHub" />GitHub</a></li>
             {channels.map((c) => <li><a href={c.url} rel="me"><Brand name={c.name} />{c.name}</a></li>)}
             <li><a href={KOFI_URL}><Brand name="Ko-fi" />Ko-fi</a></li>
           </ul>
