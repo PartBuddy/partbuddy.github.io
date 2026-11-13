@@ -277,7 +277,8 @@ h3 { font-size: 1.125rem; letter-spacing: -0.015em; line-height: 1.3; }
 .status .release { display: flex; flex-direction: column; gap: 6px; justify-content: space-between; }
 .status .release strong { font-size: 1.5rem; letter-spacing: -0.02em; }
 .status .release time, .status .release p { color: var(--muted); font-size: 0.9375rem; }
-@media (min-width: 900px) { .status { grid-template-columns: repeat(4, 1fr); } }
+/* One column per box, so the row stays full when the app's roadmap has no "Next". */
+@media (min-width: 900px) { .status { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } }
 
 /* ---------- Final call ---------- */
 .final { position: relative; z-index: 0; text-align: center; padding: clamp(96px, 14vw, 176px) 0; }
