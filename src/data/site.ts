@@ -42,5 +42,20 @@ export const channels = [
 ];
 
 export const KOFI_URL = 'https://ko-fi.com/partbuddy';
-// Tested SolidCraft build (a pre-release); SolidCraft's "Latest" is still 0.30.1, so link the tag itself.
-export const SOLIDCRAFT = { version: '0.40.0-rc.3', url: 'https://github.com/tangency-labs/solidcraft/releases/tag/v0.40.0-rc.3' };
+// The SolidCraft version the app is developed against, read at build time from RECOMMENDED_VERSION in the
+// app's engineVersion.ts on main, so the site never names an outdated one; offline the last known value.
+// Link the tag itself: SolidCraft's "Latest" can be newer than what PartBuddy has been tested with.
+const ENGINE_VERSION = 'https://raw.githubusercontent.com/PartBuddy/partbuddy/main/apps/desktop/src/main/solidcraft/engineVersion.ts';
+const solidcraftVersion = await fetch(ENGINE_VERSION, { signal: AbortSignal.timeout(8000) })
+  .then(async (res) => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const v = /RECOMMENDED_VERSION = '([^']+)'/.exec(await res.text())?.[1];
+    if (!v) throw new Error('no RECOMMENDED_VERSION');
+    console.info(`[solidcraft] ${v} from the app`);
+    return v;
+  })
+  .catch((e) => {
+    console.warn(`[solidcraft] ${(e as Error).message}; using 0.40.1`);
+    return '0.40.1';
+  });
+export const SOLIDCRAFT = { version: solidcraftVersion, url: `https://github.com/tangency-labs/solidcraft/releases/tag/v${solidcraftVersion}` };
