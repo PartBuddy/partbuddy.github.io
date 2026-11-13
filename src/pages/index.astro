@@ -234,10 +234,10 @@ const jsonLd = {
           <h3><span class="dot" aria-hidden="true"></span>Works today</h3>
           <ul>{status.today.map((s) => <li>{s}</li>)}</ul>
         </div>
-        <div>
+        {status.next.length > 0 && <div>
           <h3><span class="dot dot-next" aria-hidden="true"></span>Next</h3>
           <ul>{status.next.map((s) => <li>{s}</li>)}</ul>
-        </div>
+        </div>}
         <div>
           <h3><span class="dot dot-later" aria-hidden="true"></span>Later</h3>
           <ul>{status.later.map((s) => <li>{s}</li>)}</ul>
