@@ -12,6 +12,8 @@ export const SITE_URL = 'https://partbuddy.github.io';
 export const GOATCOUNTER_URL = 'https://stats.mstaggl.me';
 export const DOWNLOAD_URL = latest?.downloadUrl ?? 'https://github.com/PartBuddy/partbuddy/releases/latest';
 
+export const MAC_URL = latest?.macUrl;
+
 export const REPO_URL = 'https://github.com/PartBuddy/partbuddy';
 // Star count, read once at build time like the releases (visitors make no requests); without network
 // the star links show no number. The daily scheduled deploy keeps it current.
