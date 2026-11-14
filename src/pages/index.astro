@@ -13,12 +13,15 @@ const privacyIcons = [FolderLock, Cpu, EyeOff];
 const markIcon = { yes: Check, no: X, part: Minus };
 const markLabel = { yes: 'Yes', no: 'No', part: 'Partly' };
 
-// The produced build film (src/assets/shots/hero.mp4 + hero-poster.png) opens in a dialog.
-const videos = import.meta.glob<string>('../assets/shots/hero.mp4', { eager: true, query: '?url', import: 'default' });
-const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster.png', { eager: true });
-const film = Object.values(videos)[0];
+// The produced films in src/assets/shots: hero-loop.{webm,mp4} plays silently in the hero stage,
+// hero.{webm,mp4} (the whole overview) opens in a dialog; hero-poster.jpg stands in for both.
+const videos = import.meta.glob<string>('../assets/shots/hero{,-loop}.{webm,mp4}', { eager: true, query: '?url', import: 'default' });
+const video = (name: string) => Object.entries(videos).filter(([p]) => p.split('/').pop()!.startsWith(name + '.')).map(([p, src]) => ({ src, type: 'video/' + p.split('.').pop() })).sort((a) => (a.type === 'video/webm' ? -1 : 1));
+const posters = import.meta.glob<{ default: ImageMetadata }>('../assets/shots/hero-poster.jpg', { eager: true });
+const film = video('hero');
+const loop = video('hero-loop');
 const posterSrc = Object.values(posters)[0]?.default;
-const poster = posterSrc && (await getImage({ src: posterSrc, width: Math.min(1100, posterSrc.width), format: 'webp', quality: 70 }));
+const poster = posterSrc && (await getImage({ src: posterSrc, width: Math.min(1300, posterSrc.width), format: 'webp', quality: 72 }));
 
 const title = 'PartBuddy · Parts that fit. First print.';
 const description =
@@ -70,18 +73,27 @@ const jsonLd = {
           {RELEASED
             ? <a class="btn btn-primary btn-lg" href={DOWNLOAD_URL} data-goatcounter-click="download-windows"><Download aria-hidden="true" />Download for Windows</a>
             : <a class="btn btn-primary btn-lg" href="#follow">Follow the build</a>}
-          {film
-            ? <button class="btn btn-lg" type="button" data-film-open><Play aria-hidden="true" />Watch it build</button>
+          {film.length
+            ? <button class="btn btn-lg" type="button" data-film-open><Play aria-hidden="true" />Watch the overview</button>
             : <a class="btn btn-lg" href="#product">See how it works</a>}
         </div>
         <p class="fine">{hero.fine}{MAC_URL && <> · <a href={MAC_URL} data-goatcounter-click="download-mac">macOS test build</a></>}</p>
         {RELEASED && <p class="fine">Needs the free CAD engine <a href={SOLIDCRAFT.url}>SolidCraft {SOLIDCRAFT.version}</a>.</p>}
       </div>
     </div>
-    <div class="stage">
-      <Shot name="clarify" full eager class="window" sizes="(min-width: 1360px) 1300px, (min-width: 760px) 94vw, 190vw"
-        alt="The PartBuddy window: parameters, a housing around a circuit board in the 3D view, and the assistant asking how the lid should hold" />
-    </div>
+    {loop.length && poster
+      ? <div class="stage stage-loop">
+          <div class="window">
+            <video data-loop muted loop playsinline preload="none" poster={poster.src} width={posterSrc.width} height={posterSrc.height}
+              aria-label="PartBuddy in 40 seconds: an idea, a template, editable CAD, moving parts and the print check">
+              {loop.map((s) => <source src={s.src} type={s.type} />)}
+            </video>
+          </div>
+        </div>
+      : <div class="stage">
+          <Shot name="clarify" full eager class="window" sizes="(min-width: 1360px) 1300px, (min-width: 760px) 94vw, 190vw"
+            alt="The PartBuddy window: parameters, a housing around a circuit board in the 3D view, and the assistant asking how the lid should hold" />
+        </div>}
     <div class="wrap works">
       <p>Works with</p>
       <ul class="logos">{worksWith.map((w) => <li class="logo"><Brand name={w} />{w}</li>)}</ul>
@@ -293,13 +305,18 @@ const jsonLd = {
     </div>
   </section>
 
-  {film && (
-    <dialog class="film" id="film" aria-label="A sensor housing designed in one chat: questions, step-by-step CAD build, print check and plate">
+  {film.length > 0 && (
+    <dialog class="film" id="film" aria-label="PartBuddy overview: input, questions, editable CAD, moving parts, print checks, export and models">
       <form method="dialog"><button class="btn film-close" aria-label="Close"><X aria-hidden="true" /></button></form>
-      <video src={film} poster={poster?.src} controls muted playsinline preload="none" width={posterSrc?.width} height={posterSrc?.height}></video>
+      <video poster={poster?.src} controls muted playsinline preload="none" width={posterSrc?.width} height={posterSrc?.height}>
+        {film.map((s) => <source src={s.src} type={s.type} />)}
+      </video>
     </dialog>
     <script is:inline>
       (() => {
+        // The hero loop only plays without a reduced-motion wish; the poster stays otherwise.
+        const l = document.querySelector('[data-loop]');
+        if (l && !matchMedia('(prefers-reduced-motion: reduce)').matches) { l.preload = 'auto'; l.play().catch(() => {}); }
         const d = document.getElementById('film');
         const v = d.querySelector('video');
         document.querySelectorAll('[data-film-open]').forEach((b) => b.addEventListener('click', () => {

@@ -43,7 +43,7 @@ private, optional); `SITE_REPO_TOKEN` in the app repository.
 - **Screenshots:** `pnpm site:shots` in the app repository renders them at 1440 × 900 @2x into
   `src/assets/shots/`. `scripts/crop-shots.mjs` cuts each one to the region in `src/data/crops.ts`
   before every build. Missing files render as marked placeholders.
-- **Build film:** `hero.mp4` + `hero-poster.png` open in a dialog from the hero button "Watch it build".
+- **Hero films:** `hero-loop.webm`/`.mp4` (40 s, silent) plays in the hero stage, `hero.webm`/`.mp4` (the 2:04 overview) opens in a dialog from "Watch the overview"; `hero-poster.jpg` is the poster of both. Source: `renders/marketing/hero-app` in the app repo.
 - **Lighthouse on this server:** run Chrome with `--disable-gpu`. Without a GPU, headless Chrome
   waits up to 350 ms for its software GPU process, which shows up as about 1.5 s of blocking time.
 - **Dark only:** the site uses the `<name>-dark.png` shots and falls back to `<name>.png`.
