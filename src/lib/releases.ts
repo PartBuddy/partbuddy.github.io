@@ -17,7 +17,7 @@ export type RawRelease = {
 export type Section = { title: string; items: string[] };
 // The user-facing highlights of a release: the "## What's new" section its author writes by hand.
 export type News = { headline: string; items: { title: string; text: string }[]; shot?: string };
-export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; sections: Section[]; news?: News };
+export type Release = { version: string; date: string; dateLabel: string; url: string; downloadUrl: string; macUrl?: string; sections: Section[]; news?: News };
 
 // The site shows only what is in the app: no breaking-change notes, docs, CI or build work, no
 // entries of the prototype, runner or site.
@@ -91,6 +91,8 @@ export function parseReleases(raw: RawRelease[]): Release[] {
       url: r.html_url,
       // The Windows installer if the release has one, else the release page.
       downloadUrl: r.assets?.find((a) => /\.exe$/i.test(a.name))?.browser_download_url ?? r.html_url,
+      // The experimental macOS dmg, from 0.3.1 on.
+      macUrl: r.assets?.find((a) => /.dmg$/i.test(a.name))?.browser_download_url,
       sections: parseNotes(r.body),
       news: parseNews(r.body),
     }));

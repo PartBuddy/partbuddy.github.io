@@ -12,11 +12,13 @@ test('release-please notes become versions, sections and a download link', async
   assert.equal(latest.date, '2026-12-01');
   assert.equal(latest.dateLabel, '1 Dec 2026');
   assert.match(latest.downloadUrl, /PartBuddy-Setup-0\.2\.0\.exe$/);
+  assert.match(latest.macUrl ?? '', /mac-universal\.dmg$/);
   assert.deepEqual(latest.sections, [
     { title: 'Features', items: ['desktop: sharing package lists the standard parts to buy', 'assistant chat polish with Markdown'] },
     { title: 'Bug Fixes', items: ['desktop: expired sign-in is shown in the chat'] },
   ]);
   assert.equal(older.downloadUrl, older.url, 'without an installer the button opens the release page');
+  assert.equal(older.macUrl, undefined, 'without a dmg there is no Mac link');
 });
 
 test("the hand-written What's new becomes headline, items and shot, and stays out of the change lists", () => {
