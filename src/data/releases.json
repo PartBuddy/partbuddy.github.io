@@ -1,5 +1,161 @@
 [
   {
+    "tag_name": "v0.3.7",
+    "published_at": "2026-11-17T16:45:35Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.7",
+    "body": "## [0.3.7](https://github.com/PartBuddy/partbuddy/compare/v0.3.6...v0.3.7) (2026-11-17)\n\n\n### Bug Fixes\n\n* **deps:** update dependency ai to v7.0.166 ([#463](https://github.com/PartBuddy/partbuddy/issues/463)) ([939a9bf](https://github.com/PartBuddy/partbuddy/commit/939a9bf791075facb85f688fae161efbd71f7055))\n* **deps:** update dependency intl-messageformat to v12.1.5 ([#461](https://github.com/PartBuddy/partbuddy/issues/461)) ([245c522](https://github.com/PartBuddy/partbuddy/commit/245c522e53a086a35a6ba0121fecf3cdafb62bca))\n* **deps:** update dependency jose to v6.2.17 ([#462](https://github.com/PartBuddy/partbuddy/issues/462)) ([0d44002](https://github.com/PartBuddy/partbuddy/commit/0d440028ac1a41d79b8cfd6cd1bfc2f0a314b7d7))\n* **deps:** update dependency react-i18next to v18.0.1 ([#464](https://github.com/PartBuddy/partbuddy/issues/464)) ([54765cc](https://github.com/PartBuddy/partbuddy/commit/54765cc192a2da28e28bd23883364dfa3f672a13))\n* keep the sign-in above the chat so a long chat no longer hides it ([#501](https://github.com/PartBuddy/partbuddy/issues/501)) ([1bc14c1](https://github.com/PartBuddy/partbuddy/commit/1bc14c1b1b8c1c972317c40f6d475297ce834c33))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.7/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.7-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.7/PartBuddy-0.3.7-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.7.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.7/PartBuddy-Setup-0.3.7.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.7.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.7/PartBuddy-Setup-0.3.7.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.6",
+    "published_at": "2026-11-16T16:03:08Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.6",
+    "body": "## [0.3.6](https://github.com/PartBuddy/partbuddy/compare/v0.3.5...v0.3.6) (2026-11-16)\n\n\n### Features\n\n* choose one particular graphics card for the 3D view on Windows ([#495](https://github.com/PartBuddy/partbuddy/issues/495)) ([10c67cb](https://github.com/PartBuddy/partbuddy/commit/10c67cb418e2dc30ecad4170ce5719b680cfe8b8))\n* choose the graphics card, or drawing without it, for the 3D view ([#493](https://github.com/PartBuddy/partbuddy/issues/493)) ([eb4df49](https://github.com/PartBuddy/partbuddy/commit/eb4df49061d429afd79e39064936696a71306c23))\n* the settings say what the 3D view draws with, with frame counters over the view ([#491](https://github.com/PartBuddy/partbuddy/issues/491)) ([43b32ac](https://github.com/PartBuddy/partbuddy/commit/43b32ace1a5c7957c6dd80e479ab226d8851efff))\n* three display quality profiles for the 3D view ([#492](https://github.com/PartBuddy/partbuddy/issues/492)) ([d4b7166](https://github.com/PartBuddy/partbuddy/commit/d4b7166770953173667214a9db99477a465396fb))\n\n\n### Bug Fixes\n\n* the open sketch sheet follows a theme switch ([#490](https://github.com/PartBuddy/partbuddy/issues/490)) ([f6ff3bd](https://github.com/PartBuddy/partbuddy/commit/f6ff3bda536de6f9b971a75708982820143b5d23))\n\n\n### Performance\n\n* the 3D view draws only while something changes or moves ([#487](https://github.com/PartBuddy/partbuddy/issues/487)) ([34f8328](https://github.com/PartBuddy/partbuddy/commit/34f8328a704e942b9d564416d6532d757a31c42e))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.6/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.6-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.6/PartBuddy-0.3.6-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.6.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.6/PartBuddy-Setup-0.3.6.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.6.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.6/PartBuddy-Setup-0.3.6.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.5",
+    "published_at": "2026-11-16T13:29:51Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.5",
+    "body": "## [0.3.5](https://github.com/PartBuddy/partbuddy/compare/v0.3.4...v0.3.5) (2026-11-16)\n\n\n### Bug Fixes\n\n* a crashed SolidCraft starts again, and nothing waits on it meanwhile ([#477](https://github.com/PartBuddy/partbuddy/issues/477)) ([94fa7a2](https://github.com/PartBuddy/partbuddy/commit/94fa7a283a9c807938c9803f2650b95b4c2cb608))\n* a failed turn names a used-up plan, a lost connection or its reason ([#473](https://github.com/PartBuddy/partbuddy/issues/473)) ([118f618](https://github.com/PartBuddy/partbuddy/commit/118f6180f93125bc1c939f0f6120c561beec68f8))\n* a mesh row reads as its name, with a space between name and kind ([#481](https://github.com/PartBuddy/partbuddy/issues/481)) ([c370ebd](https://github.com/PartBuddy/partbuddy/commit/c370ebdaad36f686494450c0b38cfc480dc36c68))\n* a short model chip, readable names and a dark sketch sheet ([#476](https://github.com/PartBuddy/partbuddy/issues/476)) ([2e38f81](https://github.com/PartBuddy/partbuddy/commit/2e38f81f83c9e121205179b4eebc65959139059c))\n* escape closes a dialog from its close button, view cube focus ring, ? for shortcuts ([#472](https://github.com/PartBuddy/partbuddy/issues/472)) ([6ae0655](https://github.com/PartBuddy/partbuddy/commit/6ae065538268da3a201d3305d0a5aa2afc6f6f98))\n* exports say where they went, a green check leads to the slicer ([#475](https://github.com/PartBuddy/partbuddy/issues/475)) ([d026c48](https://github.com/PartBuddy/partbuddy/commit/d026c48cd502f43a20cf64674864bd1b4615653d))\n* first start offers the sign-in, start page leads to a first part ([#474](https://github.com/PartBuddy/partbuddy/issues/474)) ([8b75970](https://github.com/PartBuddy/partbuddy/commit/8b75970547c2589b3a8f824a584e4711b9f3d267))\n* one check-again in the first start, a mesh row says it is a mesh ([#480](https://github.com/PartBuddy/partbuddy/issues/480)) ([ed28061](https://github.com/PartBuddy/partbuddy/commit/ed280615f1c723cc29a63289af98d7d86712eb4e))\n* one word per thing in the interface, and shorter hints ([#478](https://github.com/PartBuddy/partbuddy/issues/478)) ([beca89f](https://github.com/PartBuddy/partbuddy/commit/beca89fee49b6d876c934e79b952d7aeae3533aa))\n* plain placeholders, parameter names in the chat, a chat start for an open part ([#470](https://github.com/PartBuddy/partbuddy/issues/470)) ([519683d](https://github.com/PartBuddy/partbuddy/commit/519683dcc5fdb11ee625a796fa85cf593189f719))\n* the versions dialog keeps the focus while it saves, a crash soon after a switch restarts ([#479](https://github.com/PartBuddy/partbuddy/issues/479)) ([574ecb9](https://github.com/PartBuddy/partbuddy/commit/574ecb9b37bb8f5ac20805cb6869d4c08b03955f))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.5/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.5-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.5/PartBuddy-0.3.5-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.5.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.5/PartBuddy-Setup-0.3.5.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.5.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.5/PartBuddy-Setup-0.3.5.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.4",
+    "published_at": "2026-11-16T06:01:30Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.4",
+    "body": "## [0.3.4](https://github.com/PartBuddy/partbuddy/compare/v0.3.3...v0.3.4) (2026-11-16)\n\n\n### Features\n\n* a new version shows a notice, and the mac app tells of it too ([#467](https://github.com/PartBuddy/partbuddy/issues/467)) ([e376495](https://github.com/PartBuddy/partbuddy/commit/e376495e19932376d296df8e4b272c844a3aaf4f))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.4/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.4-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.4/PartBuddy-0.3.4-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.4.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.4/PartBuddy-Setup-0.3.4.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.4.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.4/PartBuddy-Setup-0.3.4.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.3",
+    "published_at": "2026-11-16T05:17:09Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.3",
+    "body": "## [0.3.3](https://github.com/PartBuddy/partbuddy/compare/v0.3.2...v0.3.3) (2026-11-16)\n\n\n### Bug Fixes\n\n* a new project gets no summary of the previous project's chat ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#465](https://github.com/PartBuddy/partbuddy/issues/465)) ([8b606ac](https://github.com/PartBuddy/partbuddy/commit/8b606ace428d3091b6dfe1d6d23d574adf339b06))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.3/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.3-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.3/PartBuddy-0.3.3-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.3.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.3/PartBuddy-Setup-0.3.3.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.3.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.3/PartBuddy-Setup-0.3.3.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.2",
+    "published_at": "2026-11-16T04:30:29Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.2",
+    "body": "## [0.3.2](https://github.com/PartBuddy/partbuddy/compare/v0.3.1...v0.3.2) (2026-11-15)\n\n\n### Features\n\n* a model per step of the assistant's work ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#451](https://github.com/PartBuddy/partbuddy/issues/451)) ([7b3b9e8](https://github.com/PartBuddy/partbuddy/commit/7b3b9e893431688f680722c625bb72c838a50303))\n* blocks placed by expressions follow the design's parameters ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#454](https://github.com/PartBuddy/partbuddy/issues/454)) ([3ca7c89](https://github.com/PartBuddy/partbuddy/commit/3ca7c8918240c9f9c62ecf349983b319ec018c9f))\n* branded sign-in callback page for ChatGPT ([#448](https://github.com/PartBuddy/partbuddy/issues/448)) ([44d7fca](https://github.com/PartBuddy/partbuddy/commit/44d7fca0f111eb776fcc13a3d24873cf34754501))\n* hand the chat over to a fresh conversation, warn near the plan's limit ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#455](https://github.com/PartBuddy/partbuddy/issues/455)) ([cda0e68](https://github.com/PartBuddy/partbuddy/commit/cda0e685b1cd11bd31894633d00f25ef273d655b))\n* log the own loop's rounds, ask for batched calls ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#453](https://github.com/PartBuddy/partbuddy/issues/453)) ([9d4dff9](https://github.com/PartBuddy/partbuddy/commit/9d4dff908709a3d02ef2f44bb8a87090d0b1657b))\n* **mechanism:** hinge and closure follow the design's parameters ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#460](https://github.com/PartBuddy/partbuddy/issues/460)) ([a0ff3fd](https://github.com/PartBuddy/partbuddy/commit/a0ff3fd1b49ad7eb00ff9ce95016524610ce8532))\n\n\n### Bug Fixes\n\n* a chatgpt turn that stops after its web search goes on ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#456](https://github.com/PartBuddy/partbuddy/issues/456)) ([b30ce73](https://github.com/PartBuddy/partbuddy/commit/b30ce73f8d4f8ae99ba1508e2a6f8e55a8ba5913))\n* a test window shown on purpose paints instead of staying black ([#457](https://github.com/PartBuddy/partbuddy/issues/457)) ([257c1ed](https://github.com/PartBuddy/partbuddy/commit/257c1eded73a9783bbcb785ed065e6547462a1d7))\n* claude code gets solidcraft's instructions and partbuddy's notes in its system prompt ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#459](https://github.com/PartBuddy/partbuddy/issues/459)) ([7c62a8a](https://github.com/PartBuddy/partbuddy/commit/7c62a8ac6be094a31f55feb6b64f761dbded4d70))\n* **deps:** update ai to v7.0.165 and @ai-sdk/openai to v4.0.111 together ([#442](https://github.com/PartBuddy/partbuddy/issues/442)) ([8c5ed17](https://github.com/PartBuddy/partbuddy/commit/8c5ed17d5dcf61ce05a4d427da65a1e9d528766e))\n* **deps:** update dependency clipper2-ts to v2.0.1-19 ([#426](https://github.com/PartBuddy/partbuddy/issues/426)) ([57e833b](https://github.com/PartBuddy/partbuddy/commit/57e833b8a06ecfd9fcb6e27d033f05d9ec274830))\n* **deps:** update dependency i18next-icu to v2.7.0 ([#434](https://github.com/PartBuddy/partbuddy/issues/434)) ([3afff05](https://github.com/PartBuddy/partbuddy/commit/3afff055ae5b7a6bec76c94cc20b1bea0a60401c))\n* **deps:** update dependency react-i18next to v17.1.13 ([#428](https://github.com/PartBuddy/partbuddy/issues/428)) ([c5012cb](https://github.com/PartBuddy/partbuddy/commit/c5012cb42f183c5a310fd248d748677b1ed1cb3a))\n* **deps:** update dependency rehype-harden to v1.1.9 ([#429](https://github.com/PartBuddy/partbuddy/issues/429)) ([11e6162](https://github.com/PartBuddy/partbuddy/commit/11e6162b225561dfc70be30a424fe6ca1c3049e3))\n* **deps:** update dependency three-mesh-bvh to v0.9.18 ([#430](https://github.com/PartBuddy/partbuddy/issues/430)) ([d0d5c5f](https://github.com/PartBuddy/partbuddy/commit/d0d5c5fc11f56fd26b5857d5bfee6aeea57d0e91))\n* **deps:** update dependency xstate to v5.33.4 ([#431](https://github.com/PartBuddy/partbuddy/issues/431)) ([c602cfe](https://github.com/PartBuddy/partbuddy/commit/c602cfe445b3e927f7f277d4764af10eb5bba303))\n* **deps:** update dependency zustand to v5.1.0 ([#435](https://github.com/PartBuddy/partbuddy/issues/435)) ([24518c2](https://github.com/PartBuddy/partbuddy/commit/24518c20ce1fcffd4ec11746d5dc34ff3c028df0))\n* **deps:** update i18next to v27 and react-i18next to v18 together ([#441](https://github.com/PartBuddy/partbuddy/issues/441)) ([8bd11c4](https://github.com/PartBuddy/partbuddy/commit/8bd11c4fd3c0208969b6aa8a78db61220697f95e))\n* **deps:** update shiki monorepo to v4.6.0 ([#436](https://github.com/PartBuddy/partbuddy/issues/436)) ([9ca310f](https://github.com/PartBuddy/partbuddy/commit/9ca310f09f288fe3e76c53cfdce7a965d2388bf6))\n* **mechanism:** find the hinge line, keep its rooms under a closure, say what works ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#458](https://github.com/PartBuddy/partbuddy/issues/458)) ([9cce35f](https://github.com/PartBuddy/partbuddy/commit/9cce35f7b935234a4ccf8c8891050b91ddc1a9be))\n* signing in again after signing out starts a fresh sign-in ([#445](https://github.com/PartBuddy/partbuddy/issues/445)) ([#447](https://github.com/PartBuddy/partbuddy/issues/447)) ([2a1ca6d](https://github.com/PartBuddy/partbuddy/commit/2a1ca6ddc1e26eb3a62b098cbe9de2b6e8664f9c))\n* the policy knows run-together clearance names and \"Spalt\" ([#444](https://github.com/PartBuddy/partbuddy/issues/444)) ([9ae231d](https://github.com/PartBuddy/partbuddy/commit/9ae231dc4767f636383e69e47c30a33c163382e1))\n\n\n### Performance\n\n* claude code loads tools on demand, with partbuddy's own system prompt ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#452](https://github.com/PartBuddy/partbuddy/issues/452)) ([5926d2d](https://github.com/PartBuddy/partbuddy/commit/5926d2d06eacedbab5f0add30d2ef65cff8650ad))\n* fewer lookup rounds and no model turn for simple commands ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#450](https://github.com/PartBuddy/partbuddy/issues/450)) ([caa76f8](https://github.com/PartBuddy/partbuddy/commit/caa76f8b52d03dd7b7941e0cce4c466a36c0b5cf))\n* measure and cut the assistant's token use, first package ([#446](https://github.com/PartBuddy/partbuddy/issues/446)) ([#449](https://github.com/PartBuddy/partbuddy/issues/449)) ([511c23a](https://github.com/PartBuddy/partbuddy/commit/511c23a238c3ff89f89afce011b3ca004a539bb5))",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.2/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.2-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.2/PartBuddy-0.3.2-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.2.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.2/PartBuddy-Setup-0.3.2.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.2.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.2/PartBuddy-Setup-0.3.2.exe.blockmap"
+      }
+    ]
+  },
+  {
     "tag_name": "v0.3.1",
     "published_at": "2026-11-14T17:26:58Z",
     "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.1",
