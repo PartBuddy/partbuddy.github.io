@@ -3,6 +3,8 @@
 // content. Unknown names render nothing, so the caller shows the name as text only.
 import ClaudeCode from '../assets/logos/claude-code.svg';
 import ChatGPT from '../assets/logos/chatgpt.svg';
+import OpenCode from '../assets/logos/opencode.svg';
+import Copilot from '../assets/logos/github-copilot.svg';
 import Ollama from '../assets/logos/ollama.svg';
 import LMStudio from '../assets/logos/lm-studio.svg';
 import VLLM from '../assets/logos/vllm.svg';
@@ -20,6 +22,8 @@ const mono = { fill: 'currentColor' };
 const marks: Record<string, [typeof ClaudeCode, Record<string, string>]> = {
   'Claude Code': [ClaudeCode, {}],
   ChatGPT: [ChatGPT, { class: 'mark-mono' }],
+  OpenCode: [OpenCode, mono],
+  'GitHub Copilot': [Copilot, mono],
   Ollama: [Ollama, { class: 'mark-mono' }],
   'LM Studio': [LMStudio, { class: 'mark-mono' }],
   vLLM: [VLLM, {}],
