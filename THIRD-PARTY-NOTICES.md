@@ -40,7 +40,8 @@ endorsement.
 
 - From **Lobe Icons** (npm `@lobehub/icons-static-svg` 1.102.0, [lobehub/lobe-icons](https://github.com/lobehub/lobe-icons),
   MIT licence, Copyright (c) 2023 LobeHub): `claude-code.svg` (claudecode-color), `chatgpt.svg` (openai),
-  `ollama.svg`, `lm-studio.svg` (lmstudio), `vllm.svg` (vllm-color).
+  `ollama.svg`, `lm-studio.svg` (lmstudio), `vllm.svg` (vllm-color), `opencode.svg`,
+  `github-copilot.svg` (githubcopilot).
 - From **Simple Icons** (npm `simple-icons` 16.36.0, [simpleicons.org](https://simpleicons.org), CC0 1.0):
   `bambu-studio.svg` (bambulab), `youtube.svg`, `tiktok.svg`, `instagram.svg`, `bluesky.svg`, `kofi.svg`,
   `github.svg`.

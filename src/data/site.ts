@@ -32,7 +32,7 @@ export const hero = {
   title: ['Parts that fit.', 'First print.'],
   kicker: 'CAD that asks before it builds',
   sub: 'Describe the part you need. PartBuddy asks what matters, builds real, editable CAD while you watch, and checks it against your printer before you slice.',
-  fine: 'Free · For Windows · Your Claude or ChatGPT plan, or a local model',
+  fine: 'Free · For Windows · Your Claude, ChatGPT or Copilot plan, or a local model',
 };
 export const channels = [
   { name: 'YouTube', handle: '@PartBuddy', url: 'https://www.youtube.com/@PartBuddy' },
