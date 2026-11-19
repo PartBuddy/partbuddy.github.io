@@ -130,6 +130,9 @@ a.eyebrow:hover { color: var(--ink); border-color: rgb(255 255 255 / 0.25); }
 .window::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgb(255 255 255 / 0.06), transparent 22%); pointer-events: none; }
 .window img, .window video { display: block; width: 100%; height: auto; }
 .stage-loop .window { -webkit-mask-image: none; mask-image: none; }
+.loop-toggle { position: absolute; z-index: 1; left: 50%; bottom: 12px; translate: -50% 0; width: 44px; padding: 0; background: rgb(8 9 11 / 0.7); backdrop-filter: blur(8px); }
+.loop-toggle .i-play, .loop-toggle.paused .i-pause { display: none; }
+.loop-toggle.paused .i-play { display: block; }
 .stage-loop + .works { margin-top: 32px; }
 .film-btn { position: absolute; z-index: 2; left: 50%; top: 42%; translate: -50% -50%; backdrop-filter: blur(10px); background: rgb(8 9 11 / 0.6); }
 @media (max-width: 760px) {
