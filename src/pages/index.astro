@@ -29,7 +29,7 @@ const description =
 
 const faq = [
   { q: 'What does it cost?', a: [RELEASED ? 'Nothing. PartBuddy is free and open source under the GPL-3.0 licence.' : 'Nothing. PartBuddy is free.', 'The assistant runs on a subscription you already have or on a local model. PartBuddy adds no fees of its own.'] },
-  { q: 'Which subscription do I need?', a: ['Claude Pro or Max (through Claude Code), ChatGPT Plus or Pro, or through OpenCode GitHub Copilot Pro or higher (Copilot Free serves no model to it), your own API key or OpenCode’s free Zen models, which share a small limit. With a local model you need none of them.'] },
+  { q: 'Which subscription do I need?', a: ['Claude Pro or Max (through Claude Code), ChatGPT Plus or Pro, or through OpenCode GitHub Copilot Pro or higher (Copilot Free serves no model to it), your own API key or OpenCode’s free Zen models. With a local model you need none of them.'] },
   { q: 'Can it run locally?', a: [`Yes, with ${models.local.slice(0, -1).join(', ')} or ${models.local.at(-1)}. ${models.localNote}`] },
   { q: 'Is the result real CAD or a mesh?', a: ['Real CAD. SolidCraft builds editable solid geometry with a full history, so you can change any size later and export STEP for other CAD programs as well as 3MF and STL for printing.'] },
   { q: 'Does it do supports and print orientation?', a: ['No, on purpose. That is slicer work, and your slicer knows your printer profile. PartBuddy designs the part, checks what can only be decided while designing, and opens it in Bambu Studio or OrcaSlicer.'] },
