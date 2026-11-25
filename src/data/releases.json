@@ -1,5 +1,135 @@
 [
   {
+    "tag_name": "v0.3.14",
+    "published_at": "2026-11-25T14:28:07Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.14",
+    "body": "## [0.3.14](https://github.com/PartBuddy/partbuddy/compare/v0.3.13...v0.3.14) (2026-11-25)\n\n## What's new\n\n- **Names and logos on round parts:** text and SVG logos now go on a round wall such as a cup or a handle and wrap round it, through the block form or the assistant. A ring in a logo keeps its hole. One text or logo per wall; logos in colours stay on flat faces.\n- **Repair closes more parts:** an imported part with a whole face missing is now patched and closed where SolidCraft's own repair gives up. Most such holes on flat faces close; a missing curved face still stays open.\n- **Large STL files:** meshes over 20,000 triangles are thinned to that before they are turned into faces, and the notice says so. Before, SolidCraft refused anything over 50,000.\n- **Screw holes that miss:** the print check warns when holes in two touching parts nearly line up, so a screw would not pass through both.\n- **Steadier with big designs:** a large part no longer cuts PartBuddy off from SolidCraft.\n- **SolidCraft 0.49.0:** recommended now; 0.48 still works.\n\n\n### Features\n\n* **blocks:** put text and logos on a round wall through the form ([#589](https://github.com/PartBuddy/partbuddy/issues/589)) ([08b45ec](https://github.com/PartBuddy/partbuddy/commit/08b45ec901581f244478025a5488a821c29d85a9))\n* **blocks:** write text onto a round wall ([#585](https://github.com/PartBuddy/partbuddy/issues/585)) ([e648a2b](https://github.com/PartBuddy/partbuddy/commit/e648a2baef312bde282c4e0330d4fa0654cc1dcf))\n* **check:** warn of screw holes in two parts that nearly line up ([#586](https://github.com/PartBuddy/partbuddy/issues/586)) ([f6ac1c1](https://github.com/PartBuddy/partbuddy/commit/f6ac1c189e1cdbb67528552d56813de97808d5cb))\n* **import:** convert a mesh over SolidCraft's triangle limit to faces ([#588](https://github.com/PartBuddy/partbuddy/issues/588)) ([1fb5ec4](https://github.com/PartBuddy/partbuddy/commit/1fb5ec4463563e863bbe8c80a24514ed30db751a))\n\n\n### Bug Fixes\n\n* **assistant:** let undo go back several steps, keep snap off hinged lids ([#579](https://github.com/PartBuddy/partbuddy/issues/579)) ([2cb5c02](https://github.com/PartBuddy/partbuddy/commit/2cb5c0229ac379f0f06d7cd0b55dae0a5471b4f9))\n* **blocks:** lay round-wall text onto the wall, keep internal marks out of the answer ([#592](https://github.com/PartBuddy/partbuddy/issues/592)) ([812c627](https://github.com/PartBuddy/partbuddy/commit/812c627f6b55e23be80bfbc1a77a2052d8cd404d))\n* **blocks:** say when a text or logo does not fit on its face ([#581](https://github.com/PartBuddy/partbuddy/issues/581)) ([ca934cd](https://github.com/PartBuddy/partbuddy/commit/ca934cd16364238dc0c81ccfe26aafcc1fd198be))\n* **check:** count an upright round wall as wall, hide the sketch of round text ([#591](https://github.com/PartBuddy/partbuddy/issues/591)) ([5b9fb4d](https://github.com/PartBuddy/partbuddy/commit/5b9fb4d808de3ad8a3e32cb4e0adba4248e903a3))\n* **check:** drop the import's \"shell not closed\" warning once the part is closed ([#593](https://github.com/PartBuddy/partbuddy/issues/593)) ([e76df3a](https://github.com/PartBuddy/partbuddy/commit/e76df3a05e9f7471d7268f29e4f313fbaa32ebce))\n* **mechanism:** take a mechanism back when one of its cuts misses the part ([#584](https://github.com/PartBuddy/partbuddy/issues/584)) ([edeeca1](https://github.com/PartBuddy/partbuddy/commit/edeeca1e10d81f020706b7947efeb30aa9e0e4e8))\n* **repair:** patch the holes by hand where body.repair refuses ([#590](https://github.com/PartBuddy/partbuddy/issues/590)) ([7e01570](https://github.com/PartBuddy/partbuddy/commit/7e01570a9313b5824aa571998c3cb45f25895d3e))\n",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.14/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.14-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.14/PartBuddy-0.3.14-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.14.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.14/PartBuddy-Setup-0.3.14.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.14.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.14/PartBuddy-Setup-0.3.14.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.13",
+    "published_at": "2026-11-23T12:03:17Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.13",
+    "body": "## [0.3.13](https://github.com/PartBuddy/partbuddy/compare/v0.3.12...v0.3.13) (2026-11-23)\n\n## What's new\n\n- **Assemblies can show green:** parts that the assembly order puts together no longer warn that they touch. Bodies outside the order still do.\n- **Thin posts:** the print check now also finds free-standing square posts under 3 mm, such as a narrow finger between two openings.\n- **More honest numbers:** the assistant no longer reads an overhang figure that no finding can place, and the peg and snap hook tools say what they really measured.\n\n\n### Bug Fixes\n\n* **check:** count only the overhang the finding counts in a body's measures ([#573](https://github.com/PartBuddy/partbuddy/issues/573)) ([cf6ba3f](https://github.com/PartBuddy/partbuddy/commit/cf6ba3fb9ca7e7148e24b2d4cca318b39b585eae))\n* **check:** parts of the assembly order may touch ([#576](https://github.com/PartBuddy/partbuddy/issues/576)) ([a9e09d4](https://github.com/PartBuddy/partbuddy/commit/a9e09d4cf753c91c51c19e9fb495d301c2bb870f))\n* **check:** tell free-standing square posts under 3 mm ([#577](https://github.com/PartBuddy/partbuddy/issues/577)) ([3123847](https://github.com/PartBuddy/partbuddy/commit/31238477b3d1cffcc9f9b17d723d809099beaf46))\n* **mechanism:** say what the peg and snap tools really measured ([#574](https://github.com/PartBuddy/partbuddy/issues/574)) ([da20a84](https://github.com/PartBuddy/partbuddy/commit/da20a84fc8aef560e04ce6dca4096eb423e7f3ef))\n",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.13/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.13-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.13/PartBuddy-0.3.13-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.13.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.13/PartBuddy-Setup-0.3.13.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.13.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.13/PartBuddy-Setup-0.3.13.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.12",
+    "published_at": "2026-11-23T07:40:14Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.12",
+    "body": "## [0.3.12](https://github.com/PartBuddy/partbuddy/compare/v0.3.11...v0.3.12) (2026-11-23)\n\n## What's new\n\n- **Hinged boxes with a closure:** the hinge keeps its joint while the closure rebuilds the lid's knuckles. Before, this could stop with an error that the joint's face no longer exists.\n- **Print check:** the assistant now waits for a print check that is still running, instead of giving up without a result.\n\n\n### Bug Fixes\n\n* **assistant:** partbuddy_view waits for a check that is still running ([#569](https://github.com/PartBuddy/partbuddy/issues/569)) ([ccd6865](https://github.com/PartBuddy/partbuddy/commit/ccd68653bd314eeda78b60adbf09f41388c870e3))\n* **mechanism:** keep the hinge's joint again in the batch that remakes the lid's knuckles ([#571](https://github.com/PartBuddy/partbuddy/issues/571)) ([ca1101a](https://github.com/PartBuddy/partbuddy/commit/ca1101aa9c5bd280bf76623d934b8cc0d4565dd8))\n",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.12/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.12-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.12/PartBuddy-0.3.12-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.12.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.12/PartBuddy-Setup-0.3.12.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.12.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.12/PartBuddy-Setup-0.3.12.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.11",
+    "published_at": "2026-11-22T17:54:14Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.11",
+    "body": "## [0.3.11](https://github.com/PartBuddy/partbuddy/compare/v0.3.10...v0.3.11) (2026-11-22)\n\n## What's new\n\n- **Hinge plus closure:** a box with a hinged lid now also gets its snap closure. Before, the closure failed after the hinge and the assistant gave up without one.\n- **A leaner assistant:** the tool for moving parts is 41 % shorter, so each request carries about 800 fewer tokens.\n- **Interface:** messages sit above the timeline again, body names in the structure tree no longer lose room to a hidden eye, and a renamed project keeps its \"open now\" mark on the start page.\n- **Updates** of the AI SDK and other dependencies.\n\n\n### Bug Fixes\n\n* **deps:** update ai sdk ([#562](https://github.com/PartBuddy/partbuddy/issues/562)) ([e446a83](https://github.com/PartBuddy/partbuddy/commit/e446a83bf8673f4d403863c46b021809b27499f8))\n* **deps:** update dependency @tabler/icons-react to v3.52.0 ([#555](https://github.com/PartBuddy/partbuddy/issues/555)) ([5e349cc](https://github.com/PartBuddy/partbuddy/commit/5e349cc7172b317ea1215193a4947bf12fd3c81f))\n* **deps:** update dependency dockview-react to v8.9.0 ([#556](https://github.com/PartBuddy/partbuddy/issues/556)) ([5a51d96](https://github.com/PartBuddy/partbuddy/commit/5a51d96f8bcd9f43c8dd8fdacc7bc38b0a56ee19))\n* **deps:** update dependency i18next to v27.1.2 ([#557](https://github.com/PartBuddy/partbuddy/issues/557)) ([48017a4](https://github.com/PartBuddy/partbuddy/commit/48017a4bebf821d41c7b96e3f153437387de7ee8))\n* **deps:** update dependency react-hotkeys-hook to v5.4.0 ([#558](https://github.com/PartBuddy/partbuddy/issues/558)) ([f0e3bb1](https://github.com/PartBuddy/partbuddy/commit/f0e3bb1c16790dffe229ddc682be6dc692d3d62e))\n* **home:** the renamed open project keeps its \"open now\" mark ([#567](https://github.com/PartBuddy/partbuddy/issues/567)) ([22f3f5d](https://github.com/PartBuddy/partbuddy/commit/22f3f5dea4f4c4da47a81126691a03e444a4b534))\n* **mechanism:** number the hinge steps a closure makes again ([#563](https://github.com/PartBuddy/partbuddy/issues/563)) ([3df83d1](https://github.com/PartBuddy/partbuddy/commit/3df83d140bbfbc04f62b663d7c05e4c32efb5671))\n* **structure:** the hidden eye takes no room, so a body keeps its name ([#566](https://github.com/PartBuddy/partbuddy/issues/566)) ([6f0b776](https://github.com/PartBuddy/partbuddy/commit/6f0b77680e08d847a67ca5c866845a5b0280095a))\n* **ui:** use spacing steps Tailwind generates, so the toast sits above the timeline ([#565](https://github.com/PartBuddy/partbuddy/issues/565)) ([e0381c8](https://github.com/PartBuddy/partbuddy/commit/e0381c815d2b990f322536d1a6b9a79eddc837ac))\n\n\n### Performance\n\n* **mechanism:** shorten the tool description by 41 % ([#564](https://github.com/PartBuddy/partbuddy/issues/564)) ([1b5f77d](https://github.com/PartBuddy/partbuddy/commit/1b5f77de194ffd168a0ffaab164b7e421d6bb64b))\n",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.11/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.11-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.11/PartBuddy-0.3.11-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.11.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.11/PartBuddy-Setup-0.3.11.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.11.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.11/PartBuddy-Setup-0.3.11.exe.blockmap"
+      }
+    ]
+  },
+  {
+    "tag_name": "v0.3.10",
+    "published_at": "2026-11-22T08:23:51Z",
+    "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.10",
+    "body": "## [0.3.10](https://github.com/PartBuddy/partbuddy/compare/v0.3.9...v0.3.10) (2026-11-22)\n\n## What's new\n\n- **Repair open parts:** a STEP or IGES part the print check finds open now offers \"Repair\" in the structure tree. SolidCraft sews its gaps and patches its holes in one step you can undo.\n- **Thin pins:** a new hint in the print check shows pins and posts under 3 mm, which break off easily. Turn it off in the print settings like the other hints.\n- **A more honest light:** it names hidden bodies (\"Ready to print, 1 hidden\"), waits while standard parts are still being built, and stays off green while a measure failed.\n- **Fits that follow your printer:** a snap closure's lip gets the material's slide fit, and guides and screw lids need a wider gap on nozzles over 0.4 mm, so nothing fuses on an 0.8 mm nozzle.\n- **Nut pockets that open downwards** keep one layer over the screw hole, so their roof prints as a bridge. Push it through with the screw after printing.\n- **Stronger snap and latch arms:** they are sized to hold even when the part prints standing.\n- **Imports:** an STL shows its size right after import, and \"Convert to faces\" says how much the volume changed.\n- **Assistant:** it can no longer switch off a failing feature, and it hears when a resized screw grew into its hole.\n- **SolidCraft 0.45.0** is the recommended version; PartBuddy no longer runs one older than its minimum.\n\n\n### Features\n\n* hint at pins and posts under 3 mm in the print check ([#542](https://github.com/PartBuddy/partbuddy/issues/542)) ([90e7b60](https://github.com/PartBuddy/partbuddy/commit/90e7b60be9ad60cd9ecfb61228f136d21c7a55e7))\n* repair an open imported part from the structure tree ([#538](https://github.com/PartBuddy/partbuddy/issues/538)) ([1c8e5b9](https://github.com/PartBuddy/partbuddy/commit/1c8e5b98badfadc8c38e7862a346b24a6b878968))\n\n\n### Bug Fixes\n\n* do not run a solidcraft older than the minimum ([#523](https://github.com/PartBuddy/partbuddy/issues/523)) ([17e100c](https://github.com/PartBuddy/partbuddy/commit/17e100cb5803ea2ef1e1730c25bb04e60809542c))\n* give a snap closure's lip the material's slide fit as its room ([#539](https://github.com/PartBuddy/partbuddy/issues/539)) ([7f66d52](https://github.com/PartBuddy/partbuddy/commit/7f66d52c938ea8871ce5c683d98479bbf5b7aa47))\n* grow the least gap of a guide and a screw lid with a wider nozzle ([#533](https://github.com/PartBuddy/partbuddy/issues/533)) ([0f0384a](https://github.com/PartBuddy/partbuddy/commit/0f0384ae34c50a4642acf2fd4224edb7b65079bc))\n* lay a part without the bed margin when the plate view leaves it off ([#527](https://github.com/PartBuddy/partbuddy/issues/527)) ([a20be8e](https://github.com/PartBuddy/partbuddy/commit/a20be8e9cca380133636e497d4de497a4939a87b))\n* leave one layer over the screw hole of a nut pocket that opens down ([#543](https://github.com/PartBuddy/partbuddy/issues/543)) ([ed07237](https://github.com/PartBuddy/partbuddy/commit/ed0723773cb2555813460563d461504b9650016c))\n* let only the user switch a feature off in the timeline ([#537](https://github.com/PartBuddy/partbuddy/issues/537)) ([ba80abe](https://github.com/PartBuddy/partbuddy/commit/ba80abeb2f0d99e5f75be40fb543476e6d41fbc6))\n* measure the plastic round a modelled thread before drilling it ([#524](https://github.com/PartBuddy/partbuddy/issues/524)) ([7546f97](https://github.com/PartBuddy/partbuddy/commit/7546f97cb130bdc32610cfba9650703332f09839))\n* no ready verdict while a measure failed or the check is behind ([#522](https://github.com/PartBuddy/partbuddy/issues/522)) ([a22ce42](https://github.com/PartBuddy/partbuddy/commit/a22ce4272111370a305ed118a024543e75f7ef91))\n* say a body without faces is not checked instead of reading ready ([#520](https://github.com/PartBuddy/partbuddy/issues/520)) ([c9bb22a](https://github.com/PartBuddy/partbuddy/commit/c9bb22abcec73efc8456940d7846c73e9a93ca19))\n* say at a coupled joint that it is coupled in the view only ([#546](https://github.com/PartBuddy/partbuddy/issues/546)) ([361c1a1](https://github.com/PartBuddy/partbuddy/commit/361c1a18f416fd628178d0d1ed36806a493cf3b9))\n* say what the fit comb and the overhang staircase do not measure ([#545](https://github.com/PartBuddy/partbuddy/issues/545)) ([2b4df77](https://github.com/PartBuddy/partbuddy/commit/2b4df77e51a6e58fe82a5e90b01d48efb97b859c))\n* show a mesh's size after import and the volume change of a conversion ([#535](https://github.com/PartBuddy/partbuddy/issues/535)) ([5e6e6b5](https://github.com/PartBuddy/partbuddy/commit/5e6e6b57c6cca0b7b37dbed0ca32fc0802380758))\n* size snap and latch arms to hold printed standing ([#529](https://github.com/PartBuddy/partbuddy/issues/529)) ([083b7af](https://github.com/PartBuddy/partbuddy/commit/083b7afc11ccd7493fc25e48db2b6b38cf3ee298))\n* tell the assistant how to mark its own print-in-place joint ([#544](https://github.com/PartBuddy/partbuddy/issues/544)) ([2fda932](https://github.com/PartBuddy/partbuddy/commit/2fda9320cf18640edd50090aecd9f4a5d5a69ab2))\n* tell the assistant the printer's own error is not in unmeasured fits ([#534](https://github.com/PartBuddy/partbuddy/issues/534)) ([2f2811e](https://github.com/PartBuddy/partbuddy/commit/2f2811ed73ad50a75b976084d6d1524013a35b4e))\n* tell the assistant when a resized standard part grew into its hole ([#541](https://github.com/PartBuddy/partbuddy/issues/541)) ([28fb58c](https://github.com/PartBuddy/partbuddy/commit/28fb58ce67623a8cb477564b44d19100b76d6532))\n* the light names hidden bodies and waits for parts still being built ([#532](https://github.com/PartBuddy/partbuddy/issues/532)) ([1e1a2ca](https://github.com/PartBuddy/partbuddy/commit/1e1a2caa47aaaea17f974c3b336462c268af4572))\n* wait for the assistant before export, sharing, slicer and visibility ([#519](https://github.com/PartBuddy/partbuddy/issues/519)) ([e1e5675](https://github.com/PartBuddy/partbuddy/commit/e1e567555988f8f1d5a1b8c57653ec10f292c4e7))\n* warn of sharp fins under 30 degrees as thin walls ([#530](https://github.com/PartBuddy/partbuddy/issues/530)) ([9be55e9](https://github.com/PartBuddy/partbuddy/commit/9be55e908d955b01e51b4c3e12cf3d1194df0a35))\n\n\n### Performance\n\n* log the time of each step of a slow block preview ([#528](https://github.com/PartBuddy/partbuddy/issues/528)) ([98e8bf6](https://github.com/PartBuddy/partbuddy/commit/98e8bf65be9f465cec3f166e29bdbeea17254b00))\n",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "latest.yml",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.10/latest.yml"
+      },
+      {
+        "name": "PartBuddy-0.3.10-mac-universal.dmg",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.10/PartBuddy-0.3.10-mac-universal.dmg"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.10.exe",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.10/PartBuddy-Setup-0.3.10.exe"
+      },
+      {
+        "name": "PartBuddy-Setup-0.3.10.exe.blockmap",
+        "browser_download_url": "https://github.com/PartBuddy/partbuddy/releases/download/v0.3.10/PartBuddy-Setup-0.3.10.exe.blockmap"
+      }
+    ]
+  },
+  {
     "tag_name": "v0.3.9",
     "published_at": "2026-11-21T17:46:00Z",
     "html_url": "https://github.com/PartBuddy/partbuddy/releases/tag/v0.3.9",
