@@ -33,6 +33,8 @@ export const crops: Record<string, Rect | { from: string; rect: Rect }> = {
   // Release 0.3.0: the "Moving parts" slider with the lid folded, and the check listing the hinge.
   motion: [160, 50, 860, 830],
   'motion-check': [160, 420, 640, 470],
+  // Release 0.3.14: the pen cup with "Anna" engraved round its wall.
+  cup: [240, 105, 780, 610],
   // The clip with its three numbered notes (face, edge, plate).
   notes: [330, 320, 600, 440],
 };
